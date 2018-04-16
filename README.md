@@ -20,4 +20,6 @@ If you want to learn more about creating good readme files then refer the follow
 - [Chakra Core](https://github.com/Microsoft/ChakraCore)
 
 # Contacts
+Graham Barrington: 0400886827
 Kevin Xu: 0425778715
+Nia Yueni Chang: 0449 104 511
