@@ -1,9 +1,10 @@
 import sys
 import boto
-from nectar import ec2_conn
+from boto.ec2.regioninfo import RegionInfo
+import getopt
 
 #
-# start of function main
+# start of function mainetn
 #
 def main(argv):
 	def print_help(file=sys.stdout):
@@ -29,7 +30,7 @@ def main(argv):
 			ec2_secret_key = arg
 
 
-	region = boto.ec2.regioninfo.RegionInfo(name='melbourne', endpoint='nova.rc.nectar.org.au')
+	region = RegionInfo(name='melbourne', endpoint='nova.rc.nectar.org.au')
 	ec2_conn = boto.connect_ec2(aws_access_key_id=ec2_access_key,
 		aws_secret_access_key=ec2_secret_key,
 		is_secure=True,
@@ -37,7 +38,9 @@ def main(argv):
 		port=8773,
 		path='/services/Cloud',
 		validate_certs=False)
-
+	images = ec2_conn.get_all_images()
+	for img in images:
+		print('Image id: {}, image name: {}'.format(img.id, img.name))
 #
 # end of function main
 #
