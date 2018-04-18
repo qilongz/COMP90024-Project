@@ -38,9 +38,14 @@ def main(argv):
 		port=8773,
 		path='/services/Cloud',
 		validate_certs=False)
-	images = ec2_conn.get_all_images()
-	for img in images:
-		print('Image id: {}, image name: {}'.format(img.id, img.name))
+	#images = ec2_conn.get_all_images()
+	#for img in images:
+	#	print('Image id: {id}, image name: {name}'.format(id=img.id, name=img.name))
+
+	reservations = ec2_conn.get_all_reservations()
+	print('Index\tID\t\tInstance')
+	for idx, res in enumerate(reservations):
+		print('{idx}\t{res_id}\t{res_inst}'.format(idx=idx, res_id=res.id, res_inst=res.instances))
 #
 # end of function main
 #
