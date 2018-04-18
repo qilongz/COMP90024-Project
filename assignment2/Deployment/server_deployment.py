@@ -1,5 +1,6 @@
 import sys
 import boto
+from nectar import ec2_conn
 
 #
 # start of function main
