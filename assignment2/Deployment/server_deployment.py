@@ -47,14 +47,29 @@ def main(argv):
 	# for idx, res in enumerate(reservations):
 	# 	print('{idx}\t{res_id}\t{res_inst}'.format(idx=idx, res_id=res.id, res_inst=res.instances))
 
+	#Create instance with defualt value.
 	for i in range(1):
+		#'ami-00003a61'
 		reservation = ec2_conn.run_instances('ami-00003a61',
 			key_name='team40',
 			instance_type='m1.medium',
 			security_groups=['default','ssh'],
 			placement='melbourne-qh2')
-		#'ami-00003a61'
-#
+
+		#vol_req	= ec2_conn.create_volume(70,'melbourne-qh2')
+		#ec2_conn.attach_volume(vol_req.id,reservation.id,'/dev/vdc')	
+		
+
+	#print all reverations
+	reservations = ec2_conn.get_all_reservations()
+	for reservation in reservations:
+		# print(reservation)
+		print('\nID: {r_id}\tStatus: {r_status}\tIP: {r_ip}\tPlacement: {r_placement}'.format(
+			r_id=reservation.id,
+			r_status=reservation.instances[0].state,
+			r_ip=reservation.instances[0].private_ip_address,
+			r_placement=reservation.instances[0].placement)) 
+#	
 # end of function main
 #
 
