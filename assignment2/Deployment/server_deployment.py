@@ -42,10 +42,18 @@ def main(argv):
 	#for img in images:
 	#	print('Image id: {id}, image name: {name}'.format(id=img.id, name=img.name))
 
-	reservations = ec2_conn.get_all_reservations()
-	print('Index\tID\t\tInstance')
-	for idx, res in enumerate(reservations):
-		print('{idx}\t{res_id}\t{res_inst}'.format(idx=idx, res_id=res.id, res_inst=res.instances))
+	# reservations = ec2_conn.get_all_reservations()
+	# print('Index\tID\t\tInstance')
+	# for idx, res in enumerate(reservations):
+	# 	print('{idx}\t{res_id}\t{res_inst}'.format(idx=idx, res_id=res.id, res_inst=res.instances))
+
+	for i in range(1):
+		reservation = ec2_conn.run_instances('ami-00003a61',
+			key_name='team40',
+			instance_type='m1.medium',
+			security_groups=['default','ssh'],
+			placement='melbourne-qh2')
+		#'ami-00003a61'
 #
 # end of function main
 #
