@@ -2,6 +2,17 @@ import sys
 import boto
 from boto.ec2.regioninfo import RegionInfo
 import getopt
+import time
+
+def wait_for_instance (ec2_conn, inst):
+	id = inst.instances[0].id
+	while True:
+		time.sleep(2)
+		res=ec2_conn.get_all_reservations(instance_ids=id)
+		state = res[0].instances[0].state
+		if (state != "pending"):
+			break
+
 
 #
 # start of function mainetn
@@ -56,20 +67,28 @@ def main(argv):
 			security_groups=['default','ssh'],
 			placement='melbourne-qh2')
 
+		wait_for_instance (ec2_conn, reservation)
+		
+		print('\nID: {r_id}\tStatus: {r_status}\tIP: {r_ip}\tPlacement: {r_placement}'.format(
+			r_id=reservation.id,
+			r_status=reservation.instances[0].state,
+			r_ip=reservation.instances[0].private_ip_address,
+			r_placement=reservation.instances[0].placement))		
+
 		#vol_req	= ec2_conn.create_volume(70,'melbourne-qh2')
 		#ec2_conn.attach_volume(vol_req.id,reservation.id,'/dev/vdc')	
 		
 
 	#print all reverations
-	reservations = ec2_conn.get_all_reservations()
-	for reservation in reservations:
-		# print(reservation)
-		print('\nID: {r_id}\tStatus: {r_status}\tIP: {r_ip}\tPlacement: {r_placement}'.format(
-			r_id=reservation.id,
-			r_status=reservation.instances[0].state,
-			r_ip=reservation.instances[0].private_ip_address,
-			r_placement=reservation.instances[0].placement)) 
-#	
+	# reservations = ec2_conn.get_all_reservations()
+	# for reservation in reservations:
+	# 	# print(reservation)
+	# 	print('\nID: {r_id}\tStatus: {r_status}\tIP: {r_ip}\tPlacement: {r_placement}'.format(
+	# 		r_id=reservation.id,
+	# 		r_status=reservation.instances[0].state,
+	# 		r_ip=reservation.instances[0].private_ip_address,
+	# 		r_placement=reservation.instances[0].placement)) 
+
 # end of function main
 #
 
