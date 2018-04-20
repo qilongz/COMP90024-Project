@@ -43,14 +43,33 @@ def main(argv):
 
 
 	reservations = ec2_conn.get_all_reservations()
+	terminateID_list  = []
+	volumeID_list = []
+	for  res in reservations:
+		terminateID_list.append(res.instances[0].id)
+		print('\nID: {}\tIP: {}\tPlacement: {}'.format(res.instances[0].id,
+		res.instances[0].private_ip_address,
+		res.instances[0].placement)) 
+	if terminateID_list:	
+		ec2_conn.terminate_instances(instance_ids=terminateID_list)
+	
+	while True:
+		time.sleep(2)
+		curr_r = ec2_conn.get_all_reservations()	
+		if (len(curr_r) == 0):
+			print ('ALL instance been terminated')
+			break
 
-	print('Index\tID\t\tInstance')
-	for idx, res in enumerate(reservations):
- 		print('{}\t{}\t{}'.format(idx, res.id, res.instances)) 
 
 
+	volumnes = ec2_conn.get_all_volumes()
+	print('Index\tID\t\tSize')
+	for idx, vol in enumerate(volumnes):
+		volumeID_list.append(vol.id)
+		print('{}\t{}\t{}'.format(idx, vol.id,vol.size)) 
 
-
+	for v_id in volumeID_list:
+		ec2_conn.delete_volume(volume_id = v_id)
 # call main function
 if __name__ == "__main__":
 	main(sys.argv)
