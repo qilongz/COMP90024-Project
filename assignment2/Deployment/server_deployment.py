@@ -25,7 +25,6 @@ def wait_for_volume (ec2_conn, vol):
 			break
 	return curr_vols
 
-#
 # start of function mainetn
 #
 def main(argv):
@@ -60,6 +59,7 @@ def main(argv):
 		port=8773,
 		path='/services/Cloud',
 		validate_certs=False)
+		
 	#images = ec2_conn.get_all_images()
 	#for img in images:
 	#	print('Image id: {id}, image name: {name}'.format(id=img.id, name=img.name))
@@ -103,8 +103,32 @@ def main(argv):
 	# 		r_ip=reservation.instances[0].private_ip_address,
 	# 		r_placement=reservation.instances[0].placement)) 
 
+### Run for the last instance with 40 volumne
+	reservation = ec2_conn.run_instances('ami-00003a61',
+		key_name='team40',
+		instance_type='m1.medium',
+		security_groups=['default','ssh'],
+		placement='melbourne-qh2')
+
+	reservations = wait_for_instance (ec2_conn, reservation)
+	
+	print('\nID: {r_id}\tStatus: {r_status}\tIP: {r_ip}\tPlacement: {r_placement}'.format(
+		r_id=reservations[0].instances[0].id,
+		r_status=reservations[0].instances[0].state,
+		r_ip=reservations[0].instances[0].private_ip_address,
+		r_placement=reservations[0].instances[0].placement))		
+
+	vol_req	= ec2_conn.create_volume(40,'melbourne-qh2')
+
+	vol_req = wait_for_volume (ec2_conn, vol_req)
+	print('Volume status: {}, volume AZ: {}'.format(vol_req[0].status, vol_req[0].zone))
+	ec2_conn.attach_volume(vol_req[0].id,reservations[0].instances[0].id,'/dev/vdc')
+# 
 # end of function main
 #
+
+
+
 
 
 # call main function
