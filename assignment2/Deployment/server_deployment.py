@@ -25,6 +25,7 @@ def wait_for_volume (ec2_conn, vol):
 			break
 	return curr_vols
 
+#
 # start of function mainetn
 #
 def main(argv):
@@ -59,7 +60,7 @@ def main(argv):
 		port=8773,
 		path='/services/Cloud',
 		validate_certs=False)
-		
+
 	#images = ec2_conn.get_all_images()
 	#for img in images:
 	#	print('Image id: {id}, image name: {name}'.format(id=img.id, name=img.name))
