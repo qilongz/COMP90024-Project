@@ -57,7 +57,7 @@ def main(argv):
 		time.sleep(2)
 		curr_r = ec2_conn.get_all_reservations()	
 		if (len(curr_r) == 0):
-			print ('ALL instance been terminated')
+			print ('ALL instances been terminated')
 			break
 
 
