@@ -51,15 +51,19 @@ def main(argv):
 		elif opt in ("-s", "--ec2SecretKey"):
 			ec2_secret_key = arg
 
+	hosts_file_content = """
+127.0.0.1       localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost       ip6-localhost   ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+"""
+
+	hosts = ""
 
 	region = RegionInfo(name='melbourne', endpoint='nova.rc.nectar.org.au')
-	ec2_conn = boto.connect_ec2(aws_access_key_id=ec2_access_key,
-		aws_secret_access_key=ec2_secret_key,
-		is_secure=True,
-		region=region,
-		port=8773,
-		path='/services/Cloud',
-		validate_certs=False)
+	ec2_conn = boto.connect_ec2(aws_access_key_id=ec2_access_key,aws_secret_access_key=ec2_secret_key,is_secure=True,region=region,port=8773,path='/services/Cloud',validate_certs=False)
 
 	#images = ec2_conn.get_all_images()
 	#for img in images:
@@ -79,6 +83,8 @@ def main(argv):
 
 	reservations = wait_for_instance (ec2_conn, reservation)
 	
+	hosts += "{ip}\t{host}-0.localdomain\t{host}-0\t#management\n".format (host=reservations[0].id, ip=reservations[0].instances[0].private_ip_address)
+
 	print('\nID: {r_id}\tStatus: {r_status}\tIP: {r_ip}\tPlacement: {r_placement}'.format(
 		r_id=reservations[0].instances[0].id,
 		r_status=reservations[0].instances[0].state,
@@ -101,6 +107,9 @@ def main(argv):
 			placement='melbourne-qh2')
 
 		reservations = wait_for_instance (ec2_conn, reservation)
+
+		hosts += hosts_file_content += "{ip}\t{host}-0.localdomain\t{host}-0\t#node{number}\n".format (
+			host=reservations[0].id, ip=reservations[0].instances[0].private_ip_address, number=i)
 		
 		print('\nID: {r_id}\tStatus: {r_status}\tIP: {r_ip}\tPlacement: {r_placement}'.format(
 			r_id=reservations[0].instances[0].id,
@@ -114,6 +123,13 @@ def main(argv):
 		print('Volume status: {}, volume AZ: {}'.format(vol_req[0].status, vol_req[0].zone))
 		ec2_conn.attach_volume(vol_req[0].id,reservations[0].instances[0].id,'/dev/vdc')	
 		
+	hosts_file_content += hosts
+
+	with open("./hosts", "w") as hosts_file:
+		print(hosts_file_content, file=hosts_file_content)
+
+	with open("./hosts.txt", "w") as host_list_file:
+		print(hosts, file=host_list_file)
 
 	#print all reverations
 	# reservations = ec2_conn.get_all_reservations()
