@@ -1,6 +1,10 @@
 import tweepy
 from tweepy import OAuthHandler
 import json 
+from tweepy import Stream
+from tweepy.streaming import StreamListener
+
+
 consumer_key = 'fxAkAR5lwg2Ruwp44iW4QlCdj'
 consumer_secret = '0g31TlRcU2LuwabCuziFRvPQvPIvkIOUe766wbUJqiSJjDhRQ8'
 access_token = '988044719287549954-skN9LAPejtC5jePxe0yK5U0LXm89mRQ'
@@ -18,3 +22,4 @@ def process_or_store(tweet):
 for status in tweepy.Cursor(api.home_timeline).items(10):
     # Process a single status
     process_or_store(status._json)
+
