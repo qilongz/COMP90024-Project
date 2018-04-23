@@ -70,7 +70,9 @@ def main(argv):
 	# for idx, res in enumerate(reservations):
 	# 	print('{idx}\t{res_id}\t{res_inst}'.format(idx=idx, res_id=res.id, res_inst=res.instances))
 
-	### Run for the last instance with 40 volumne
+	#Create instance with defualt value.
+	
+### Run for the last instance with 40 volumne
 	reservation = ec2_conn.run_instances('ami-00003a61',
 		key_name='team40',
 		instance_type='m1.medium',
@@ -90,41 +92,6 @@ def main(argv):
 	vol_req = wait_for_volume (ec2_conn, vol_req)
 	print('Volume status: {}, volume AZ: {}'.format(vol_req[0].status, vol_req[0].zone))
 	ec2_conn.attach_volume(vol_req[0].id,reservations[0].instances[0].id,'/dev/vdc')
-
-	#Create instance with defualt value.
-	for i in range(3):
-		#'ami-00003a61'
-		reservation = ec2_conn.run_instances('ami-00003a61',
-			key_name='team40',
-			instance_type='m1.medium',
-			security_groups=['default','ssh'],
-			placement='melbourne-qh2')
-
-		reservations = wait_for_instance (ec2_conn, reservation)
-		
-		print('\nID: {r_id}\tStatus: {r_status}\tIP: {r_ip}\tPlacement: {r_placement}'.format(
-			r_id=reservations[0].instances[0].id,
-			r_status=reservations[0].instances[0].state,
-			r_ip=reservations[0].instances[0].private_ip_address,
-			r_placement=reservations[0].instances[0].placement))		
-
-		vol_req	= ec2_conn.create_volume(70,'melbourne-qh2')
-
-		vol_req = wait_for_volume (ec2_conn, vol_req)
-		print('Volume status: {}, volume AZ: {}'.format(vol_req[0].status, vol_req[0].zone))
-		ec2_conn.attach_volume(vol_req[0].id,reservations[0].instances[0].id,'/dev/vdc')	
-		
-
-	#print all reverations
-	# reservations = ec2_conn.get_all_reservations()
-	# for reservation in reservations:
-	# 	# print(reservation)
-	# 	print('\nID: {r_id}\tStatus: {r_status}\tIP: {r_ip}\tPlacement: {r_placement}'.format(
-	# 		r_id=reservation.id,
-	# 		r_status=reservation.instances[0].state,
-	# 		r_ip=reservation.instances[0].private_ip_address,
-	# 		r_placement=reservation.instances[0].placement)) 
-
 # 
 # end of function main
 #
