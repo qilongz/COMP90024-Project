@@ -18,11 +18,20 @@ cd /var/lib/ambari-server/resources/
 sudo ln -s /usr/share/java/postgresql.jar postgresql.jar
 cd ~
 
+# sudo ufw enable
+# sudo ufw allow 5432
+# sudo ufw allow 8080
+# sudo ufw allow from 115.146.86/24
+
 sudo apt-get install ambari-server
 sudo ambari-server setup
 sudo ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar
 sudo ambari-server setup --jdbc-db=postgres --jdbc-driver=/usr/share/java/postgresql.jar
 sudo ambari-server start
+
+## remember to enable postgres connections
+#sudo vi /etc/postgresql/9.5/main/pg_hba.conf
+#sudo /etc/init.d/postgresql restart
 
 # sudo apt-get update
 # sudo apt-get install default-jdk
