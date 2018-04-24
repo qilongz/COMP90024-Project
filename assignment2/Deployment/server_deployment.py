@@ -51,8 +51,7 @@ def main(argv):
 		elif opt in ("-s", "--ec2SecretKey"):
 			ec2_secret_key = arg
 
-	hosts_file_content = """
-127.0.0.1       localhost
+	hosts_file_content = """127.0.0.1       localhost
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     localhost       ip6-localhost   ip6-loopback
