@@ -19,6 +19,9 @@ sudo ln -s /usr/share/java/postgresql.jar postgresql.jar
 cd ~
 
 # sudo ufw enable
+# sudo ufw allow 22
+# sudo ufw allow 9995
+# sudo ufw allow 6080
 # sudo ufw allow 5432
 # sudo ufw allow 8080
 # sudo ufw allow from 115.146.86/24
