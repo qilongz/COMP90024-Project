@@ -40,10 +40,8 @@ class MyListener(StreamListener):
 
     def on_data(self, data):
         try:
-            with open(self.outfile, 'a') as f:
+            with open(self.outfile, 'a+') as f:
                 f.write(data)
-                print(type(data))
-                # print(data)
                 return True
         except BaseException as e:
             print("Error on_data: %s" % str(e))

@@ -1,4 +1,3 @@
-
 import sys
 import boto
 from boto.ec2.regioninfo import RegionInfo
@@ -40,36 +39,31 @@ def main(argv):
 		port=8773,
 		path='/services/Cloud',
 		validate_certs=False)
-
-
+	
 	reservations = ec2_conn.get_all_reservations()
-	terminateID_list  = []
+	image_IDs = []
 	volumeID_list = []
 	for  res in reservations:
-		terminateID_list.append(res.instances[0].id)
 		print('\nID: {}\tIP: {}\tPlacement: {}'.format(res.instances[0].id,
 		res.instances[0].private_ip_address,
 		res.instances[0].placement)) 
-	if terminateID_list:	
-		ec2_conn.terminate_instances(instance_ids=terminateID_list)
-	
-	while True:
-		time.sleep(2)
-		curr_r = ec2_conn.get_all_reservations()	
-		if (len(curr_r) == 0):
-			print ('ALL instances been terminated')
-			break
+		#ec2_conn.create_image(instance_id=res.instances[0].id,name =res.id)
 
-
+	# while True:
+	# 	time.sleep(2)
+	# 	curr_r = ec2_conn.get_all_reservations()	
+	# 	if (len(curr_r) == 0):
+	# 		print ('ALL instances been terminated')
+	# 		break
 
 	volumnes = ec2_conn.get_all_volumes()
 	print('Index\tID\t\tSize')
 	for idx, vol in enumerate(volumnes):
-		volumeID_list.append(vol.id)
 		print('{}\t{}\t{}'.format(idx, vol.id,vol.size)) 
-	if volumeID_list:
-		for v_id in volumeID_list:
-			ec2_conn.delete_volume(volume_id = v_id)
+		ec2_conn.create_snapshot(vol.id)
+
+
+
 # call main function
 if __name__ == "__main__":
 	main(sys.argv)

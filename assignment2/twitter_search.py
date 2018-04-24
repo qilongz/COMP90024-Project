@@ -106,8 +106,9 @@ def search(api, geo, query,limit,outfile):
                     # except couchdb.http.ResourceConflict:
                     #     logging.info("Ignored duplicate tweet.")
                     try:
-                        with open(outfile, 'a') as f:
-                            f.write(str(jtweet))
+                        with open(outfile, 'a+') as f:
+                            r = json.dumps(jtweet)
+                            f.write(r)
                     except BaseException as e:
                         print("Error on_data: %s" % str(e))
                         time.sleep(5)
@@ -132,7 +133,7 @@ if __name__ == '__main__':
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
     geo = config.Geocode
     query = args.query
-    limit = 100
+    limit = 50
     query_fname = format_filename(query)
-    outfile = "%s/stream_%s.json" % (args.data_dir, query_fname)
+    outfile = "%s/search_%s.json" % (args.data_dir, query_fname)
     search(api,geo, query,limit,outfile)
