@@ -42,6 +42,12 @@ sudo ambari-server setup
 sudo ambari-server setup --jdbc-db=postgres --jdbc-driver=/usr/share/java/postgresql.jar
 sudo ambari-server start
 
+## 
+#sudo vi /etc/systemd/system/disable-thp.service
+#sudo systemctl daemon-reload
+#sudo systemctl start disable-thp
+#sudo systemctl enable disable-thp
+
 ## remember to enable postgres connections
 #sudo vi /etc/postgresql/9.5/main/pg_hba.conf
 #sudo /etc/init.d/postgresql restart
