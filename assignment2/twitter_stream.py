@@ -16,11 +16,6 @@ import string
 import config
 import json
 
-consumer_key = 'fxAkAR5lwg2Ruwp44iW4QlCdj'
-consumer_secret = '0g31TlRcU2LuwabCuziFRvPQvPIvkIOUe766wbUJqiSJjDhRQ8'
-access_token = '988044719287549954-skN9LAPejtC5jePxe0yK5U0LXm89mRQ'
-access_secret = 'QTVWgbQUq0NKwW1UcQI0afX40coiyWr6a867lt7nBfjSK'
-
 def get_parser():
     """Get parser for command line arguments."""
     parser = argparse.ArgumentParser(description="Twitter Downloader")
@@ -47,7 +42,8 @@ class MyListener(StreamListener):
         try:
             with open(self.outfile, 'a') as f:
                 f.write(data)
-                print(data)
+                print(type(data))
+                # print(data)
                 return True
         except BaseException as e:
             print("Error on_data: %s" % str(e))
@@ -82,17 +78,11 @@ def convert_valid(one_char):
     else:
         return '_'
 
-# def parse(cls, api, raw):
-#     status = cls.first_parse(api, raw)
-#     setattr(status, 'json', json.dumps(raw))
-#     return status
-
 if __name__ == '__main__':
     parser = get_parser()
     args = parser.parse_args()
     auth = OAuthHandler(config.consumer_key, config.consumer_secret)
     auth.set_access_token(config.access_token, config.access_secret)
     api = tweepy.API(auth)
-
     twitter_stream = Stream(auth, MyListener(args.data_dir, args.query))
-    twitter_stream.filter(track=[args.query])
+    twitter_stream.filter(track=[args.query],locations = config.ausCoordinates)
