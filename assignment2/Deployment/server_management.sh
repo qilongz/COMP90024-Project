@@ -1,22 +1,32 @@
-sudo mkdir /hadoop
+# change /etc/hosts file
+
+sudo apt-get update
+
+sudo mkdir /vdc
 sudo mkfs.ext4 /dev/vdc
-sudo mount /dev/vdc /hadoop
+sudo mount /dev/vdc /vdc
+sudo mkdir /vdc/usr
+sudo mkdir /vdc/usr/hdp
+sudo mkdir /vdc/hadoop
+sudo ln -s /vdc/hadoop/ /hadoop
+sudo ln -s /vdc/usr/hdp/ /usr/hdp
 
 
 sudo wget -O /etc/apt/sources.list.d/ambari.list http://public-repo-1.hortonworks.com/ambari/ubuntu16/2.x/updates/2.6.1.5/ambari.list
 sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com B9733A7A07513CAD
 sudo apt-get update
 
-sudo apt-get install libmysql-java
-cd /var/lib/ambari-server/resources/
-sudo ln -s /usr/share/java/mysql-connector-java.jar mysql-connector-java.jar
+# sudo apt-get install libmysql-java
+# cd /var/lib/ambari-server/resources/
+# sudo ln -s /usr/share/java/mysql-connector-java.jar mysql-connector-java.jar
 
-cd ~
+# cd ~
 
+sudo apt-get install postgresql postgresql-contrib
 sudo apt-get install libpostgresql-jdbc-java
-cd /var/lib/ambari-server/resources/
-sudo ln -s /usr/share/java/postgresql.jar postgresql.jar
-cd ~
+#cd /var/lib/ambari-server/resources/
+#sudo ln -s /usr/share/java/postgresql.jar postgresql.jar
+#cd ~
 
 # sudo ufw enable
 # sudo ufw allow 22
@@ -28,7 +38,7 @@ cd ~
 
 sudo apt-get install ambari-server
 sudo ambari-server setup
-sudo ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar
+#sudo ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar
 sudo ambari-server setup --jdbc-db=postgres --jdbc-driver=/usr/share/java/postgresql.jar
 sudo ambari-server start
 
