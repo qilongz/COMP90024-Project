@@ -21,6 +21,14 @@
       }
     },
     {
+      "zeppelin-log4j-properties" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "log4j_properties_content" : "\nlog4j.rootLogger = INFO, dailyfile\nlog4j.appender.stdout = org.apache.log4j.ConsoleAppender\nlog4j.appender.stdout.layout = org.apache.log4j.PatternLayout\nlog4j.appender.stdout.layout.ConversionPattern=%5p [%d] ({%t} %F[%M]:%L) - %m%n\nlog4j.appender.dailyfile.DatePattern=.yyyy-MM-dd\nlog4j.appender.dailyfile.Threshold = INFO\nlog4j.appender.dailyfile = org.apache.log4j.DailyRollingFileAppender\nlog4j.appender.dailyfile.File = ${zeppelin.log.file}\nlog4j.appender.dailyfile.layout = org.apache.log4j.PatternLayout\nlog4j.appender.dailyfile.layout.ConversionPattern=%5p [%d] ({%t} %F[%M]:%L) - %m%n"
+        }
+      }
+    },
+    {
       "zoo.cfg" : {
         "properties_attributes" : { },
         "properties" : {
@@ -31,6 +39,38 @@
           "initLimit" : "10",
           "tickTime" : "3000",
           "syncLimit" : "5"
+        }
+      }
+    },
+    {
+      "zeppelin-config" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "zeppelin.notebook.homescreen.hide" : "false",
+          "zeppelin.notebook.s3.user" : "user",
+          "zeppelin.server.port" : "9995",
+          "zeppelin.interpreter.config.upgrade" : "true",
+          "zeppelin.ssl.truststore.type" : "JKS",
+          "zeppelin.ssl.keystore.path" : "conf/keystore",
+          "zeppelin.server.ssl.port" : "9995",
+          "zeppelin.notebook.s3.bucket" : "zeppelin",
+          "zeppelin.notebook.public" : "false",
+          "zeppelin.server.addr" : "0.0.0.0",
+          "zeppelin.ssl.client.auth" : "false",
+          "zeppelin.notebook.dir" : "notebook",
+          "zeppelin.ssl.keystore.type" : "JKS",
+          "zeppelin.ssl.truststore.path" : "conf/truststore",
+          "zeppelin.websocket.max.text.message.size" : "1024000",
+          "zeppelin.interpreters" : "org.apache.zeppelin.spark.SparkInterpreter,org.apache.zeppelin.spark.PySparkInterpreter,org.apache.zeppelin.spark.SparkSqlInterpreter,org.apache.zeppelin.spark.DepInterpreter,org.apache.zeppelin.markdown.Markdown,org.apache.zeppelin.angular.AngularInterpreter,org.apache.zeppelin.shell.ShellInterpreter,org.apache.zeppelin.jdbc.JDBCInterpreter,org.apache.zeppelin.phoenix.PhoenixInterpreter,org.apache.zeppelin.livy.LivySparkInterpreter,org.apache.zeppelin.livy.LivyPySparkInterpreter,org.apache.zeppelin.livy.LivySparkRInterpreter,org.apache.zeppelin.livy.LivySparkSQLInterpreter",
+          "zeppelin.ssl" : "false",
+          "zeppelin.notebook.homescreen" : " ",
+          "zeppelin.notebook.storage" : "org.apache.zeppelin.notebook.repo.FileSystemNotebookRepo",
+          "zeppelin.interpreter.connect.timeout" : "30000",
+          "zeppelin.anonymous.allowed" : "false",
+          "zeppelin.interpreter.dir" : "interpreter",
+          "zeppelin.config.fs.dir" : "conf",
+          "zeppelin.server.allowed.origins" : "*",
+          "zeppelin.interpreter.group.order" : "spark,angular,jdbc,livy,md,sh"
         }
       }
     },
@@ -50,7 +90,31 @@
         "properties" : {
           "atlas.kafka.bootstrap.servers" : "localhost:6667",
           "atlas.kafka.entities.group.id" : "ranger_entities_consumer",
-          "atlas.kafka.zookeeper.connect" : "r-l3mfhncz-0.localdomain:2181,r-ptvvamq4-0.localdomain:2181,r-lnc2wfo2-0.localdomain:2181"
+          "atlas.kafka.zookeeper.connect" : "r-hzgynely-0.localdomain:2181,r-9arp1kfy-0.localdomain:2181,r-kal9pnly-0.localdomain:2181"
+        }
+      }
+    },
+    {
+      "knox-env" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "knox_user" : "knox",
+          "knox_group" : "knox",
+          "knox_pid_dir" : "/var/run/knox"
+        }
+      }
+    },
+    {
+      "storm-worker-log4j" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "storm_wrkr_a1_maxbackupindex" : "9",
+          "storm_wrkr_a1_maxfilesize" : "100",
+          "storm_wrkr_err_maxbackupindex" : "4",
+          "storm_wrkr_out_maxfilesize" : "100",
+          "storm_wrkr_out_maxbackupindex" : "4",
+          "storm_wrkr_err_maxfilesize" : "100",
+          "content" : "\n<!--\n Licensed to the Apache Software Foundation (ASF) under one or more\n contributor license agreements.  See the NOTICE file distributed with\n this work for additional information regarding copyright ownership.\n The ASF licenses this file to You under the Apache License, Version 2.0\n (the \"License\"); you may not use this file except in compliance with\n the License.  You may obtain a copy of the License at\n\n     http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an \"AS IS\" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n-->\n\n<configuration monitorInterval=\"60\">\n<properties>\n    <property name=\"pattern\">%d{yyyy-MM-dd HH:mm:ss.SSS} %c{1.} %t [%p] %msg%n</property>\n    <property name=\"patternNoTime\">%msg%n</property>\n    <property name=\"patternMetrics\">%d %-8r %m%n</property>\n</properties>\n<appenders>\n    <RollingFile name=\"A1\"\n\t\tfileName=\"${sys:workers.artifacts}/${sys:storm.id}/${sys:worker.port}/${sys:logfile.name}\"\n\t\tfilePattern=\"${sys:workers.artifacts}/${sys:storm.id}/${sys:worker.port}/${sys:logfile.name}.%i.gz\">\n        <PatternLayout>\n            <pattern>${pattern}</pattern>\n        </PatternLayout>\n        <Policies>\n            <SizeBasedTriggeringPolicy size=\"{{storm_wrkr_a1_maxfilesize}} MB\"/> <!-- Or every 100 MB -->\n        </Policies>\n        <DefaultRolloverStrategy max=\"{{storm_wrkr_a1_maxbackupindex}}\"/>\n    </RollingFile>\n    <RollingFile name=\"STDOUT\"\n\t\tfileName=\"${sys:workers.artifacts}/${sys:storm.id}/${sys:worker.port}/${sys:logfile.name}.out\"\n\t\tfilePattern=\"${sys:workers.artifacts}/${sys:storm.id}/${sys:worker.port}/${sys:logfile.name}.out.%i.gz\">\n        <PatternLayout>\n            <pattern>${patternNoTime}</pattern>\n        </PatternLayout>\n        <Policies>\n            <SizeBasedTriggeringPolicy size=\"{{storm_wrkr_out_maxfilesize}} MB\"/> <!-- Or every 100 MB -->\n        </Policies>\n        <DefaultRolloverStrategy max=\"{{storm_wrkr_out_maxbackupindex}}\"/>\n    </RollingFile>\n    <RollingFile name=\"STDERR\"\n\t\tfileName=\"${sys:workers.artifacts}/${sys:storm.id}/${sys:worker.port}/${sys:logfile.name}.err\"\n\t\tfilePattern=\"${sys:workers.artifacts}/${sys:storm.id}/${sys:worker.port}/${sys:logfile.name}.err.%i.gz\">\n        <PatternLayout>\n            <pattern>${patternNoTime}</pattern>\n        </PatternLayout>\n        <Policies>\n            <SizeBasedTriggeringPolicy size=\"{{storm_wrkr_err_maxfilesize}} MB\"/> <!-- Or every 100 MB -->\n        </Policies>\n        <DefaultRolloverStrategy max=\"{{storm_wrkr_err_maxbackupindex}}\"/>\n    </RollingFile>\n    <RollingFile name=\"METRICS\"\n\t\tfileName=\"${sys:workers.artifacts}/${sys:storm.id}/${sys:worker.port}/${sys:logfile.name}.metrics\"\n\t\tfilePattern=\"${sys:workers.artifacts}/${sys:storm.id}/${sys:worker.port}/${sys:logfile.name}.metrics.%i.gz\">\n        <PatternLayout>\n            <pattern>${patternMetrics}</pattern>\n        </PatternLayout>\n        <Policies>\n            <SizeBasedTriggeringPolicy size=\"2 MB\"/>\n        </Policies>\n        <DefaultRolloverStrategy max=\"9\"/>\n    </RollingFile>\n    <Syslog name=\"syslog\" format=\"RFC5424\" charset=\"UTF-8\" host=\"localhost\" port=\"514\"\n        protocol=\"UDP\" appName=\"[${sys:storm.id}:${sys:worker.port}]\" mdcId=\"mdc\" includeMDC=\"true\"\n        facility=\"LOCAL5\" enterpriseNumber=\"18060\" newLine=\"true\" exceptionPattern=\"%rEx{full}\"\n        messageId=\"[${sys:user.name}:${sys:logging.sensitivity}]\" id=\"storm\" immediateFail=\"true\" immediateFlush=\"true\"/>\n</appenders>\n<loggers>\n    <root level=\"info\"> <!-- We log everything -->\n        <appender-ref ref=\"A1\"/>\n        <appender-ref ref=\"syslog\"/>\n    </root>\n    <Logger name=\"org.apache.storm.metric.LoggingMetricsConsumer\" level=\"info\" additivity=\"false\">\n        <appender-ref ref=\"METRICS\"/>\n    </Logger>\n    <Logger name=\"STDERR\" level=\"INFO\">\n        <appender-ref ref=\"STDERR\"/>\n        <appender-ref ref=\"syslog\"/>\n    </Logger>\n    <Logger name=\"STDOUT\" level=\"INFO\">\n        <appender-ref ref=\"STDOUT\"/>\n        <appender-ref ref=\"syslog\"/>\n    </Logger>\n</loggers>\n</configuration>"
         }
       }
     },
@@ -72,10 +136,10 @@
           "db_root_user" : "root",
           "DB_FLAVOR" : "POSTGRES",
           "db_name" : "ranger",
-          "policymgr_external_url" : "http://vm-115-146-86-102.rc.cloud.unimelb.edu.au:6080",
+          "policymgr_external_url" : "http://vm-115-146-86-24.rc.cloud.unimelb.edu.au:6080",
           "db_user" : "ranger",
           "SQL_CONNECTOR_JAR" : "{{driver_curl_target}}",
-          "db_host" : "r-n3tywao7-0.localdomain"
+          "db_host" : "r-kal9pnly-0.localdomain"
         }
       }
     },
@@ -154,6 +218,16 @@
       }
     },
     {
+      "infra-solr-log4j" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "infra_log_maxbackupindex" : "9",
+          "infra_log_maxfilesize" : "10",
+          "content" : "# Licensed to the Apache Software Foundation (ASF) under one or more\n# contributor license agreements.  See the NOTICE file distributed with\n# this work for additional information regarding copyright ownership.\n# The ASF licenses this file to You under the Apache License, Version 2.0\n# (the \"License\"); you may not use this file except in compliance with\n# the License.  You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n#  Logging level\ninfra.solr.log.dir={{infra_solr_log_dir}}\n#log4j.rootLogger=INFO, file, CONSOLE\nlog4j.rootLogger=WARN, file\n\nlog4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender\n\nlog4j.appender.CONSOLE.layout=org.apache.log4j.PatternLayout\nlog4j.appender.CONSOLE.layout.ConversionPattern=%-4r [%t] %-5p %c %x [%X{collection} %X{shard} %X{replica} %X{core}] \\u2013 %m%n\n\n#- size rotation with log cleanup.\nlog4j.appender.file=org.apache.log4j.RollingFileAppender\nlog4j.appender.file.MaxFileSize={{infra_log_maxfilesize}}MB\nlog4j.appender.file.MaxBackupIndex={{infra_log_maxbackupindex}}\n\n#- File to log to and log format\nlog4j.appender.file.File=${infra.solr.log.dir}/solr.log\nlog4j.appender.file.layout=org.apache.log4j.PatternLayout\nlog4j.appender.file.layout.ConversionPattern=%d{ISO8601} [%t] %-5p [%X{collection} %X{shard} %X{replica} %X{core}] %C (%F:%L) - %m%n\n\nlog4j.logger.org.apache.zookeeper=WARN\nlog4j.logger.org.apache.hadoop=WARN\n\n# set to INFO to enable infostream log messages\nlog4j.logger.org.apache.solr.update.LoggingInfoStream=OFF"
+        }
+      }
+    },
+    {
       "core-site" : {
         "properties_attributes" : {
           "final" : {
@@ -175,7 +249,7 @@
           "hadoop.proxyuser.hcat.groups" : "*",
           "hadoop.proxyuser.livy.groups" : "*",
           "hadoop.proxyuser.hive.hosts" : "%HOSTGROUP::host_group_2%",
-          "hadoop.proxyuser.root.hosts" : "r-n3tywao7-0.localdomain",
+          "hadoop.proxyuser.root.hosts" : "r-kal9pnly-0.localdomain",
           "ha.failover-controller.active-standby-elector.zk.op.retries" : "120",
           "hadoop.security.authentication" : "simple",
           "hadoop.proxyuser.hdfs.hosts" : "*",
@@ -188,6 +262,16 @@
           "hadoop.custom-extensions.root" : "/hdp/ext/{{major_stack_version}}/hadoop",
           "hadoop.proxyuser.hive.groups" : "*",
           "io.serializations" : "org.apache.hadoop.io.serializer.WritableSerialization"
+        }
+      }
+    },
+    {
+      "infra-logsearch-conf" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "component_mappings" : "INFRA_SOLR:infra_solr",
+          "content" : "\n{\n  \"input\":[\n    {\n      \"type\":\"infra_solr\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/infra-solr-env/infra_solr_log_dir', '/var/log/ambari-infra-solr')}}/solr.log\"\n    }\n  ],\n  \"filter\":[\n    {\n      \"filter\":\"grok\",\n      \"conditions\":{\n        \"fields\":{\n          \"type\":[\n            \"infra_solr\"\n          ]\n        }\n      },\n      \"log4j_format\":\"\",\n      \"multiline_pattern\":\"^(%{TIMESTAMP_ISO8601:logtime})\",\n      \"message_pattern\":\"(?m)^%{TIMESTAMP_ISO8601:logtime}%{SPACE}\\\\[%{DATA:thread_name}\\\\]%{SPACE}%{LOGLEVEL:level}%{SPACE}%{GREEDYDATA:log_message}\",\n      \"post_map_values\":{\n        \"logtime\":{\n          \"map_date\":{\n            \"target_date_pattern\":\"yyyy-MM-dd HH:mm:ss,SSS\"\n          }\n        }\n      }\n    }\n  ]\n}",
+          "service_name" : "Infra"
         }
       }
     },
@@ -215,6 +299,14 @@
       }
     },
     {
+      "topology" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "content" : "<topology>\n\n            <gateway>\n\n                <provider>\n                    <role>authentication</role>\n                    <name>ShiroProvider</name>\n                    <enabled>true</enabled>\n                    <param>\n                        <name>sessionTimeout</name>\n                        <value>30</value>\n                    </param>\n                    <param>\n                        <name>main.ldapRealm</name>\n                        <value>org.apache.hadoop.gateway.shirorealm.KnoxLdapRealm</value>\n                    </param>\n                    <param>\n                        <name>main.ldapRealm.userDnTemplate</name>\n                        <value>uid={0},ou=people,dc=hadoop,dc=apache,dc=org</value>\n                    </param>\n                    <param>\n                        <name>main.ldapRealm.contextFactory.url</name>\n                        <value>ldap://{{knox_host_name}}:33389</value>\n                    </param>\n                    <param>\n                        <name>main.ldapRealm.contextFactory.authenticationMechanism</name>\n                        <value>simple</value>\n                    </param>\n                    <param>\n                        <name>urls./**</name>\n                        <value>authcBasic</value>\n                    </param>\n                </provider>\n\n                <provider>\n                    <role>identity-assertion</role>\n                    <name>Default</name>\n                    <enabled>true</enabled>\n                </provider>\n\n                <provider>\n                    <role>authorization</role>\n                    <name>XASecurePDPKnox</name>\n                    <enabled>true</enabled>\n                </provider>\n\n            </gateway>\n\n            <service>\n                <role>NAMENODE</role>\n                <url>hdfs://{{namenode_host}}:{{namenode_rpc_port}}</url>\n            </service>\n\n            <service>\n                <role>JOBTRACKER</role>\n                <url>rpc://{{rm_host}}:{{jt_rpc_port}}</url>\n            </service>\n\n            <service>\n                <role>WEBHDFS</role>\n                {{webhdfs_service_urls}}\n            </service>\n\n            <service>\n                <role>WEBHCAT</role>\n                <url>http://{{webhcat_server_host}}:{{templeton_port}}/templeton</url>\n            </service>\n\n            <service>\n                <role>OOZIE</role>\n                <url>http://{{oozie_server_host}}:{{oozie_server_port}}/oozie</url>\n            </service>\n\n            <service>\n                <role>WEBHBASE</role>\n                <url>http://{{hbase_master_host}}:{{hbase_master_port}}</url>\n            </service>\n\n            <service>\n                <role>HIVE</role>\n                <url>http://{{hive_server_host}}:{{hive_http_port}}/{{hive_http_path}}</url>\n            </service>\n\n            <service>\n                <role>RESOURCEMANAGER</role>\n                <url>http://{{rm_host}}:{{rm_port}}/ws</url>\n            </service>\n\n            <service>\n                <role>DRUID-COORDINATOR-UI</role>\n                {{druid_coordinator_urls}}\n            </service>\n\n            <service>\n                <role>DRUID-COORDINATOR</role>\n                {{druid_coordinator_urls}}\n            </service>\n\n            <service>\n                <role>DRUID-OVERLORD-UI</role>\n                {{druid_overlord_urls}}\n            </service>\n\n            <service>\n                <role>DRUID-OVERLORD</role>\n                {{druid_overlord_urls}}\n            </service>\n\n            <service>\n                <role>DRUID-ROUTER</role>\n                {{druid_router_urls}}\n            </service>\n\n            <service>\n                <role>DRUID-BROKER</role>\n                {{druid_broker_urls}}\n            </service>\n\n            <service>\n                <role>ZEPPELINUI</role>\n                {{zeppelin_ui_urls}}\n            </service>\n\n            <service>\n                <role>ZEPPELINWS</role>\n                {{zeppelin_ws_urls}}\n            </service>\n\n        </topology>"
+        }
+      }
+    },
+    {
       "livy-env" : {
         "properties_attributes" : { },
         "properties" : {
@@ -224,6 +316,23 @@
           "content" : "\n            #!/usr/bin/env bash\n\n            # - SPARK_HOME      Spark which you would like to use in livy\n            # - SPARK_CONF_DIR  Directory containing the Spark configuration to use.\n            # - HADOOP_CONF_DIR Directory containing the Hadoop / YARN configuration to use.\n            # - LIVY_LOG_DIR    Where log files are stored.  (Default: ${LIVY_HOME}/logs)\n            # - LIVY_PID_DIR    Where the pid file is stored. (Default: /tmp)\n            # - LIVY_SERVER_JAVA_OPTS  Java Opts for running livy server (You can set jvm related setting here, like jvm memory/gc algorithm and etc.)\n        export SPARK_HOME=/usr/hdp/current/spark-client\n        export SPARK_CONF_DIR=/etc/spark/conf\n        export JAVA_HOME={{java_home}}\n        export HADOOP_CONF_DIR=/etc/hadoop/conf\n        export LIVY_LOG_DIR={{livy_log_dir}}\n        export LIVY_PID_DIR={{livy_pid_dir}}\n        export LIVY_SERVER_JAVA_OPTS=\"-Xmx2g\"",
           "livy_pid_dir" : "/var/run/livy",
           "livy_user" : "livy"
+        }
+      }
+    },
+    {
+      "zeppelin-env" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "zeppelin.spark.jar.dir" : "/apps/zeppelin",
+          "zeppelin.server.kerberos.keytab" : "",
+          "zeppelin_log_dir" : "/var/log/zeppelin",
+          "zeppelin.executor.instances" : "2",
+          "zeppelin.server.kerberos.principal" : "",
+          "zeppelin_env_content" : "\n# export JAVA_HOME=\nexport JAVA_HOME={{java64_home}}\n# export MASTER=                              # Spark master url. eg. spark://master_addr:7077. Leave empty if you want to use local mode.\nexport MASTER=yarn-client\nexport SPARK_YARN_JAR={{spark_jar}}\n# export ZEPPELIN_JAVA_OPTS                   # Additional jvm options. for example, export ZEPPELIN_JAVA_OPTS=\"-Dspark.executor.memory=8g -Dspark.cores.max=16\"\nexport ZEPPELIN_JAVA_OPTS=\"-Dhdp.version={{full_stack_version}} -Dspark.executor.memory={{executor_mem}} -Dspark.executor.instances={{executor_instances}} -Dspark.yarn.queue={{spark_queue}}\"\n# export ZEPPELIN_MEM                         # Zeppelin jvm mem options Default -Xms1024m -Xmx1024m -XX:MaxPermSize=512m\n# export ZEPPELIN_INTP_MEM                    # zeppelin interpreter process jvm mem options. Default -Xms1024m -Xmx1024m -XX:MaxPermSize=512m\n# export ZEPPELIN_INTP_JAVA_OPTS              # zeppelin interpreter process jvm options.\n# export ZEPPELIN_SSL_PORT                    # ssl port (used when ssl environment variable is set to true)\n\n# export ZEPPELIN_LOG_DIR                     # Where log files are stored.  PWD by default.\nexport ZEPPELIN_LOG_DIR={{zeppelin_log_dir}}\n# export ZEPPELIN_PID_DIR                     # The pid files are stored. ${ZEPPELIN_HOME}/run by default.\nexport ZEPPELIN_PID_DIR={{zeppelin_pid_dir}}\n# export ZEPPELIN_WAR_TEMPDIR                 # The location of jetty temporary directory.\n# export ZEPPELIN_NOTEBOOK_DIR                # Where notebook saved\n# export ZEPPELIN_NOTEBOOK_HOMESCREEN         # Id of notebook to be displayed in homescreen. ex) 2A94M5J1Z\n# export ZEPPELIN_NOTEBOOK_HOMESCREEN_HIDE    # hide homescreen notebook from list when this value set to \"true\". default \"false\"\n# export ZEPPELIN_NOTEBOOK_S3_BUCKET          # Bucket where notebook saved\n# export ZEPPELIN_NOTEBOOK_S3_ENDPOINT        # Endpoint of the bucket\n# export ZEPPELIN_NOTEBOOK_S3_USER            # User in bucket where notebook saved. For example bucket/user/notebook/2A94M5J1Z/note.json\n# export ZEPPELIN_IDENT_STRING                # A string representing this instance of zeppelin. $USER by default.\n# export ZEPPELIN_NICENESS                    # The scheduling priority for daemons. Defaults to 0.\n# export ZEPPELIN_INTERPRETER_LOCALREPO       # Local repository for interpreter's additional dependency loading\n# export ZEPPELIN_NOTEBOOK_STORAGE            # Refers to pluggable notebook storage class, can have two classes simultaneously with a sync between them (e.g. local and remote).\n# export ZEPPELIN_NOTEBOOK_ONE_WAY_SYNC       # If there are multiple notebook storages, should we treat the first one as the only source of truth?\n# export ZEPPELIN_NOTEBOOK_PUBLIC             # Make notebook public by default when created, private otherwise\nexport ZEPPELIN_INTP_CLASSPATH_OVERRIDES=\"{{external_dependency_conf}}\"\n\n#### Spark interpreter configuration ####\n\n## Use provided spark installation ##\n## defining SPARK_HOME makes Zeppelin run spark interpreter process using spark-submit\n##\n# export SPARK_HOME                           # (required) When it is defined, load it instead of Zeppelin embedded Spark libraries\n#export SPARK_HOME={{spark_home}}\n# export SPARK_SUBMIT_OPTIONS                 # (optional) extra options to pass to spark submit. eg) \"--driver-memory 512M --executor-memory 1G\".\n# export SPARK_APP_NAME                       # (optional) The name of spark application.\n\n## Use embedded spark binaries ##\n## without SPARK_HOME defined, Zeppelin still able to run spark interpreter process using embedded spark binaries.\n## however, it is not encouraged when you can define SPARK_HOME\n##\n# Options read in YARN client mode\n# export HADOOP_CONF_DIR                      # yarn-site.xml is located in configuration directory in HADOOP_CONF_DIR.\nexport HADOOP_CONF_DIR=/etc/hadoop/conf\n# Pyspark (supported with Spark 1.2.1 and above)\n# To configure pyspark, you need to set spark distribution's path to 'spark.home' property in Interpreter setting screen in Zeppelin GUI\n# export PYSPARK_PYTHON                       # path to the python command. must be the same path on the driver(Zeppelin) and all workers.\n# export PYTHONPATH\n\nexport PYTHONPATH=\"${SPARK_HOME}/python:${SPARK_HOME}/python/lib/py4j-0.8.2.1-src.zip\"\nexport SPARK_YARN_USER_ENV=\"PYTHONPATH=${PYTHONPATH}\"\n\n## Spark interpreter options ##\n##\n# export ZEPPELIN_SPARK_USEHIVECONTEXT        # Use HiveContext instead of SQLContext if set true. true by default.\n# export ZEPPELIN_SPARK_CONCURRENTSQL         # Execute multiple SQL concurrently if set true. false by default.\n# export ZEPPELIN_SPARK_IMPORTIMPLICIT        # Import implicits, UDF collection, and sql if set true. true by default.\n# export ZEPPELIN_SPARK_MAXRESULT             # Max number of Spark SQL result to display. 1000 by default.\n# export ZEPPELIN_WEBSOCKET_MAX_TEXT_MESSAGE_SIZE       # Size in characters of the maximum text message to be received by websocket. Defaults to 1024000\n\n\n#### HBase interpreter configuration ####\n\n## To connect to HBase running on a cluster, either HBASE_HOME or HBASE_CONF_DIR must be set\n\n# export HBASE_HOME=                          # (require) Under which HBase scripts and configuration should be\n# export HBASE_CONF_DIR=                      # (optional) Alternatively, configuration directory can be set to point to the directory that has hbase-site.xml\n\n# export ZEPPELIN_IMPERSONATE_CMD             # Optional, when user want to run interpreter as end web user. eg) 'sudo -H -u ${ZEPPELIN_IMPERSONATE_USER} bash -c '",
+          "zeppelin_user" : "zeppelin",
+          "zeppelin_pid_dir" : "/var/run/zeppelin",
+          "zeppelin.executor.mem" : "512m",
+          "zeppelin_group" : "zeppelin"
         }
       }
     },
@@ -285,6 +394,23 @@
       }
     },
     {
+      "storm-env" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "storm_user_nofile_limit" : "128000",
+          "jmxremote_port" : "56431",
+          "storm.atlas.hook" : "false",
+          "storm_log_dir" : "/var/log/storm",
+          "storm_pid_dir" : "/var/run/storm",
+          "nimbus_seeds_supported" : "true",
+          "storm_logs_supported" : "true",
+          "storm_user" : "storm",
+          "storm_user_nproc_limit" : "65536",
+          "content" : "\n#!/bin/bash\n\n# Set Storm specific environment variables here.\n\n# The java implementation to use.\nexport JAVA_HOME={{java64_home}}\n\nexport STORM_CONF_DIR={{conf_dir}}\nexport STORM_HOME={{storm_component_home_dir}}\nexport STORM_JAR_JVM_OPTS={{jar_jvm_opts}}\n\n#set storm-auto creds\n# check if storm_jaas.conf in config , only enable storm_auto_creds in secure mode.\nSTORM_JAAS_CONF=$STORM_HOME/conf/storm_jaas.conf\nSTORM_AUTOCREDS_LIB_DIR=$STORM_HOME/external/storm-autocreds\n\nif [ -f $STORM_JAAS_CONF ] && [ -d $STORM_AUTOCREDS_LIB_DIR ]; then\n    export STORM_EXT_CLASSPATH=$STORM_AUTOCREDS_LIB_DIR\nfi"
+        }
+      }
+    },
+    {
       "hst-server-conf" : {
         "properties_attributes" : { },
         "properties" : {
@@ -303,8 +429,21 @@
           "gateway.host" : "embedded",
           "server.port" : "9000",
           "server.tmp.dir" : "/var/lib/smartsense/hst-server/tmp",
-          "server.url" : "http://r-l3mfhncz-0.localdomain:9000",
+          "server.url" : "http://r-rhq1jjbi-0.localdomain:9000",
           "customer.smartsense.id" : "unspecified"
+        }
+      }
+    },
+    {
+      "ranger-storm-plugin-properties" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "external_ranger_admin_username" : "",
+          "REPOSITORY_CONFIG_USERNAME" : "stormtestuser@EXAMPLE.COM",
+          "external_admin_username" : "",
+          "common.name.for.certificate" : "",
+          "policy_user" : "{{policy_user}}",
+          "ranger-storm-plugin-enabled" : "No"
         }
       }
     },
@@ -313,6 +452,17 @@
         "properties_attributes" : { },
         "properties" : {
           "content" : "\n# Licensed to the Apache Software Foundation (ASF) under one\n# or more contributor license agreements.  See the NOTICE file\n# distributed with this work for additional information\n# regarding copyright ownership.  The ASF licenses this file\n# to you under the Apache License, Version 2.0 (the\n# \"License\"); you may not use this file except in compliance\n# with the License.  You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nstatus = INFO\nname = BeelineLog4j2\npackages = org.apache.hadoop.hive.ql.log\n\n# list of properties\nproperty.hive.log.level = {{hive_log_level}}\nproperty.hive.root.logger = console\n\n# list of all appenders\nappenders = console\n\n# console appender\nappender.console.type = Console\nappender.console.name = console\nappender.console.target = SYSTEM_ERR\nappender.console.layout.type = PatternLayout\nappender.console.layout.pattern = %d{yy/MM/dd HH:mm:ss} [%t]: %p %c{2}: %m%n\n\n# list of all loggers\nloggers = HiveConnection\n\n# HiveConnection logs useful info for dynamic service discovery\nlogger.HiveConnection.name = org.apache.hive.jdbc.HiveConnection\nlogger.HiveConnection.level = INFO\n\n# root logger\nrootLogger.level = ${sys:hive.log.level}\nrootLogger.appenderRefs = root\nrootLogger.appenderRef.root.ref = ${sys:hive.root.logger}"
+        }
+      }
+    },
+    {
+      "ranger-storm-policymgr-ssl" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "xasecure.policymgr.clientssl.truststore" : "cacerts-xasecure.jks",
+          "xasecure.policymgr.clientssl.keystore" : "hadoopdev-clientcert.jks",
+          "xasecure.policymgr.clientssl.keystore.credential.file" : "jceks://file{{credential_file}}",
+          "xasecure.policymgr.clientssl.truststore.credential.file" : "jceks://file{{credential_file}}"
         }
       }
     },
@@ -327,17 +477,55 @@
       }
     },
     {
+      "ranger-knox-audit" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "xasecure.audit.destination.hdfs.batch.filespool.dir" : "/var/log/knox/audit/hdfs/spool",
+          "xasecure.audit.is.enabled" : "true",
+          "xasecure.audit.destination.hdfs" : "true",
+          "xasecure.audit.destination.solr" : "false",
+          "xasecure.audit.destination.solr.batch.filespool.dir" : "/var/log/knox/audit/solr/spool",
+          "xasecure.audit.destination.hdfs.dir" : "hdfs://%HOSTGROUP::host_group_1%:8020/ranger/audit",
+          "ranger.plugin.knox.ambari.cluster.name" : "{{cluster_name}}",
+          "xasecure.audit.destination.solr.zookeepers" : "NONE",
+          "xasecure.audit.provider.summary.enabled" : "false",
+          "xasecure.audit.destination.solr.urls" : ""
+        }
+      }
+    },
+    {
+      "ranger-storm-security" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "ranger.plugin.storm.policy.source.impl" : "org.apache.ranger.admin.client.RangerAdminRESTClient",
+          "ranger.plugin.storm.policy.cache.dir" : "/etc/ranger/{{repo_name}}/policycache",
+          "ranger.plugin.storm.service.name" : "{{repo_name}}",
+          "ranger.plugin.storm.policy.rest.url" : "http://vm-115-146-86-24.rc.cloud.unimelb.edu.au:6080",
+          "ranger.plugin.storm.policy.rest.ssl.config.file" : "/etc/storm/conf/ranger-policymgr-ssl.xml",
+          "ranger.plugin.storm.policy.pollIntervalMs" : "30000"
+        }
+      }
+    },
+    {
+      "zeppelin-shiro-ini" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "shiro_ini_content" : "\n[users]\n# List of users with their password allowed to access Zeppelin.\n# To use a different strategy (LDAP / Database / ...) check the shiro doc at http://shiro.apache.org/configuration.html#Configuration-INISections\nadmin = admin, admin\nuser1 = user1, role1, role2\nuser2 = user2, role3\nuser3 = user3, role2\n\n# Sample LDAP configuration, for user Authentication, currently tested for single Realm\n[main]\n### A sample for configuring Active Directory Realm\n#activeDirectoryRealm = org.apache.zeppelin.realm.ActiveDirectoryGroupRealm\n#activeDirectoryRealm.systemUsername = userNameA\n\n#use either systemPassword or hadoopSecurityCredentialPath, more details in http://zeppelin.apache.org/docs/latest/security/shiroauthentication.html\n#activeDirectoryRealm.systemPassword = passwordA\n#activeDirectoryRealm.hadoopSecurityCredentialPath = jceks://file/user/zeppelin/zeppelin.jceks\n#activeDirectoryRealm.searchBase = CN=Users,DC=SOME_GROUP,DC=COMPANY,DC=COM\n#activeDirectoryRealm.url = ldap://ldap.test.com:389\n#activeDirectoryRealm.groupRolesMap = \"CN=admin,OU=groups,DC=SOME_GROUP,DC=COMPANY,DC=COM\":\"admin\",\"CN=finance,OU=groups,DC=SOME_GROUP,DC=COMPANY,DC=COM\":\"finance\",\"CN=hr,OU=groups,DC=SOME_GROUP,DC=COMPANY,DC=COM\":\"hr\"\n#activeDirectoryRealm.authorizationCachingEnabled = false\n\n### A sample for configuring LDAP Directory Realm\n#ldapRealm = org.apache.zeppelin.realm.LdapGroupRealm\n## search base for ldap groups (only relevant for LdapGroupRealm):\n#ldapRealm.contextFactory.environment[ldap.searchBase] = dc=COMPANY,dc=COM\n#ldapRealm.contextFactory.url = ldap://ldap.test.com:389\n#ldapRealm.userDnTemplate = uid={0},ou=Users,dc=COMPANY,dc=COM\n#ldapRealm.contextFactory.authenticationMechanism = SIMPLE\n\n### A sample PAM configuration\n#pamRealm=org.apache.zeppelin.realm.PamRealm\n#pamRealm.service=sshd\n\n\nsessionManager = org.apache.shiro.web.session.mgt.DefaultWebSessionManager\n### If caching of user is required then uncomment below lines\ncacheManager = org.apache.shiro.cache.MemoryConstrainedCacheManager\nsecurityManager.cacheManager = $cacheManager\n\ncookie = org.apache.shiro.web.servlet.SimpleCookie\ncookie.name = JSESSIONID\n#Uncomment the line below when running Zeppelin-Server in HTTPS mode\n#cookie.secure = true\ncookie.httpOnly = true\nsessionManager.sessionIdCookie = $cookie\n\nsecurityManager.sessionManager = $sessionManager\n# 86,400,000 milliseconds = 24 hour\nsecurityManager.sessionManager.globalSessionTimeout = 86400000\nshiro.loginUrl = /api/login\n\n[roles]\nrole1 = *\nrole2 = *\nrole3 = *\nadmin = *\n\n[urls]\n# This section is used for url-based security.\n# You can secure interpreter, configuration and credential information by urls. Comment or uncomment the below urls that you want to hide.\n# anon means the access is anonymous.\n# authc means Form based Auth Security\n# To enfore security, comment the line below and uncomment the next one\n/api/version = anon\n#/api/interpreter/** = authc, roles[admin]\n#/api/configurations/** = authc, roles[admin]\n#/api/credential/** = authc, roles[admin]\n#/** = anon\n/** = authc"
+        }
+      }
+    },
+    {
       "ams-env" : {
         "properties_attributes" : { },
         "properties" : {
           "timeline.metrics.skip.disk.metrics.patterns" : "true",
           "ambari_metrics_user" : "ams",
-          "metrics_monitor_log_dir" : "/hadoop/var/log/ambari-metrics-monitor",
+          "metrics_monitor_log_dir" : "/var/log/ambari-metrics-monitor",
           "metrics_collector_heapsize" : "512",
           "failover_strategy_blacklisted_interval" : "300",
-          "metrics_collector_pid_dir" : "/hadoop/var/run/ambari-metrics-collector",
-          "metrics_collector_log_dir" : "/hadoop/var/log/ambari-metrics-collector",
-          "metrics_monitor_pid_dir" : "/hadoop/var/run/ambari-metrics-monitor",
+          "metrics_collector_pid_dir" : "/var/run/ambari-metrics-collector",
+          "metrics_collector_log_dir" : "/var/log/ambari-metrics-collector",
+          "metrics_monitor_pid_dir" : "/var/run/ambari-metrics-monitor",
           "ams_classpath_additional" : "",
           "content" : "\n# Set environment variables here.\n\n# AMS instance name\nexport AMS_INSTANCE_NAME={{hostname}}\n\n# The java implementation to use. Java 1.6 required.\nexport JAVA_HOME={{java64_home}}\n\n# Collector Log directory for log4j\nexport AMS_COLLECTOR_LOG_DIR={{ams_collector_log_dir}}\n\n# Monitor Log directory for outfile\nexport AMS_MONITOR_LOG_DIR={{ams_monitor_log_dir}}\n\n# Collector pid directory\nexport AMS_COLLECTOR_PID_DIR={{ams_collector_pid_dir}}\n\n# Monitor pid directory\nexport AMS_MONITOR_PID_DIR={{ams_monitor_pid_dir}}\n\n# AMS HBase pid directory\nexport AMS_HBASE_PID_DIR={{hbase_pid_dir}}\n\n# AMS Collector heapsize\nexport AMS_COLLECTOR_HEAPSIZE={{metrics_collector_heapsize}}\n\n# HBase Tables Initialization check enabled\nexport AMS_HBASE_INIT_CHECK_ENABLED={{ams_hbase_init_check_enabled}}\n\n# AMS Collector options\nexport AMS_COLLECTOR_OPTS=\"-Djava.library.path=/usr/lib/ams-hbase/lib/hadoop-native\"\n{% if security_enabled %}\nexport AMS_COLLECTOR_OPTS=\"$AMS_COLLECTOR_OPTS -Djava.security.auth.login.config={{ams_collector_jaas_config_file}}\"\n{% endif %}\n\n# AMS Collector GC options\nexport AMS_COLLECTOR_GC_OPTS=\"-XX:+UseConcMarkSweepGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:{{ams_collector_log_dir}}/collector-gc.log-`date +'%Y%m%d%H%M'`\"\nexport AMS_COLLECTOR_OPTS=\"$AMS_COLLECTOR_OPTS $AMS_COLLECTOR_GC_OPTS\"\n\n# Metrics collector host will be blacklisted for specified number of seconds if metric monitor failed to connect to it.\nexport AMS_FAILOVER_STRATEGY_BLACKLISTED_INTERVAL={{failover_strategy_blacklisted_interval}}\n\n# Extra Java CLASSPATH elements for Metrics Collector. Optional.\nexport COLLECTOR_ADDITIONAL_CLASSPATH={{ams_classpath_additional}}"
         }
@@ -350,6 +538,20 @@
           "security.masterregion.protocol.acl" : "*",
           "security.admin.protocol.acl" : "*",
           "security.client.protocol.acl" : "*"
+        }
+      }
+    },
+    {
+      "ranger-knox-plugin-properties" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "ranger-knox-plugin-enabled" : "Yes",
+          "KNOX_HOME" : "/usr/hdp/current/knox-server",
+          "external_ranger_admin_username" : "",
+          "REPOSITORY_CONFIG_USERNAME" : "admin",
+          "external_admin_username" : "",
+          "common.name.for.certificate" : "",
+          "policy_user" : "ambari-qa"
         }
       }
     },
@@ -432,7 +634,7 @@
           "hbase_master_heapsize" : "1024",
           "hbase_regionserver_xmn_ratio" : "0.2",
           "content" : "\n# Set environment variables here.\n\n# The java implementation to use. Java 1.6 required.\nexport JAVA_HOME={{java64_home}}\n\n# HBase Configuration directory\nexport HBASE_CONF_DIR=${HBASE_CONF_DIR:-{{hbase_conf_dir}}}\n\n# Extra Java CLASSPATH elements. Optional.\nexport HBASE_CLASSPATH=${HBASE_CLASSPATH}:{{stack_root}}/current/ext/hbase/*\n\n\n# The maximum amount of heap to use, in MB. Default is 1000.\n# export HBASE_HEAPSIZE=1000\n\n# Extra Java runtime options.\n# Below are what we set by default. May only work with SUN JVM.\n# For more on why as well as other possible settings,\n# see http://wiki.apache.org/hadoop/PerformanceTuning\nexport SERVER_GC_OPTS=\"-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:{{log_dir}}/gc.log-`date +'%Y%m%d%H%M'`\"\n# Uncomment below to enable java garbage collection logging.\n# export HBASE_OPTS=\"$HBASE_OPTS -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:$HBASE_HOME/logs/gc-hbase.log\"\n\n# Uncomment and adjust to enable JMX exporting\n# See jmxremote.password and jmxremote.access in $JRE_HOME/lib/management to configure remote password access.\n# More details at: http://java.sun.com/javase/6/docs/technotes/guides/management/agent.html\n#\n# export HBASE_JMX_BASE=\"-Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false\"\n# If you want to configure BucketCache, specify '-XX: MaxDirectMemorySize=' with proper direct memory size\n# export HBASE_THRIFT_OPTS=\"$HBASE_JMX_BASE -Dcom.sun.management.jmxremote.port=10103\"\n# export HBASE_ZOOKEEPER_OPTS=\"$HBASE_JMX_BASE -Dcom.sun.management.jmxremote.port=10104\"\n\n# File naming hosts on which HRegionServers will run. $HBASE_HOME/conf/regionservers by default.\nexport HBASE_REGIONSERVERS=${HBASE_CONF_DIR}/regionservers\n\n# Extra ssh options. Empty by default.\n# export HBASE_SSH_OPTS=\"-o ConnectTimeout=1 -o SendEnv=HBASE_CONF_DIR\"\n\n# Where log files are stored. $HBASE_HOME/logs by default.\nexport HBASE_LOG_DIR={{log_dir}}\n\n# A string representing this instance of hbase. $USER by default.\n# export HBASE_IDENT_STRING=$USER\n\n# The scheduling priority for daemon processes. See 'man nice'.\n# export HBASE_NICENESS=10\n\n# The directory where pid files are stored. /tmp by default.\nexport HBASE_PID_DIR={{pid_dir}}\n\n# Seconds to sleep between slave commands. Unset by default. This\n# can be useful in large clusters, where, e.g., slave rsyncs can\n# otherwise arrive faster than the master can service them.\n# export HBASE_SLAVE_SLEEP=0.1\n\n# Tell HBase whether it should manage it's own instance of Zookeeper or not.\nexport HBASE_MANAGES_ZK=false\n\n{% if java_version < 8 %}\nJDK_DEPENDED_OPTS=\"-XX:PermSize=128m -XX:MaxPermSize=128m\"\n{% endif %}\n\n{% if security_enabled %}\nexport HBASE_OPTS=\"$HBASE_OPTS -XX:+UseConcMarkSweepGC -XX:ErrorFile={{log_dir}}/hs_err_pid%p.log -Djava.security.auth.login.config={{client_jaas_config_file}} -Djava.io.tmpdir={{java_io_tmpdir}}\"\nexport HBASE_MASTER_OPTS=\"$HBASE_MASTER_OPTS -Xmx{{master_heapsize}} -Djava.security.auth.login.config={{master_jaas_config_file}} -Djavax.security.auth.useSubjectCredsOnly=false $JDK_DEPENDED_OPTS\"\nexport HBASE_REGIONSERVER_OPTS=\"$HBASE_REGIONSERVER_OPTS -Xmn{{regionserver_xmn_size}} -XX:CMSInitiatingOccupancyFraction={{regionserver_cms_initiating_occupancy_fraction}} -XX:+UseCMSInitiatingOccupancyOnly -Xms{{regionserver_heapsize}} -Xmx{{regionserver_heapsize}} -Djava.security.auth.login.config={{regionserver_jaas_config_file}} -Djavax.security.auth.useSubjectCredsOnly=false $JDK_DEPENDED_OPTS\"\nexport PHOENIX_QUERYSERVER_OPTS=\"$PHOENIX_QUERYSERVER_OPTS -Djava.security.auth.login.config={{queryserver_jaas_config_file}}\"\n{% else %}\nexport HBASE_OPTS=\"$HBASE_OPTS -XX:+UseConcMarkSweepGC -XX:ErrorFile={{log_dir}}/hs_err_pid%p.log -Djava.io.tmpdir={{java_io_tmpdir}}\"\nexport HBASE_MASTER_OPTS=\"$HBASE_MASTER_OPTS -Xmx{{master_heapsize}} $JDK_DEPENDED_OPTS\"\nexport HBASE_REGIONSERVER_OPTS=\"$HBASE_REGIONSERVER_OPTS -Xmn{{regionserver_xmn_size}} -XX:CMSInitiatingOccupancyFraction={{regionserver_cms_initiating_occupancy_fraction}} -XX:+UseCMSInitiatingOccupancyOnly -Xms{{regionserver_heapsize}} -Xmx{{regionserver_heapsize}} $JDK_DEPENDED_OPTS\"\n{% endif %}\n\n# HBase off-heap MaxDirectMemorySize\nexport HBASE_REGIONSERVER_OPTS=\"$HBASE_REGIONSERVER_OPTS {% if hbase_max_direct_memory_size %} -XX:MaxDirectMemorySize={{hbase_max_direct_memory_size}}m {% endif %}\"\nexport HBASE_MASTER_OPTS=\"$HBASE_MASTER_OPTS {% if hbase_max_direct_memory_size %} -XX:MaxDirectMemorySize={{hbase_max_direct_memory_size}}m {% endif %}\"",
-          "hbase_java_io_tmpdir" : "/tmp",
+          "hbase_java_io_tmpdir" : "/mnt/tmp",
           "hbase_user_nproc_limit" : "16000",
           "hbase_pid_dir" : "/var/run/hbase",
           "hbase_regionserver_shutdown_timeout" : "30",
@@ -440,6 +642,29 @@
           "hbase_regionserver_heapsize" : "1024",
           "hbase_user_nofile_limit" : "32000",
           "phoenix_sql_enabled" : "false"
+        }
+      }
+    },
+    {
+      "ranger-knox-security" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "ranger.plugin.knox.policy.source.impl" : "org.apache.ranger.admin.client.RangerAdminJersey2RESTClient",
+          "ranger.plugin.knox.policy.cache.dir" : "/etc/ranger/{{repo_name}}/policycache",
+          "ranger.plugin.knox.policy.rest.url" : "http://vm-115-146-86-24.rc.cloud.unimelb.edu.au:6080",
+          "ranger.plugin.knox.policy.rest.ssl.config.file" : "/usr/hdp/current/knox-server/conf/ranger-policymgr-ssl.xml",
+          "ranger.plugin.knox.policy.pollIntervalMs" : "30000",
+          "ranger.plugin.knox.service.name" : "{{repo_name}}"
+        }
+      }
+    },
+    {
+      "zeppelin-logsearch-conf" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "component_mappings" : "ZEPPELIN_MASTER:zeppelin",
+          "content" : "\n{\n  \"input\":[\n    {\n      \"type\":\"zeppelin\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/zeppelin-env/zeppelin_log_dir', '/var/log/zeppelin')}}/zeppelin-zeppelin-*.log\"\n    }\n   ],\n  \"filter\":[\n    {\n      \"filter\":\"grok\",\n      \"conditions\":{\n        \"fields\":{\n          \"type\":[\n            \"zeppelin\"\n          ]\n         }\n       },\n      \"log4j_format\":\"\",\n      \"multiline_pattern\":\"^(%{SPACE}%{LOGLEVEL:level}%{SPACE}\\\\[%{TIMESTAMP_ISO8601:logtime}\\\\])\",\n      \"message_pattern\":\"(?m)^%{SPACE}%{LOGLEVEL:level}%{SPACE}\\\\[%{TIMESTAMP_ISO8601:logtime}\\\\]%{SPACE}\\\\(\\\\{{\"{\"}}%{DATA:thread_name}\\\\{{\"}\"}}%{SPACE}%{JAVAFILE:file}\\\\[%{JAVAMETHOD:method}\\\\]:%{INT:line_number}\\\\)%{SPACE}-%{SPACE}%{GREEDYDATA:log_message}\",\n      \"post_map_values\":{\n        \"logtime\":{\n          \"map_date\":{\n            \"target_date_pattern\":\"yyyy-MM-dd HH:mm:ss,SSS\"\n          }\n         }\n       }\n     }\n   ]\n }",
+          "service_name" : "Zeppelin"
         }
       }
     },
@@ -465,6 +690,15 @@
       }
     },
     {
+      "sqoop-atlas-application.properties" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "atlas.jaas.KafkaClient.option.renewTicket" : "true",
+          "atlas.jaas.KafkaClient.option.useTicketCache" : "true"
+        }
+      }
+    },
+    {
       "ranger-tagsync-site" : {
         "properties_attributes" : { },
         "properties" : {
@@ -485,6 +719,21 @@
           "ranger.tagsync.source.atlasrest" : "false",
           "ranger.tagsync.source.atlasrest.keystore.filename" : "/usr/hdp/current/ranger-tagsync/conf/atlasuser.jceks",
           "ranger.tagsync.source.file.check.interval.millis" : ""
+        }
+      }
+    },
+    {
+      "gateway-site" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "java.security.auth.login.config" : "/etc/knox/conf/krb5JAASLogin.conf",
+          "sun.security.krb5.debug" : "false",
+          "gateway.hadoop.kerberos.secured" : "false",
+          "gateway.gateway.conf.dir" : "deployments",
+          "gateway.path" : "gateway",
+          "gateway.websocket.feature.enabled" : "{{websocket_support}}",
+          "gateway.port" : "8443",
+          "java.security.krb5.conf" : "/etc/knox/conf/krb5.conf"
         }
       }
     },
@@ -531,7 +780,7 @@
           "ranger.kms.service.user.hdfs" : "hdfs",
           "ranger.plugins.storm.serviceuser" : "storm",
           "ranger.spnego.kerberos.keytab" : "",
-          "ranger.jpa.jdbc.url" : "jdbc:postgresql://r-n3tywao7-0.localdomain:5432/ranger",
+          "ranger.jpa.jdbc.url" : "jdbc:postgresql://r-kal9pnly-0.localdomain:5432/ranger",
           "ranger.service.host" : "{{ranger_host}}",
           "ranger.ldap.bind.dn" : "{{ranger_ug_ldap_bind_dn}}",
           "ranger.service.http.port" : "6080",
@@ -547,7 +796,7 @@
           "ranger.ldap.ad.domain" : "",
           "ranger.ldap.ad.user.searchfilter" : "(sAMAccountName={0})",
           "ranger.credential.provider.path" : "/etc/ranger/admin/rangeradmin.jceks",
-          "ranger.sso.providerurl" : "",
+          "ranger.sso.providerurl" : "https://r-kal9pnly-0.localdomain:8443/gateway/knoxsso/api/v1/websso",
           "ranger.ldap.user.searchfilter" : "(uid={0})",
           "ranger.plugins.hbase.serviceuser" : "hbase",
           "ranger.audit.source.type" : "solr",
@@ -570,7 +819,7 @@
           "ranger-hdfs-plugin-enabled" : "Yes",
           "ranger_solr_config_set" : "ranger_audits",
           "xasecure.audit.destination.hdfs.dir" : "hdfs://%HOSTGROUP::host_group_1%:8020/ranger/audit",
-          "ranger_privelege_user_jdbc_url" : "jdbc:postgresql://r-n3tywao7-0.localdomain:5432/postgres",
+          "ranger_privelege_user_jdbc_url" : "jdbc:postgresql://r-kal9pnly-0.localdomain:5432/postgres",
           "ranger-kafka-plugin-enabled" : "No",
           "ranger-nifi-plugin-enabled" : "No",
           "ranger_user" : "ranger",
@@ -583,7 +832,7 @@
           "is_solrCloud_enabled" : "false",
           "xasecure.audit.destination.hdfs" : "true",
           "ranger_admin_log_dir" : "/var/log/ranger/admin",
-          "ranger-knox-plugin-enabled" : "No",
+          "ranger-knox-plugin-enabled" : "Yes",
           "is_nested_groupsync_enabled" : "false",
           "ranger-atlas-plugin-enabled" : "No",
           "xml_configurations_supported" : "true",
@@ -594,6 +843,23 @@
           "ranger_pid_dir" : "/var/run/ranger",
           "create_db_dbuser" : "false",
           "ranger-storm-plugin-enabled" : "No"
+        }
+      }
+    },
+    {
+      "ranger-storm-audit" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "xasecure.audit.destination.hdfs.batch.filespool.dir" : "/var/log/storm/audit/hdfs/spool",
+          "xasecure.audit.is.enabled" : "true",
+          "xasecure.audit.destination.hdfs" : "true",
+          "xasecure.audit.destination.solr" : "false",
+          "xasecure.audit.destination.solr.batch.filespool.dir" : "/var/log/storm/audit/solr/spool",
+          "xasecure.audit.destination.hdfs.dir" : "hdfs://%HOSTGROUP::host_group_1%:8020/ranger/audit",
+          "xasecure.audit.destination.solr.zookeepers" : "NONE",
+          "xasecure.audit.provider.summary.enabled" : "false",
+          "ranger.plugin.storm.ambari.cluster.name" : "{{cluster_name}}",
+          "xasecure.audit.destination.solr.urls" : ""
         }
       }
     },
@@ -714,6 +980,14 @@
       }
     },
     {
+      "infra-solr-xml" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "content" : "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<!--\nLicensed to the Apache Software Foundation (ASF) under one or more\ncontributor license agreements.  See the NOTICE file distributed with\nthis work for additional information regarding copyright ownership.\nThe ASF licenses this file to You under the Apache License, Version 2.0\n(the \"License\"); you may not use this file except in compliance with\nthe License.  You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n-->\n<solr>\n  <solrcloud>\n    <str name=\"host\">${host:}</str>\n    <int name=\"hostPort\">${jetty.port:}</int>\n    <str name=\"hostContext\">${hostContext:solr}</str>\n    <int name=\"zkClientTimeout\">${zkClientTimeout:15000}</int>\n    <bool name=\"genericCoreNodeNames\">${genericCoreNodeNames:true}</bool>\n  </solrcloud>\n</solr>"
+        }
+      }
+    },
+    {
       "ranger-solr-configuration" : {
         "properties_attributes" : { },
         "properties" : {
@@ -773,7 +1047,7 @@
       "hadoop-env" : {
         "properties_attributes" : { },
         "properties" : {
-          "hadoop_heapsize" : "4096",
+          "hadoop_heapsize" : "1024",
           "proxyuser_group" : "users",
           "hadoop_root_logger" : "INFO,RFA",
           "dtnode_heapsize" : "1024m",
@@ -793,6 +1067,124 @@
           "hdfs_user_nproc_limit" : "65536",
           "namenode_opt_maxnewsize" : "128m",
           "namenode_opt_permsize" : "128m"
+        }
+      }
+    },
+    {
+      "storm-site" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "storm.messaging.netty.min_wait_ms" : "100",
+          "topology.enable.message.timeouts" : "true",
+          "storm.messaging.netty.buffer_size" : "5242880",
+          "client.jartransformer.class" : "org.apache.storm.hack.StormShadeTransformer",
+          "ui.filter" : "null",
+          "storm.messaging.netty.client_worker_threads" : "1",
+          "transactional.zookeeper.root" : "/transactional",
+          "topology.metrics.aggregate.metric.evict.secs" : "5",
+          "topology.tuple.serializer" : "org.apache.storm.serialization.types.ListDelegateSerializer",
+          "topology.spout.wait.strategy" : "org.apache.storm.spout.SleepSpoutWaitStrategy",
+          "drpc.port" : "3772",
+          "topology.max.spout.pending" : "1000",
+          "topology.transfer.buffer.size" : "1024",
+          "supervisor.worker.timeout.secs" : "30",
+          "logviewer.port" : "8000",
+          "nimbus.file.copy.expiration.secs" : "600",
+          "drpc.childopts" : "-Xmx768m _JAAS_PLACEHOLDER",
+          "logviewer.childopts" : "-Xmx128m _JAAS_PLACEHOLDER",
+          "nimbus.task.launch.secs" : "120",
+          "storm.zookeeper.servers" : "['%HOSTGROUP::host_group_1%','%HOSTGROUP::host_group_2%','%HOSTGROUP::host_group_3%']",
+          "storm.messaging.transport" : "org.apache.storm.messaging.netty.Context",
+          "topology.workers" : "1",
+          "drpc.invocations.port" : "3773",
+          "topology.kryo.factory" : "org.apache.storm.serialization.DefaultKryoFactory",
+          "nimbus.cleanup.inbox.freq.secs" : "600",
+          "_storm.thrift.secure.transport" : "org.apache.storm.security.auth.kerberos.KerberosSaslTransportPlugin",
+          "topology.fall.back.on.java.serialization" : "true",
+          "logviewer.appender.name" : "A1",
+          "storm.messaging.netty.server_worker_threads" : "1",
+          "supervisor.slots.ports" : "[6700, 6701]",
+          "storm.zookeeper.connection.timeout" : "30000",
+          "topology.tick.tuple.freq.secs" : "null",
+          "storm.cluster.metrics.consumer.register" : "[{\"class\": \"org.apache.hadoop.metrics2.sink.storm.StormTimelineMetricsReporter\"}]",
+          "topology.stats.sample.rate" : "0.05",
+          "storm.local.dir" : "/hadoop/storm",
+          "nimbus.inbox.jar.expiration.secs" : "3600",
+          "topology.max.replication.wait.time.sec.default" : "60",
+          "storm.messaging.netty.max_retries" : "30",
+          "topology.debug" : "false",
+          "storm.zookeeper.retry.interval" : "1000",
+          "topology.receiver.buffer.size" : "8",
+          "storm.zookeeper.retry.times" : "5",
+          "java.library.path" : "/usr/local/lib:/opt/local/lib:/usr/lib:/usr/hdp/current/storm-client/lib",
+          "zmq.linger.millis" : "5000",
+          "drpc.request.timeout.secs" : "600",
+          "zmq.threads" : "1",
+          "topology.state.synchronization.timeout.secs" : "60",
+          "topology.worker.shared.thread.pool.size" : "4",
+          "topology.executor.receive.buffer.size" : "1024",
+          "supervisor.monitor.frequency.secs" : "3",
+          "topology.optimize" : "true",
+          "transactional.zookeeper.port" : "null",
+          "storm.zookeeper.port" : "2181",
+          "storm.zookeeper.retry.intervalceiling.millis" : "30000",
+          "nimbus.thrift.port" : "6627",
+          "nimbus.thrift.threads" : "196",
+          "_storm.thrift.nonsecure.transport" : "org.apache.storm.security.auth.SimpleTransportPlugin",
+          "nimbus.seeds" : "['%HOSTGROUP::host_group_3%']",
+          "topology.min.replication.count" : "{{actual_topology_min_replication_count}}",
+          "topology.worker.childopts" : "null",
+          "topology.max.replication.wait.time.sec" : "{{actual_topology_max_replication_wait_time_sec}}",
+          "topology.min.replication.count.default" : "1",
+          "topology.max.task.parallelism" : "null",
+          "topology.acker.executors" : "null",
+          "supervisor.worker.start.timeout.secs" : "120",
+          "_storm.min.ruid" : "null",
+          "nimbus.reassign" : "true",
+          "supervisor.heartbeat.frequency.secs" : "5",
+          "topology.metrics.aggregate.per.worker" : "true",
+          "topology.trident.batch.emit.interval.millis" : "500",
+          "task.heartbeat.frequency.secs" : "3",
+          "storm.thrift.transport" : "{{storm_thrift_transport}}",
+          "drpc.worker.threads" : "64",
+          "ui.port" : "8744",
+          "drpc.queue.size" : "128",
+          "topology.message.timeout.secs" : "30",
+          "topology.error.throttle.interval.secs" : "10",
+          "storm.log.dir" : "{{log_dir}}",
+          "topology.builtin.metrics.bucket.size.secs" : "60",
+          "nimbus.monitor.freq.secs" : "10",
+          "topology.executor.send.buffer.size" : "1024",
+          "storm.local.mode.zmq" : "false",
+          "transactional.zookeeper.servers" : "null",
+          "nimbus.task.timeout.secs" : "30",
+          "topology.metrics.consumer.register" : "[{\"class\": \"org.apache.hadoop.metrics2.sink.storm.StormTimelineMetricsSink\", \"parallelism.hint\": 1, \"whitelist\": [\"kafkaOffset\\\\..+/\", \"__complete-latency\", \"__process-latency\", \"__receive\\\\.population$\", \"__sendqueue\\\\.population$\", \"__execute-count\", \"__emit-count\", \"__ack-count\", \"__fail-count\", \"memory/heap\\\\.usedBytes$\", \"memory/nonHeap\\\\.usedBytes$\", \"GC/.+\\\\.count$\", \"GC/.+\\\\.timeMs$\"]}]",
+          "dev.zookeeper.path" : "/tmp/dev-storm-zookeeper",
+          "topology.metrics.expand.map.type" : "true",
+          "nimbus.supervisor.timeout.secs" : "60",
+          "topology.skip.missing.kryo.registrations" : "false",
+          "storm.zookeeper.root" : "/storm",
+          "storm.zookeeper.session.timeout" : "30000",
+          "topology.disruptor.wait.strategy" : "com.lmax.disruptor.BlockingWaitStrategy",
+          "zmq.hwm" : "0",
+          "topology.sleep.spout.wait.strategy.time.ms" : "1",
+          "nimbus.topology.validator" : "org.apache.storm.nimbus.DefaultTopologyValidator",
+          "storm.cluster.mode" : "distributed",
+          "task.refresh.poll.secs" : "10",
+          "ui.childopts" : "-Xmx768m _JAAS_PLACEHOLDER",
+          "storm.messaging.netty.max_wait_ms" : "1000",
+          "worker.heartbeat.frequency.secs" : "1",
+          "topology.max.error.report.per.interval" : "5",
+          "nimbus.thrift.max_buffer_size" : "1048576",
+          "topology.metrics.metric.name.separator" : "."
+        }
+      }
+    },
+    {
+      "storm-atlas-application.properties" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "atlas.hook.storm.numRetries" : "3"
         }
       }
     },
@@ -938,7 +1330,7 @@
           "hive.metastore.event.listeners" : "",
           "hive.server2.tez.default.queues" : "default",
           "hive.druid.bitmap.type" : "roaring",
-          "hive.llap.zk.sm.connectionString" : "%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_4%:2181,%HOSTGROUP::host_group_2%:2181",
+          "hive.llap.zk.sm.connectionString" : "%HOSTGROUP::host_group_2%:2181,%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_3%:2181",
           "hive.server2.tez.sessions.custom.queue.allowed" : "ignore",
           "hive.server2.tez.sessions.per.default.queue" : "1",
           "hive.server2.webui.use.ssl" : "false",
@@ -1008,6 +1400,25 @@
       }
     },
     {
+      "ranger-knox-policymgr-ssl" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "xasecure.policymgr.clientssl.truststore" : "/usr/hdp/current/knox-server/conf/ranger-plugin-truststore.jks",
+          "xasecure.policymgr.clientssl.keystore" : "/usr/hdp/current/knox-server/conf/ranger-plugin-keystore.jks",
+          "xasecure.policymgr.clientssl.keystore.credential.file" : "jceks://file{{credential_file}}",
+          "xasecure.policymgr.clientssl.truststore.credential.file" : "jceks://file{{credential_file}}"
+        }
+      }
+    },
+    {
+      "knoxsso-topology" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "content" : "\n      <topology>\n          <gateway>\n              <provider>\n                  <role>webappsec</role>\n                  <name>WebAppSec</name>\n                  <enabled>true</enabled>\n                  <param><name>xframe.options.enabled</name><value>true</value></param>\n              </provider>\n\n              <provider>\n                  <role>authentication</role>\n                  <name>ShiroProvider</name>\n                  <enabled>true</enabled>\n                  <param>\n                      <name>sessionTimeout</name>\n                      <value>30</value>\n                  </param>\n                  <param>\n                      <name>redirectToUrl</name>\n                      <value>/gateway/knoxsso/knoxauth/login.html</value>\n                  </param>\n                  <param>\n                      <name>restrictedCookies</name>\n                      <value>rememberme,WWW-Authenticate</value>\n                  </param>\n                  <param>\n                      <name>main.ldapRealm</name>\n                      <value>org.apache.hadoop.gateway.shirorealm.KnoxLdapRealm</value>\n                  </param>\n                  <param>\n                      <name>main.ldapContextFactory</name>\n                      <value>org.apache.hadoop.gateway.shirorealm.KnoxLdapContextFactory</value>\n                  </param>\n                  <param>\n                      <name>main.ldapRealm.contextFactory</name>\n                      <value>$ldapContextFactory</value>\n                  </param>\n                  <param>\n                      <name>main.ldapRealm.userDnTemplate</name>\n                      <value>uid={0},ou=people,dc=hadoop,dc=apache,dc=org</value>\n                  </param>\n                  <param>\n                      <name>main.ldapRealm.contextFactory.url</name>\n                      <value>ldap://localhost:33389</value>\n                  </param>    \n                  <param>\n                      <name>main.ldapRealm.authenticationCachingEnabled</name>\n                      <value>false</value>\n                  </param>\n                  <param>\n                      <name>main.ldapRealm.contextFactory.authenticationMechanism</name>\n                      <value>simple</value>\n                  </param>\n                  <param>\n                      <name>urls./**</name>\n                      <value>authcBasic</value>\n                  </param>\n              </provider>\n\n              <provider>\n                  <role>identity-assertion</role>\n                  <name>Default</name>\n                  <enabled>true</enabled>\n              </provider>\n          </gateway>\n\n          <application>\n            <name>knoxauth</name>\n          </application>\n\n          <service>\n              <role>KNOXSSO</role>\n              <param>\n                  <name>knoxsso.cookie.secure.only</name>\n                  <value>false</value>\n              </param>\n              <param>\n                  <name>knoxsso.token.ttl</name>\n                  <value>30000</value>\n              </param>\n              <param>\n                 <name>knoxsso.redirect.whitelist.regex</name>\n                 <value>^https?:\\/\\/(localhost|127\\.0\\.0\\.1|0:0:0:0:0:0:0:1|::1):[0-9].*$</value>\n              </param>\n          </service>\n\n      </topology>"
+        }
+      }
+    },
+    {
       "slider-log4j" : {
         "properties_attributes" : { },
         "properties" : {
@@ -1071,7 +1482,7 @@
           "phoenix.mutate.batchSize" : "10000",
           "zookeeper.znode.parent" : "/ams-hbase-unsecure",
           "hbase.master.info.port" : "61310",
-          "hbase.rootdir" : "file:///hadoop/var/lib/ambari-metrics-collector/hbase",
+          "hbase.rootdir" : "file:///vdc/var/lib/ambari-metrics-collector/hbase",
           "hbase.cluster.distributed" : "false",
           "hbase.hregion.majorcompaction" : "0",
           "hbase.hstore.flusher.count" : "2",
@@ -1146,6 +1557,17 @@
       }
     },
     {
+      "infra-solr-client-log4j" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "infra_client_log_maxfilesize" : "80",
+          "infra_client_log_maxbackupindex" : "60",
+          "content" : "# Copyright 2011 The Apache Software Foundation\n#\n# Licensed to the Apache Software Foundation (ASF) under one\n# or more contributor license agreements.  See the NOTICE file\n# distributed with this work for additional information\n# regarding copyright ownership.  The ASF licenses this file\n# to you under the Apache License, Version 2.0 (the\n# \"License\"); you may not use this file except in compliance\n# with the License.  You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nlog4j.rootLogger=INFO,file,stdout,stderr\n\nlog4j.appender.file=org.apache.log4j.RollingFileAppender\nlog4j.appender.file.File={{solr_client_log|default('/var/log/ambari-infra-solr-client/solr-client.log')}}\nlog4j.appender.file.MaxFileSize={{solr_client_log_maxfilesize}}MB\nlog4j.appender.file.MaxBackupIndex={{solr_client_log_maxbackupindex}}\nlog4j.appender.file.layout=org.apache.log4j.PatternLayout\nlog4j.appender.file.layout.ConversionPattern=%d{DATE} %5p [%t] %c{1}:%L - %m%n\n\nlog4j.appender.stdout=org.apache.log4j.ConsoleAppender\nlog4j.appender.stdout.Threshold=INFO\nlog4j.appender.stdout.Target=System.out\nlog4j.appender.stdout.layout=org.apache.log4j.PatternLayout\nlog4j.appender.stdout.layout.ConversionPattern=%m%n\n\nlog4j.appender.stderr=org.apache.log4j.ConsoleAppender\nlog4j.appender.stderr.Threshold=ERROR\nlog4j.appender.stderr.Target=System.err\nlog4j.appender.stderr.layout=org.apache.log4j.PatternLayout\nlog4j.appender.stderr.layout.ConversionPattern=%m%n",
+          "infra_solr_client_log_dir" : "/var/log/ambari-infra-solr-client"
+        }
+      }
+    },
+    {
       "ranger-hbase-security" : {
         "properties_attributes" : { },
         "properties" : {
@@ -1154,7 +1576,7 @@
           "xasecure.hbase.update.xapolicies.on.grant.revoke" : "true",
           "ranger.plugin.hbase.policy.cache.dir" : "/etc/ranger/{{repo_name}}/policycache",
           "ranger.plugin.hbase.policy.source.impl" : "org.apache.ranger.admin.client.RangerAdminRESTClient",
-          "ranger.plugin.hbase.policy.rest.url" : "http://vm-115-146-86-102.rc.cloud.unimelb.edu.au:6080",
+          "ranger.plugin.hbase.policy.rest.url" : "http://vm-115-146-86-24.rc.cloud.unimelb.edu.au:6080",
           "ranger.plugin.hbase.policy.pollIntervalMs" : "30000"
         }
       }
@@ -1181,7 +1603,7 @@
           "hbase.regionserver.wal.codec" : "org.apache.hadoop.hbase.regionserver.wal.WALCellCodec",
           "hbase.client.retries.number" : "35",
           "hbase.hstore.compaction.max" : "10",
-          "hbase.zookeeper.quorum" : "%HOSTGROUP::host_group_1%,%HOSTGROUP::host_group_4%,%HOSTGROUP::host_group_2%",
+          "hbase.zookeeper.quorum" : "%HOSTGROUP::host_group_2%,%HOSTGROUP::host_group_1%,%HOSTGROUP::host_group_3%",
           "hbase.regionserver.info.port" : "16030",
           "hbase.hregion.memstore.chunkpool.maxsize" : "1",
           "hbase.rpc.protection" : "authentication",
@@ -1233,6 +1655,21 @@
           "xasecure.policymgr.clientssl.keystore" : "/usr/hdp/current/hadoop-client/conf/ranger-yarn-plugin-keystore.jks",
           "xasecure.policymgr.clientssl.keystore.credential.file" : "jceks://file{{credential_file}}",
           "xasecure.policymgr.clientssl.truststore.credential.file" : "jceks://file{{credential_file}}"
+        }
+      }
+    },
+    {
+      "infra-solr-security-json" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "infra_solr_ranger_audit_service_users" : "{default_ranger_audit_users}",
+          "infra_solr_role_logfeeder" : "logfeeder_user",
+          "infra_solr_role_ranger_audit" : "ranger_audit_user",
+          "infra_solr_role_logsearch" : "logsearch_user",
+          "infra_solr_role_dev" : "dev",
+          "infra_solr_role_ranger_admin" : "ranger_admin_user",
+          "infra_solr_role_atlas" : "atlas_user",
+          "content" : " "
         }
       }
     },
@@ -1315,7 +1752,7 @@
           "ranger.plugin.yarn.policy.source.impl" : "org.apache.ranger.admin.client.RangerAdminRESTClient",
           "ranger.plugin.yarn.policy.cache.dir" : "/etc/ranger/{{repo_name}}/policycache",
           "ranger.plugin.yarn.policy.pollIntervalMs" : "30000",
-          "ranger.plugin.yarn.policy.rest.url" : "http://vm-115-146-86-102.rc.cloud.unimelb.edu.au:6080",
+          "ranger.plugin.yarn.policy.rest.url" : "http://vm-115-146-86-24.rc.cloud.unimelb.edu.au:6080",
           "ranger.plugin.yarn.service.name" : "{{repo_name}}"
         }
       }
@@ -1354,6 +1791,16 @@
         "properties_attributes" : { },
         "properties" : {
           "content" : "\n            # Set everything to be logged to the console\n            log4j.rootCategory=INFO, console\n            log4j.appender.console=org.apache.log4j.ConsoleAppender\n            log4j.appender.console.target=System.err\n            log4j.appender.console.layout=org.apache.log4j.PatternLayout\n            log4j.appender.console.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n\n\n            log4j.logger.org.eclipse.jetty=WARN"
+        }
+      }
+    },
+    {
+      "storm-cluster-log4j" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "storm_a1_maxbackupindex" : "9",
+          "content" : "\n<!--\n Licensed to the Apache Software Foundation (ASF) under one or more\n contributor license agreements.  See the NOTICE file distributed with\n this work for additional information regarding copyright ownership.\n The ASF licenses this file to You under the Apache License, Version 2.0\n (the \"License\"); you may not use this file except in compliance with\n the License.  You may obtain a copy of the License at\n\n     http://www.apache.org/licenses/LICENSE-2.0\n\n Unless required by applicable law or agreed to in writing, software\n distributed under the License is distributed on an \"AS IS\" BASIS,\n WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n See the License for the specific language governing permissions and\n limitations under the License.\n-->\n<configuration monitorInterval=\"60\">\n<properties>\n    <property name=\"pattern\">%d{yyyy-MM-dd HH:mm:ss.SSS} %c{1.} %t [%p] %msg%n</property>\n</properties>\n<appenders>\n    <RollingFile name=\"A1\" immediateFlush=\"false\"\n                 fileName=\"${sys:storm.log.dir}/${sys:logfile.name}\"\n                 filePattern=\"${sys:storm.log.dir}/${sys:logfile.name}.%i.gz\">\n        <PatternLayout>\n            <pattern>${pattern}</pattern>\n        </PatternLayout>\n        <Policies>\n            <SizeBasedTriggeringPolicy size=\"{{storm_a1_maxfilesize}} MB\"/> <!-- Or every 100 MB -->\n        </Policies>\n        <DefaultRolloverStrategy max=\"{{storm_a1_maxbackupindex}}\"/>\n    </RollingFile>\n    <RollingFile name=\"WEB-ACCESS\" immediateFlush=\"false\"\n                 fileName=\"${sys:storm.log.dir}/access-web-${sys:daemon.name}.log\"\n                 filePattern=\"${sys:storm.log.dir}/access-web-${sys:daemon.name}.log.%i.gz\">\n        <PatternLayout>\n            <pattern>${pattern}</pattern>\n        </PatternLayout>\n        <Policies>\n            <SizeBasedTriggeringPolicy size=\"100 MB\"/> <!-- Or every 100 MB -->\n        </Policies>\n        <DefaultRolloverStrategy max=\"9\"/>\n    </RollingFile>\n    <RollingFile name=\"THRIFT-ACCESS\" immediateFlush=\"false\"\n                 fileName=\"${sys:storm.log.dir}/access-${sys:logfile.name}\"\n                 filePattern=\"${sys:storm.log.dir}/access-${sys:logfile.name}.%i.gz\">\n    <PatternLayout>\n        <pattern>${pattern}</pattern>\n    </PatternLayout>\n        <Policies>\n            <SizeBasedTriggeringPolicy size=\"100 MB\"/> <!-- Or every 100 MB -->\n        </Policies>\n        <DefaultRolloverStrategy max=\"9\"/>\n    </RollingFile>\n    <Syslog name=\"syslog\" format=\"RFC5424\" charset=\"UTF-8\" host=\"localhost\" port=\"514\"\n            protocol=\"UDP\" appName=\"[${sys:daemon.name}]\" mdcId=\"mdc\" includeMDC=\"true\"\n            facility=\"LOCAL5\" enterpriseNumber=\"18060\" newLine=\"true\" exceptionPattern=\"%rEx{full}\"\n            messageId=\"[${sys:user.name}:S0]\" id=\"storm\" immediateFlush=\"true\" immediateFail=\"true\"/>\n</appenders>\n<loggers>\n\n    <Logger name=\"org.apache.storm.logging.filters.AccessLoggingFilter\" level=\"info\" additivity=\"false\">\n        <AppenderRef ref=\"WEB-ACCESS\"/>\n        <AppenderRef ref=\"syslog\"/>\n    </Logger>\n    <Logger name=\"org.apache.storm.logging.ThriftAccessLogger\" level=\"info\" additivity=\"false\">\n        <AppenderRef ref=\"THRIFT-ACCESS\"/>\n        <AppenderRef ref=\"syslog\"/>\n    </Logger>\n    <root level=\"info\"> <!-- We log everything -->\n        <appender-ref ref=\"A1\"/>\n        <appender-ref ref=\"syslog\"/>\n    </root>\n</loggers>\n</configuration>",
+          "storm_a1_maxfilesize" : "100"
         }
       }
     },
@@ -1455,7 +1902,7 @@
         "properties" : {
           "dfs.replication" : "3",
           "dfs.namenode.audit.log.async" : "true",
-          "dfs.namenode.checkpoint.dir" : "/hadoop/hdfs/namesecondary",
+          "dfs.namenode.checkpoint.dir" : "/vdc/hadoop/hdfs/namesecondary",
           "dfs.namenode.avoid.read.stale.datanode" : "true",
           "manage.include.files" : "false",
           "dfs.journalnode.http-address" : "0.0.0.0:8480",
@@ -1473,7 +1920,7 @@
           "dfs.content-summary.limit" : "5000",
           "dfs.http.policy" : "HTTP_ONLY",
           "dfs.journalnode.https-address" : "0.0.0.0:8481",
-          "dfs.datanode.du.reserved" : "1316786688",
+          "dfs.datanode.du.reserved" : "5267693568",
           "dfs.domain.socket.path" : "/var/lib/hadoop-hdfs/dn_socket",
           "dfs.datanode.ipc.address" : "0.0.0.0:8010",
           "dfs.cluster.administrators" : " hdfs",
@@ -1484,7 +1931,7 @@
           "dfs.client.read.shortcircuit" : "true",
           "dfs.webhdfs.enabled" : "true",
           "dfs.namenode.http-address" : "%HOSTGROUP::host_group_1%:50070",
-          "dfs.namenode.name.dir" : "/hadoop/hdfs/namenode,/hadoop/hadoop/hdfs/namenode",
+          "dfs.namenode.name.dir" : "/vdc/hadoop/hdfs/namenode",
           "dfs.namenode.avoid.write.stale.datanode" : "true",
           "dfs.datanode.https.address" : "0.0.0.0:50475",
           "dfs.datanode.failed.volumes.tolerated" : "0",
@@ -1493,7 +1940,7 @@
           "hadoop.caller.context.enabled" : "true",
           "dfs.namenode.startup.delay.block.deletion.sec" : "3600",
           "dfs.block.access.token.enable" : "true",
-          "dfs.datanode.data.dir" : "/hadoop/hdfs/data,/hadoop/hadoop/hdfs/data",
+          "dfs.datanode.data.dir" : "/vdc/hadoop/hdfs/data",
           "dfs.permissions.superusergroup" : "hdfs",
           "dfs.blocksize" : "134217728",
           "dfs.namenode.checkpoint.edits.dir" : "${dfs.namenode.checkpoint.dir}",
@@ -1504,7 +1951,7 @@
           "dfs.namenode.write.stale.datanode.ratio" : "1.0f",
           "dfs.namenode.name.dir.restore" : "true",
           "dfs.heartbeat.interval" : "3",
-          "dfs.namenode.secondary.http-address" : "%HOSTGROUP::host_group_2%:50090",
+          "dfs.namenode.secondary.http-address" : "%HOSTGROUP::host_group_4%:50090",
           "dfs.namenode.checkpoint.txns" : "1000000",
           "dfs.journalnode.edits.dir" : "/hadoop/hdfs/journalnode",
           "dfs.support.append" : "true",
@@ -1526,14 +1973,32 @@
       }
     },
     {
+      "storm-logsearch-conf" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "component_mappings" : "NIMBUS:storm_nimbus;SUPERVISOR:storm_supervisor,storm_worker,storm_logviewer;STORM_UI_SERVER:storm_ui;DRPC_SERVER:storm_drpc",
+          "content" : "\n{\n  \"input\":[\n    {\n      \"type\":\"storm_drpc\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/storm-env/storm_log_dir', '/var/log/storm')}}/drpc.log\"\n    },\n    {\n      \"type\":\"storm_logviewer\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/storm-env/storm_log_dir', '/var/log/storm')}}/logviewer.log\"\n    },\n    {\n      \"type\":\"storm_nimbus\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/storm-env/storm_log_dir', '/var/log/storm')}}/nimbus.log\"\n    },\n    {\n      \"type\":\"storm_supervisor\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/storm-env/storm_log_dir', '/var/log/storm')}}/supervisor.log\"\n    },\n    {\n      \"type\":\"storm_ui\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/storm-env/storm_log_dir', '/var/log/storm')}}/ui.log\"\n    }\n    {#\n    ,{\n      \"type\":\"storm_worker\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/storm-env/storm_log_dir', '/var/log/storm')}}/workers-artifacts/*/*/worker.log\",\n      \"init_default_fields\": \"true\"\n    }\n    #}\n   ],\n   \"filter\":[\n       {\n         \"filter\":\"grok\",\n         \"sort_order\": 1,\n         \"conditions\":{\n           \"fields\":{\n             \"type\":[\n               \"storm_nimbus\",\n               \"storm_supervisor\",\n               \"storm_logviewer\",\n               \"storm_drpc\",\n               \"storm_ui\",\n               \"storm_worker\"\n             ]\n           }\n         },\n         \"log4j_format\":\"\",\n         \"multiline_pattern\":\"^(%{TIMESTAMP_ISO8601:logtime})\",\n         \"message_pattern\":\"(?m)^%{TIMESTAMP_ISO8601:logtime}%{SPACE}%{JAVACLASS:logger_name}\\\\s%{GREEDYDATA:thread_name}\\\\s\\\\[%{LOGLEVEL:level}\\\\]\\\\s%{GREEDYDATA:log_message}\",\n         \"post_map_values\":{\n           \"logtime\":{\n             \"map_date\":{\n               \"target_date_pattern\":\"yyyy-MM-dd HH:mm:ss.SSS\"\n             }\n           }\n         }\n       },\n       {\n         \"filter\":\"grok\",\n         \"sort_order\": 2,\n         \"conditions\":{\n           \"fields\":{\n             \"type\":[\n               \"storm_worker\"\n             ]\n           }\n         },\n         \"source_field\": \"thread_name\",\n         \"remove_source_field\": \"false\",\n         \"message_pattern\":\"(Thread\\\\-[0-9]+\\\\-[0-9]+\\\\-%{DATA:sdi_streamline_component_name}\\\\-executor%{DATA}|%{DATA:thread_name})\"\n       },\n       {\n         \"filter\":\"grok\",\n         \"sort_order\": 3,\n         \"conditions\":{\n           \"fields\":{\n             \"type\":[\n               \"storm_worker\"\n             ]\n           }\n         },\n         \"source_field\": \"path\",\n         \"remove_source_field\": \"false\",\n         \"message_pattern\":\"{{default('/configurations/storm-env/storm_log_dir', '/var/log/storm')}}/workers-artifacts/%{DATA:sdi_storm_topology_id}/%{DATA:sdi_storm_worker_port}/worker\\\\.log\"\n       },\n       {\n         \"filter\":\"grok\",\n         \"sort_order\": 4,\n         \"conditions\":{\n           \"fields\":{\n             \"type\":[\n               \"storm_worker\"\n             ]\n           }\n         },\n         \"source_field\": \"sdi_storm_topology_id\",\n         \"remove_source_field\": \"false\",\n         \"message_pattern\":\"(streamline\\\\-%{DATA:sdi_streamline_topology_id}\\\\-%{DATA:sdi_streamline_topology_name}\\\\-[0-9]+\\\\-[0-9]+)|(%{DATA:sdi_storm_topology_id})\"\n       }\n     ]\n   }",
+          "service_name" : "Storm"
+        }
+      }
+    },
+    {
+      "admin-topology" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "content" : "\n    <topology>\n\n        <gateway>\n\n             <provider>\n                <role>authentication</role>\n                <name>ShiroProvider</name>\n                <enabled>true</enabled>\n                <param>\n                    <name>sessionTimeout</name>\n                    <value>30</value>\n                </param>\n                <param>\n                    <name>main.ldapRealm</name>\n                    <value>org.apache.hadoop.gateway.shirorealm.KnoxLdapRealm</value>\n                </param>\n                <param>\n                    <name>main.ldapRealm.userDnTemplate</name>\n                    <value>uid={0},ou=people,dc=hadoop,dc=apache,dc=org</value>\n                </param>\n                <param>\n                    <name>main.ldapRealm.contextFactory.url</name>\n                    <value>ldap://{{knox_host_name}}:33389</value>\n                </param>\n                <param>\n                    <name>main.ldapRealm.contextFactory.authenticationMechanism</name>\n                    <value>simple</value>\n                </param>\n                <param>\n                    <name>urls./**</name>\n                    <value>authcBasic</value>\n                </param>\n            </provider>\n\n            <provider>\n                <role>authorization</role>\n                <name>AclsAuthz</name>\n                <enabled>true</enabled>\n                <param>\n                    <name>knox.acl</name>\n                    <value>admin;*;*</value>\n                </param>\n            </provider>\n\n            <provider>\n                <role>identity-assertion</role>\n                <name>Default</name>\n                <enabled>true</enabled>\n            </provider>\n\n        </gateway>\n\n        <service>\n            <role>KNOX</role>\n        </service>\n\n    </topology>"
+        }
+      }
+    },
+    {
       "yarn-site" : {
         "properties_attributes" : { },
         "properties" : {
           "yarn.log-aggregation.file-formats" : "IndexedFormat,TFile",
-          "yarn.resourcemanager.zk-address" : "%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_4%:2181,%HOSTGROUP::host_group_2%:2181",
+          "yarn.resourcemanager.zk-address" : "%HOSTGROUP::host_group_2%:2181,%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_3%:2181",
           "yarn.nodemanager.container-monitor.interval-ms" : "3000",
           "yarn.timeline-service.entity-group-fs-store.active-dir" : "/ats/active/",
-          "yarn.log.server.web-service.url" : "http://%HOSTGROUP::host_group_2%:8188/ws/v1/applicationhistory",
+          "yarn.log.server.web-service.url" : "http://%HOSTGROUP::host_group_4%:8188/ws/v1/applicationhistory",
           "yarn.nodemanager.linux-container-executor.group" : "hadoop",
           "yarn.client.failover-proxy-provider" : "org.apache.hadoop.yarn.client.RequestHedgingRMFailoverProxyProvider",
           "yarn.application.classpath" : "{{hadoop_home}}/conf,{{hadoop_home}}/*,{{hadoop_home}}/lib/*,/usr/hdp/current/hadoop-hdfs-client/*,/usr/hdp/current/hadoop-hdfs-client/lib/*,/usr/hdp/current/hadoop-yarn-client/*,/usr/hdp/current/hadoop-yarn-client/lib/*,/usr/hdp/current/ext/hadoop/*",
@@ -1542,10 +2007,10 @@
           "yarn.timeline-service.entity-group-fs-store.cleaner-interval-seconds" : "3600",
           "yarn.nodemanager.remote-app-log-dir-suffix" : "logs",
           "yarn.nodemanager.address" : "0.0.0.0:45454",
-          "yarn.resourcemanager.webapp.address" : "%HOSTGROUP::host_group_2%:8088",
+          "yarn.resourcemanager.webapp.address" : "%HOSTGROUP::host_group_4%:8088",
           "yarn.timeline-service.leveldb-timeline-store.ttl-interval-ms" : "300000",
           "yarn.scheduler.maximum-allocation-vcores" : "1",
-          "yarn.timeline-service.address" : "%HOSTGROUP::host_group_2%:10200",
+          "yarn.timeline-service.address" : "%HOSTGROUP::host_group_4%:10200",
           "yarn.timeline-service.enabled" : "true",
           "yarn.nodemanager.aux-services" : "mapreduce_shuffle,spark_shuffle,spark2_shuffle",
           "yarn.nodemanager.resource.cpu-vcores" : "1",
@@ -1558,16 +2023,16 @@
           "yarn.timeline-service.http-authentication.simple.anonymous.allowed" : "true",
           "yarn.resourcemanager.zk-state-store.parent-path" : "/rmstore",
           "yarn.timeline-service.leveldb-timeline-store.start-time-read-cache-size" : "10000",
-          "yarn.resourcemanager.admin.address" : "%HOSTGROUP::host_group_2%:8141",
+          "yarn.resourcemanager.admin.address" : "%HOSTGROUP::host_group_4%:8141",
           "yarn.nodemanager.linux-container-executor.cgroups.strict-resource-usage" : "false",
-          "yarn.resourcemanager.resource-tracker.address" : "%HOSTGROUP::host_group_2%:8025",
+          "yarn.resourcemanager.resource-tracker.address" : "%HOSTGROUP::host_group_4%:8025",
           "yarn.nodemanager.delete.debug-delay-sec" : "0",
           "yarn.resourcemanager.fs.state-store.retry-policy-spec" : "2000, 500",
           "yarn.timeline-service.http-authentication.type" : "simple",
           "yarn.timeline-service.ttl-enable" : "true",
           "yarn.timeline-service.entity-group-fs-store.retain-seconds" : "604800",
           "yarn.log-aggregation.retain-seconds" : "2592000",
-          "yarn.nodemanager.resource.memory-mb" : "3072",
+          "yarn.nodemanager.resource.memory-mb" : "4096",
           "yarn.nodemanager.disk-health-checker.min-healthy-disks" : "0.25",
           "yarn.node-labels.enabled" : "false",
           "yarn.nodemanager.kill-escape.user" : "hive",
@@ -1579,7 +2044,7 @@
           "yarn.resourcemanager.system-metrics-publisher.enabled" : "true",
           "yarn.timeline-service.client.max-retries" : "30",
           "yarn.timeline-service.client.retry-interval-ms" : "1000",
-          "yarn.timeline-service.http-authentication.proxyuser.root.hosts" : "r-n3tywao7-0.localdomain",
+          "yarn.timeline-service.http-authentication.proxyuser.root.hosts" : "r-kal9pnly-0.localdomain",
           "yarn.timeline-service.store-class" : "org.apache.hadoop.yarn.server.timeline.EntityGroupFSTimelineStore",
           "yarn.timeline-service.bind-host" : "0.0.0.0",
           "yarn.nodemanager.container-metrics.unregister-delay-ms" : "60000",
@@ -1587,7 +2052,7 @@
           "yarn.resourcemanager.fs.state-store.uri" : " ",
           "yarn.resourcemanager.recovery.enabled" : "true",
           "yarn.timeline-service.entity-group-fs-store.group-id-plugin-classpath" : "/usr/hdp/{{spark_version}}/spark/hdpLib/*",
-          "yarn.resourcemanager.scheduler.address" : "%HOSTGROUP::host_group_2%:8030",
+          "yarn.resourcemanager.scheduler.address" : "%HOSTGROUP::host_group_4%:8030",
           "yarn.timeline-service.client.fd-flush-interval-secs" : "5",
           "yarn.timeline-service.leveldb-timeline-store.start-time-write-cache-size" : "10000",
           "yarn.timeline-service.ttl-ms" : "2678400000",
@@ -1595,7 +2060,7 @@
           "yarn.nodemanager.aux-services.spark2_shuffle.class" : "org.apache.spark.network.yarn.YarnShuffleService",
           "yarn.log.server.url" : "http://%HOSTGROUP::host_group_2%:19888/jobhistory/logs",
           "yarn.timeline-service.entity-group-fs-store.group-id-plugin-classes" : "org.apache.tez.dag.history.logging.ats.TimelineCachePluginImpl,org.apache.spark.deploy.history.yarn.plugin.SparkATSPlugin",
-          "yarn.resourcemanager.address" : "%HOSTGROUP::host_group_2%:8050",
+          "yarn.resourcemanager.address" : "%HOSTGROUP::host_group_4%:8050",
           "yarn.timeline-service.recovery.enabled" : "true",
           "yarn.nodemanager.recovery.dir" : "{{yarn_log_dir_prefix}}/nodemanager/recovery-state",
           "yarn.resourcemanager.scheduler.monitor.enable" : "false",
@@ -1612,7 +2077,7 @@
           "yarn.timeline-service.version" : "1.5",
           "yarn.timeline-service.leveldb-timeline-store.read-cache-size" : "104857600",
           "yarn.resourcemanager.monitor.capacity.preemption.natural_termination_factor" : "1",
-          "yarn.nodemanager.local-dirs" : "/hadoop/yarn/local,/hadoop/hadoop/yarn/local",
+          "yarn.nodemanager.local-dirs" : "/hadoop/yarn/local,/vdc/hadoop/yarn/local",
           "yarn.timeline-service.leveldb-timeline-store.path" : "/hadoop/yarn/timeline",
           "yarn.nodemanager.recovery.enabled" : "true",
           "yarn.log-aggregation.file-controller.IndexedFormat.class" : "org.apache.hadoop.yarn.logaggregation.filecontroller.ifile.LogAggregationIndexedFileController",
@@ -1631,17 +2096,17 @@
           "yarn.nodemanager.log.retain-seconds" : "604800",
           "yarn.timeline-service.entity-group-fs-store.done-dir" : "/ats/done/",
           "yarn.nodemanager.disk-health-checker.max-disk-utilization-per-disk-percentage" : "90",
-          "hadoop.registry.zk.quorum" : "%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_4%:2181,%HOSTGROUP::host_group_2%:2181",
+          "hadoop.registry.zk.quorum" : "%HOSTGROUP::host_group_2%:2181,%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_3%:2181",
           "yarn.nodemanager.log-aggregation.roll-monitoring-interval-seconds" : "3600",
           "yarn.nodemanager.container-executor.class" : "org.apache.hadoop.yarn.server.nodemanager.DefaultContainerExecutor",
           "yarn.resourcemanager.nodes.exclude-path" : "/etc/hadoop/conf/yarn.exclude",
           "yarn.timeline-service.state-store-class" : "org.apache.hadoop.yarn.server.timeline.recovery.LeveldbTimelineStateStore",
           "yarn.log-aggregation.file-controller.TFile.class" : "org.apache.hadoop.yarn.logaggregation.filecontroller.tfile.LogAggregationTFileController",
           "yarn.nodemanager.bind-host" : "0.0.0.0",
-          "yarn.resourcemanager.hostname" : "%HOSTGROUP::host_group_2%",
+          "yarn.resourcemanager.hostname" : "%HOSTGROUP::host_group_4%",
           "yarn.resourcemanager.monitor.capacity.preemption.total_preemption_per_round" : "0.25",
           "yarn.resourcemanager.connect.retry-interval.ms" : "15000",
-          "yarn.timeline-service.webapp.address" : "%HOSTGROUP::host_group_2%:8188",
+          "yarn.timeline-service.webapp.address" : "%HOSTGROUP::host_group_4%:8188",
           "yarn.scheduler.minimum-allocation-mb" : "1024",
           "yarn.timeline-service.entity-group-fs-store.summary-store" : "org.apache.hadoop.yarn.server.timeline.RollingLevelDBTimelineStore",
           "yarn.nodemanager.health-checker.interval-ms" : "135000",
@@ -1649,17 +2114,17 @@
           "yarn.resourcemanager.zk-retry-interval-ms" : "1000",
           "yarn.scheduler.capacity.ordering-policy.priority-utilization.underutilized-preemption.enabled" : "false",
           "yarn.nodemanager.remote-app-log-dir" : "/app-logs",
-          "yarn.scheduler.maximum-allocation-mb" : "3072",
+          "yarn.scheduler.maximum-allocation-mb" : "4096",
           "yarn.nodemanager.vmem-check-enabled" : "false",
           "yarn.timeline-service.entity-group-fs-store.scan-interval-seconds" : "15",
-          "yarn.resourcemanager.webapp.https.address" : "%HOSTGROUP::host_group_2%:8090",
-          "yarn.timeline-service.webapp.https.address" : "%HOSTGROUP::host_group_2%:8190",
+          "yarn.resourcemanager.webapp.https.address" : "%HOSTGROUP::host_group_4%:8090",
+          "yarn.timeline-service.webapp.https.address" : "%HOSTGROUP::host_group_4%:8190",
           "yarn.nodemanager.resource.percentage-physical-cpu-limit" : "80",
           "yarn.nodemanager.vmem-pmem-ratio" : "2.1",
           "yarn.authorization-provider" : "org.apache.ranger.authorization.yarn.authorizer.RangerYarnAuthorizer",
           "yarn.nodemanager.log-aggregation.compression-type" : "gz",
           "yarn.resourcemanager.work-preserving-recovery.scheduling-wait-ms" : "10000",
-          "yarn.nodemanager.log-dirs" : "/hadoop/yarn/log,/hadoop/hadoop/yarn/log"
+          "yarn.nodemanager.log-dirs" : "/hadoop/yarn/log,/vdc/hadoop/yarn/log"
         }
       }
     },
@@ -1674,6 +2139,16 @@
           "hive.security.authorization.manager" : "org.apache.ranger.authorization.hive.authorizer.RangerHiveAuthorizerFactory",
           "hive.metastore.metrics.enabled" : "true",
           "hive.service.metrics.reporter" : "HADOOP2"
+        }
+      }
+    },
+    {
+      "knox-logsearch-conf" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "component_mappings" : "KNOX_GATEWAY:knox_gateway,knox_cli,knox_ldap",
+          "content" : "\n{\n  \"input\":[\n    {\n      \"type\":\"knox_gateway\",\n      \"rowtype\":\"service\",\n      \"path\":\"/var/log/knox/gateway.log\"\n    },\n    {\n      \"type\":\"knox_cli\",\n      \"rowtype\":\"service\",\n      \"path\":\"/var/log/knox/knoxcli.log\"\n    },\n    {\n      \"type\":\"knox_ldap\",\n      \"rowtype\":\"service\",\n      \"path\":\"/var/log/knox/ldap.log\"\n    }\n   ],\n  \"filter\":[\n    {\n      \"filter\":\"grok\",\n      \"conditions\":{\n        \"fields\":{\n          \"type\":[\n            \"knox_gateway\",\n            \"knox_cli\",\n            \"knox_ldap\"\n          ]\n\n        }\n       },\n      \"log4j_format\":\"%d{ISO8601} %-5p %c{2} (%F:%M(%L)) - %m%n\",\n      \"multiline_pattern\":\"^(%{TIMESTAMP_ISO8601:logtime})\",\n      \"message_pattern\":\"(?m)^%{TIMESTAMP_ISO8601:logtime}%{SPACE}%{LOGLEVEL:level}%{SPACE}%{JAVACLASS:logger_name}%{SPACE}\\\\(%{JAVAFILE:file}:%{JAVAMETHOD:method}\\\\(%{INT:line_number}\\\\)\\\\)%{SPACE}-%{SPACE}%{GREEDYDATA:log_message}\",\n      \"post_map_values\":{\n        \"logtime\":{\n          \"map_date\":{\n            \"target_date_pattern\":\"yyyy-MM-dd HH:mm:ss,SSS\"\n          }\n         }\n       }\n     }\n   ]\n }",
+          "service_name" : "Knox"
         }
       }
     },
@@ -1709,6 +2184,14 @@
           "component_mappings" : "RESOURCEMANAGER:yarn_resourcemanager,yarn_historyserver,yarn_jobsummary;NODEMANAGER:yarn_nodemanager;APP_TIMELINE_SERVER:yarn_timelineserver",
           "content" : "\n{\n  \"input\":[\n    {\n      \"type\":\"yarn_nodemanager\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/yarn-env/yarn_log_dir_prefix', '/var/log/hadoop')}}/{{default('configurations/yarn-env/yarn_user', 'yarn')}}/yarn-{{default('configurations/yarn-env/yarn_user', 'yarn')}}-nodemanager-*.log\"\n    },\n    {\n      \"type\":\"yarn_resourcemanager\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/yarn-env/yarn_log_dir_prefix', '/var/log/hadoop')}}/{{default('configurations/yarn-env/yarn_user', 'yarn')}}/yarn-{{default('configurations/yarn-env/yarn_user', 'yarn')}}-resourcemanager-*.log\"\n    },\n    {\n      \"type\":\"yarn_timelineserver\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/yarn-env/yarn_log_dir_prefix', '/var/log/hadoop')}}/{{default('configurations/yarn-env/yarn_user', 'yarn')}}/yarn-{{default('configurations/yarn-env/yarn_user', 'yarn')}}-timelineserver-*.log\"\n    },\n    {\n      \"type\":\"yarn_historyserver\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/yarn-env/yarn_log_dir_prefix', '/var/log/hadoop')}}/{{default('configurations/yarn-env/yarn_user', 'yarn')}}/yarn-{{default('configurations/yarn-env/yarn_user', 'yarn')}}-historyserver-*.log\"\n    },\n    {\n      \"type\":\"yarn_jobsummary\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/yarn-env/yarn_log_dir_prefix', '/var/log/hadoop')}}/{{default('configurations/yarn-env/yarn_user', 'yarn')}}/hadoop-mapreduce.jobsummary.log\"\n    }\n   ],\n  \"filter\":[\n    {\n      \"filter\":\"grok\",\n      \"conditions\":{\n        \"fields\":{\n          \"type\":[\n            \"yarn_historyserver\",\n            \"yarn_jobsummary\",\n            \"yarn_nodemanager\",\n            \"yarn_resourcemanager\",\n            \"yarn_timelineserver\"\n          ]\n         }\n       },\n      \"log4j_format\":\"%d{ISO8601} %-5p %c{2} (%F:%M(%L)) - %m%n\",\n      \"multiline_pattern\":\"^(%{TIMESTAMP_ISO8601:logtime})\",\n      \"message_pattern\":\"(?m)^%{TIMESTAMP_ISO8601:logtime}%{SPACE}%{LOGLEVEL:level}%{SPACE}%{JAVACLASS:logger_name}%{SPACE}\\\\(%{JAVAFILE:file}:%{JAVAMETHOD:method}\\\\(%{INT:line_number}\\\\)\\\\)%{SPACE}-%{SPACE}%{GREEDYDATA:log_message}\",\n      \"post_map_values\":{\n        \"logtime\":{\n          \"map_date\":{\n            \"target_date_pattern\":\"yyyy-MM-dd HH:mm:ss,SSS\"\n          }\n         }\n       }\n     }\n   ]\n}",
           "service_name" : "YARN"
+        }
+      }
+    },
+    {
+      "users-ldif" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "content" : "\n# Licensed to the Apache Software Foundation (ASF) under one\n# or more contributor license agreements.  See the NOTICE file\n# distributed with this work for additional information\n# regarding copyright ownership.  The ASF licenses this file\n# to you under the Apache License, Version 2.0 (the\n# \"License\"); you may not use this file except in compliance\n# with the License.  You may obtain a copy of the License at\n#\n#     http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\nversion: 1\n\n# Please replace with site specific values\ndn: dc=hadoop,dc=apache,dc=org\nobjectclass: organization\nobjectclass: dcObject\no: Hadoop\ndc: hadoop\n\n# Entry for a sample people container\n# Please replace with site specific values\ndn: ou=people,dc=hadoop,dc=apache,dc=org\nobjectclass:top\nobjectclass:organizationalUnit\nou: people\n\n# Entry for a sample end user\n# Please replace with site specific values\ndn: uid=guest,ou=people,dc=hadoop,dc=apache,dc=org\nobjectclass:top\nobjectclass:person\nobjectclass:organizationalPerson\nobjectclass:inetOrgPerson\ncn: Guest\nsn: User\nuid: guest\nuserPassword:guest-password\n\n# entry for sample user admin\ndn: uid=admin,ou=people,dc=hadoop,dc=apache,dc=org\nobjectclass:top\nobjectclass:person\nobjectclass:organizationalPerson\nobjectclass:inetOrgPerson\ncn: Admin\nsn: Admin\nuid: admin\nuserPassword:admin-password\n\n# entry for sample user sam\ndn: uid=sam,ou=people,dc=hadoop,dc=apache,dc=org\nobjectclass:top\nobjectclass:person\nobjectclass:organizationalPerson\nobjectclass:inetOrgPerson\ncn: sam\nsn: sam\nuid: sam\nuserPassword:sam-password\n\n# entry for sample user tom\ndn: uid=tom,ou=people,dc=hadoop,dc=apache,dc=org\nobjectclass:top\nobjectclass:person\nobjectclass:organizationalPerson\nobjectclass:inetOrgPerson\ncn: tom\nsn: tom\nuid: tom\nuserPassword:tom-password\n\n# create FIRST Level groups branch\ndn: ou=groups,dc=hadoop,dc=apache,dc=org\nobjectclass:top\nobjectclass:organizationalUnit\nou: groups\ndescription: generic groups branch\n\n# create the analyst group under groups\ndn: cn=analyst,ou=groups,dc=hadoop,dc=apache,dc=org\nobjectclass:top\nobjectclass: groupofnames\ncn: analyst\ndescription:analyst  group\nmember: uid=sam,ou=people,dc=hadoop,dc=apache,dc=org\nmember: uid=tom,ou=people,dc=hadoop,dc=apache,dc=org\n\n\n# create the scientist group under groups\ndn: cn=scientist,ou=groups,dc=hadoop,dc=apache,dc=org\nobjectclass:top\nobjectclass: groupofnames\ncn: scientist\ndescription: scientist group\nmember: uid=sam,ou=people,dc=hadoop,dc=apache,dc=org"
         }
       }
     },
@@ -1757,6 +2240,17 @@
       }
     },
     {
+      "sqoop-env" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "jdbc_drivers" : " ",
+          "sqoop.atlas.hook" : "false",
+          "sqoop_user" : "sqoop",
+          "content" : "\n# Set Hadoop-specific environment variables here.\n\n#Set path to where bin/hadoop is available\n#Set path to where bin/hadoop is available\nexport HADOOP_HOME=${HADOOP_HOME:-{{hadoop_home}}}\n\n#set the path to where bin/hbase is available\nexport HBASE_HOME=${HBASE_HOME:-{{hbase_home}}}\n\n#Set the path to where bin/hive is available\nexport HIVE_HOME=${HIVE_HOME:-{{hive_home}}}\n\n#Set the path for where zookeper config dir is\nexport ZOOCFGDIR=${ZOOCFGDIR:-/etc/zookeeper/conf}\n\n# add libthrift in hive to sqoop class path first so hive imports work\nexport SQOOP_USER_CLASSPATH=\"`ls ${HIVE_HOME}/lib/libthrift-*.jar 2> /dev/null`:${SQOOP_USER_CLASSPATH}\""
+        }
+      }
+    },
+    {
       "yarn-env" : {
         "properties_attributes" : { },
         "properties" : {
@@ -1774,6 +2268,16 @@
           "min_user_id" : "1000",
           "yarn_heapsize" : "1024",
           "nodemanager_heapsize" : "1024"
+        }
+      }
+    },
+    {
+      "gateway-log4j" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "knox_gateway_log_maxfilesize" : "256",
+          "knox_gateway_log_maxbackupindex" : "20",
+          "content" : "\n\n      # Licensed to the Apache Software Foundation (ASF) under one\n      # or more contributor license agreements. See the NOTICE file\n      # distributed with this work for additional information\n      # regarding copyright ownership. The ASF licenses this file\n      # to you under the Apache License, Version 2.0 (the\n      # \"License\"); you may not use this file except in compliance\n      # with the License. You may obtain a copy of the License at\n      #\n      # http://www.apache.org/licenses/LICENSE-2.0\n      #\n      # Unless required by applicable law or agreed to in writing, software\n      # distributed under the License is distributed on an \"AS IS\" BASIS,\n      # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n      # See the License for the specific language governing permissions and\n      # limitations under the License.\n\n      app.log.dir=${launcher.dir}/../logs\n      app.log.file=${launcher.name}.log\n      app.audit.file=${launcher.name}-audit.log\n\n      log4j.rootLogger=ERROR, drfa\n\n      log4j.logger.org.apache.hadoop.gateway=INFO\n      #log4j.logger.org.apache.hadoop.gateway=DEBUG\n\n      #log4j.logger.org.eclipse.jetty=DEBUG\n      #log4j.logger.org.apache.shiro=DEBUG\n      #log4j.logger.org.apache.http=DEBUG\n      #log4j.logger.org.apache.http.client=DEBUG\n      #log4j.logger.org.apache.http.headers=DEBUG\n      #log4j.logger.org.apache.http.wire=DEBUG\n\n      log4j.appender.stdout=org.apache.log4j.ConsoleAppender\n      log4j.appender.stdout.layout=org.apache.log4j.PatternLayout\n      log4j.appender.stdout.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{2}: %m%n\n\n      log4j.appender.drfa=org.apache.log4j.DailyRollingFileAppender\n      log4j.appender.drfa.File=${app.log.dir}/${app.log.file}\n      log4j.appender.drfa.DatePattern=.yyyy-MM-dd\n      log4j.appender.drfa.layout=org.apache.log4j.PatternLayout\n      log4j.appender.drfa.layout.ConversionPattern=%d{ISO8601} %-5p %c{2} (%F:%M(%L)) - %m%n\n      log4j.appender.drfa.MaxFileSize = {{knox_gateway_log_maxfilesize}}MB\n      log4j.appender.drfa.MaxBackupIndex = {{knox_gateway_log_maxbackupindex}}\n\n      log4j.logger.audit=INFO, auditfile\n      log4j.appender.auditfile=org.apache.log4j.DailyRollingFileAppender\n      log4j.appender.auditfile.File=${app.log.dir}/${app.audit.file}\n      log4j.appender.auditfile.Append = true\n      log4j.appender.auditfile.DatePattern = '.'yyyy-MM-dd\n      log4j.appender.auditfile.layout = org.apache.hadoop.gateway.audit.log4j.layout.AuditLayout"
         }
       }
     },
@@ -1809,6 +2313,12 @@
       }
     },
     {
+      "sqoop-site" : {
+        "properties_attributes" : { },
+        "properties" : { }
+      }
+    },
+    {
       "spark2-thrift-fairscheduler" : {
         "properties_attributes" : { },
         "properties" : {
@@ -1820,6 +2330,31 @@
       "usersync-properties" : {
         "properties_attributes" : { },
         "properties" : { }
+      }
+    },
+    {
+      "infra-solr-env" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "infra_solr_keystore_type" : "jks",
+          "infra_solr_kerberos_keytab" : "/etc/security/keytabs/infra_solr.service.keytab",
+          "infra_solr_keystore_location" : "/etc/security/serverKeys/infra.solr.keyStore.jks",
+          "infra_solr_truststore_type" : "jks",
+          "infra_solr_datadir" : "/opt/ambari_infra_solr/data",
+          "infra_solr_web_kerberos_keytab" : "/etc/security/keytabs/spnego.service.keytab",
+          "infra_solr_user" : "infra-solr",
+          "infra_solr_log_dir" : "/var/log/ambari-infra-solr",
+          "infra_solr_jmx_port" : "18886",
+          "infra_solr_maxmem" : "2048",
+          "content" : "#!/bin/bash\n# Licensed to the Apache Software Foundation (ASF) under one or more\n# contributor license agreements. See the NOTICE file distributed with\n# this work for additional information regarding copyright ownership.\n# The ASF licenses this file to You under the Apache License, Version 2.0\n# (the \"License\"); you may not use this file except in compliance with\n# the License. You may obtain a copy of the License at\n#\n# http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# By default the script will use JAVA_HOME to determine which java\n# to use, but you can set a specific path for Solr to use without\n# affecting other Java applications on your server/workstation.\nSOLR_JAVA_HOME={{java64_home}}\n\n# Increase Java Min/Max Heap as needed to support your indexing / query needs\nSOLR_JAVA_MEM=\"-Xms{{infra_solr_min_mem}}m -Xmx{{infra_solr_max_mem}}m\"\n\n# Enable verbose GC logging\nGC_LOG_OPTS=\"-verbose:gc -XX:+PrintHeapAtGC -XX:+PrintGCDetails \\\n-XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime\"\n\n# These GC settings have shown to work well for a number of common Solr workloads\nGC_TUNE=\"-XX:NewRatio=3 \\\n-XX:SurvivorRatio=4 \\\n-XX:TargetSurvivorRatio=90 \\\n-XX:MaxTenuringThreshold=8 \\\n-XX:+UseConcMarkSweepGC \\\n-XX:+UseParNewGC \\\n-XX:ConcGCThreads=4 -XX:ParallelGCThreads=4 \\\n-XX:+CMSScavengeBeforeRemark \\\n-XX:PretenureSizeThreshold=64m \\\n-XX:+UseCMSInitiatingOccupancyOnly \\\n-XX:CMSInitiatingOccupancyFraction=50 \\\n-XX:CMSMaxAbortablePrecleanTime=6000 \\\n-XX:+CMSParallelRemarkEnabled \\\n-XX:+ParallelRefProcEnabled\"\n\n# Set the ZooKeeper connection string if using an external ZooKeeper ensemble\n# e.g. host1:2181,host2:2181/chroot\n# Leave empty if not using SolrCloud\nZK_HOST=\"{{zookeeper_quorum}}{{infra_solr_znode}}\"\n\n# Set the ZooKeeper client timeout (for SolrCloud mode)\nZK_CLIENT_TIMEOUT=\"60000\"\n\n# By default the start script uses \"localhost\"; override the hostname here\n# for production SolrCloud environments to control the hostname exposed to cluster state\n#SOLR_HOST=\"192.168.1.1\"\n\n# By default the start script uses UTC; override the timezone if needed\n#SOLR_TIMEZONE=\"UTC\"\n\n# Set to true to activate the JMX RMI connector to allow remote JMX client applications\n# to monitor the JVM hosting Solr; set to \"false\" to disable that behavior\n# (false is recommended in production environments)\nENABLE_REMOTE_JMX_OPTS=\"true\"\n\n# The script will use SOLR_PORT+10000 for the RMI_PORT or you can set it here\nRMI_PORT={{infra_solr_jmx_port}}\n\n# Anything you add to the SOLR_OPTS variable will be included in the java\n# start command line as-is, in ADDITION to other options. If you specify the\n# -a option on start script, those options will be appended as well. Examples:\n#SOLR_OPTS=\"$SOLR_OPTS -Dsolr.autoSoftCommit.maxTime=3000\"\n#SOLR_OPTS=\"$SOLR_OPTS -Dsolr.autoCommit.maxTime=60000\"\n#SOLR_OPTS=\"$SOLR_OPTS -Dsolr.clustering.enabled=true\"\nSOLR_OPTS=\"$SOLR_OPTS -Ddisable.configEdit=true\"\n\n# Location where the bin/solr script will save PID files for running instances\n# If not set, the script will create PID files in $SOLR_TIP/bin\nSOLR_PID_DIR={{infra_solr_piddir}}\n\n# Path to a directory where Solr creates index files, the specified directory\n# must contain a solr.xml; by default, Solr will use server/solr\nSOLR_HOME={{infra_solr_datadir}}\n\n# Solr provides a default Log4J configuration properties file in server/resources\n# however, you may want to customize the log settings and file appender location\n# so you can point the script to use a different log4j.properties file\nLOG4J_PROPS={{infra_solr_conf}}/log4j.properties\n\n# Location where Solr should write logs to; should agree with the file appender\n# settings in server/resources/log4j.properties\nSOLR_LOGS_DIR={{infra_solr_log_dir}}\n\n# Sets the port Solr binds to, default is 8983\nSOLR_PORT={{infra_solr_port}}\n\n# Be sure to update the paths to the correct keystore for your environment\n{% if infra_solr_ssl_enabled %}\nSOLR_SSL_KEY_STORE={{infra_solr_keystore_location}}\nSOLR_SSL_KEY_STORE_PASSWORD={{infra_solr_keystore_password}}\nSOLR_SSL_TRUST_STORE={{infra_solr_truststore_location}}\nSOLR_SSL_TRUST_STORE_PASSWORD={{infra_solr_truststore_password}}\nSOLR_SSL_NEED_CLIENT_AUTH=false\nSOLR_SSL_WANT_CLIENT_AUTH=false\n{% endif %}\n\n# Uncomment to set a specific SSL port (-Djetty.ssl.port=N); if not set\n# and you are using SSL, then the start script will use SOLR_PORT for the SSL port\n#SOLR_SSL_PORT=\n\n{% if security_enabled -%}\nSOLR_HOST=`hostname -f`\nSOLR_JAAS_FILE={{infra_solr_jaas_file}}\nSOLR_KERB_KEYTAB={{infra_solr_web_kerberos_keytab}}\nSOLR_KERB_PRINCIPAL={{infra_solr_web_kerberos_principal}}\nSOLR_KERB_NAME_RULES=\"{{infra_solr_kerberos_name_rules}}\"\n\nSOLR_AUTHENTICATION_CLIENT_CONFIGURER=\"org.apache.solr.client.solrj.impl.Krb5HttpClientConfigurer\"\nSOLR_AUTHENTICATION_OPTS=\" -DauthenticationPlugin=org.apache.solr.security.KerberosPlugin -Djava.security.auth.login.config=$SOLR_JAAS_FILE -Dsolr.kerberos.principal=${SOLR_KERB_PRINCIPAL} -Dsolr.kerberos.keytab=${SOLR_KERB_KEYTAB} -Dsolr.kerberos.cookie.domain=${SOLR_HOST}\"\n{% endif %}",
+          "infra_solr_kerberos_name_rules" : "DEFAULT",
+          "infra_solr_minmem" : "1024",
+          "infra_solr_port" : "8886",
+          "infra_solr_pid_dir" : "/var/run/ambari-infra-solr",
+          "infra_solr_ssl_enabled" : "false",
+          "infra_solr_znode" : "/infra-solr",
+          "infra_solr_truststore_location" : "/etc/security/serverKeys/infra.solr.trustStore.jks"
+        }
       }
     },
     {
@@ -1993,7 +2528,7 @@
           "timeline.metrics.downsampler.topn.function" : "max",
           "timeline.metrics.host.aggregator.ttl" : "86400",
           "phoenix.spool.directory" : "/tmp",
-          "timeline.metrics.host.aggregate.splitpoints" : "master.FileSystem.HlogSplitTime_75th_percentile",
+          "timeline.metrics.host.aggregate.splitpoints" : "master.AssignmentManger.Assign_75th_percentile",
           "timeline.metrics.service.handler.thread.count" : "20",
           "timeline.metrics.cache.size" : "200",
           "timeline.metrics.cluster.aggregator.minute.interval" : "300",
@@ -2004,7 +2539,7 @@
           "timeline.metrics.host.aggregator.minute.disabled" : "false",
           "timeline.metrics.service.metadata.filters" : "ContainerResource",
           "timeline.metrics.cache.enabled" : "true",
-          "timeline.metrics.cluster.aggregate.splitpoints" : "master.FileSystem.HlogSplitTime_75th_percentile",
+          "timeline.metrics.cluster.aggregate.splitpoints" : "master.AssignmentManger.Assign_75th_percentile",
           "timeline.metrics.cluster.aggregator.minute.disabled" : "false",
           "timeline.metrics.service.use.groupBy.aggregators" : "true",
           "phoenix.query.maxGlobalMemoryPercentage" : "25",
@@ -2187,7 +2722,7 @@
           "hive.metastore.execute.setugi" : "true",
           "hive.tez.smb.number.waves" : "0.5",
           "hive.server2.authentication.spnego.keytab" : "HTTP/_HOST@EXAMPLE.COM",
-          "hive.zookeeper.quorum" : "%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_4%:2181,%HOSTGROUP::host_group_2%:2181",
+          "hive.zookeeper.quorum" : "%HOSTGROUP::host_group_2%:2181,%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_3%:2181",
           "hive.mapjoin.bucket.cache.size" : "10000",
           "hive.metastore.kerberos.principal" : "hive/_HOST@EXAMPLE.COM",
           "hive.tez.auto.reducer.parallelism" : "true",
@@ -2244,7 +2779,7 @@
           "hive.optimize.index.filter" : "true",
           "hive.server2.authentication.spnego.principal" : "/etc/security/keytabs/spnego.service.keytab",
           "hive.convert.join.bucket.mapjoin.tez" : "false",
-          "hive.metastore.warehouse.dir" : "/hadoop/apps/hive/warehouse",
+          "hive.metastore.warehouse.dir" : "/apps/hive/warehouse",
           "hive.execution.engine" : "tez",
           "atlas.hook.hive.maxThreads" : "1",
           "hive.tez.dynamic.partition.pruning.max.event.size" : "1048576",
@@ -2255,7 +2790,7 @@
           "hive.metastore.connect.retries" : "24",
           "hive.optimize.reducededuplication.min.reducer" : "4",
           "hive.tez.input.format" : "org.apache.hadoop.hive.ql.io.HiveInputFormat",
-          "hive.cluster.delegation.token.store.zookeeper.connectString" : "%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_4%:2181,%HOSTGROUP::host_group_2%:2181",
+          "hive.cluster.delegation.token.store.zookeeper.connectString" : "%HOSTGROUP::host_group_2%:2181,%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_3%:2181",
           "hive.metastore.uris" : "thrift://%HOSTGROUP::host_group_2%:9083",
           "hive.server2.max.start.attempts" : "5",
           "hive.exec.dynamic.partition.mode" : "strict",
@@ -2278,6 +2813,7 @@
           "hive.server2.tez.sessions.per.default.queue" : "1",
           "hive.server2.thrift.http.port" : "10001",
           "hive.server2.logging.operation.log.location" : "/tmp/hive/operation_logs",
+          "javax.jdo.option.ConnectionURL" : "jdbc:postgresql://%HOSTGROUP::host_group_3%:5432/hive",
           "hive.map.aggr.hash.min.reduction" : "0.5",
           "hive.merge.size.per.task" : "256000000",
           "hive.merge.smallfiles.avgsize" : "16000000",
@@ -2377,9 +2913,9 @@
       "webhcat-site" : {
         "properties_attributes" : { },
         "properties" : {
-          "templeton.zookeeper.hosts" : "%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_4%:2181,%HOSTGROUP::host_group_2%:2181",
+          "templeton.zookeeper.hosts" : "%HOSTGROUP::host_group_2%:2181,%HOSTGROUP::host_group_1%:2181,%HOSTGROUP::host_group_3%:2181",
           "webhcat.proxyuser.root.groups" : "*",
-          "webhcat.proxyuser.root.hosts" : "r-n3tywao7-0.localdomain",
+          "webhcat.proxyuser.root.hosts" : "r-kal9pnly-0.localdomain",
           "templeton.hadoop.queue.name" : "default",
           "templeton.hadoop" : "/usr/hdp/${hdp.version}/hadoop/bin/hadoop",
           "templeton.hive.extra.files" : "/usr/hdp/${hdp.version}/tez/conf/tez-site.xml,/usr/hdp/${hdp.version}/tez,/usr/hdp/${hdp.version}/tez/lib",
@@ -2427,7 +2963,7 @@
           "content" : "\n# Set environment variables here.\n\n# The java implementation to use. Java 1.6+ required.\nexport JAVA_HOME={{java64_home}}\n\n# HBase Configuration directory\nexport HBASE_CONF_DIR=${HBASE_CONF_DIR:-{{hbase_conf_dir}}}\n\n# Extra Java CLASSPATH elements. Optional.\nadditional_cp={{hbase_classpath_additional}}\nif [  -n \"$additional_cp\" ];\nthen\n  export HBASE_CLASSPATH=${HBASE_CLASSPATH}:$additional_cp\nelse\n  export HBASE_CLASSPATH=${HBASE_CLASSPATH}\nfi\n\n# The maximum amount of heap to use for hbase shell.\nexport HBASE_SHELL_OPTS=\"-Xmx256m\"\n\n# Extra Java runtime options.\n# Below are what we set by default. May only work with SUN JVM.\n# For more on why as well as other possible settings,\n# see http://wiki.apache.org/hadoop/PerformanceTuning\nexport HBASE_OPTS=\"-XX:+UseConcMarkSweepGC -XX:ErrorFile={{hbase_log_dir}}/hs_err_pid%p.log -Djava.io.tmpdir={{hbase_tmp_dir}}\"\nexport SERVER_GC_OPTS=\"-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:{{hbase_log_dir}}/gc.log-`date +'%Y%m%d%H%M'`\"\n# Uncomment below to enable java garbage collection logging.\n# export HBASE_OPTS=\"$HBASE_OPTS -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:$HBASE_HOME/logs/gc-hbase.log\"\n\n# Uncomment and adjust to enable JMX exporting\n# See jmxremote.password and jmxremote.access in $JRE_HOME/lib/management to configure remote password access.\n# More details at: http://java.sun.com/javase/6/docs/technotes/guides/management/agent.html\n#\n# export HBASE_JMX_BASE=\"-Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false\"\n\n{% if java_version < 8 %}\nexport HBASE_MASTER_OPTS=\" -XX:PermSize=64m -XX:MaxPermSize={{hbase_master_maxperm_size}} -Xms{{hbase_heapsize}} -Xmx{{hbase_heapsize}} -Xmn{{hbase_master_xmn_size}} -XX:CMSInitiatingOccupancyFraction=70 -XX:+UseCMSInitiatingOccupancyOnly\"\nexport HBASE_REGIONSERVER_OPTS=\"-XX:MaxPermSize=128m -Xmn{{regionserver_xmn_size}} -XX:CMSInitiatingOccupancyFraction=70 -XX:+UseCMSInitiatingOccupancyOnly -Xms{{regionserver_heapsize}} -Xmx{{regionserver_heapsize}}\"\n{% else %}\nexport HBASE_MASTER_OPTS=\" -Xms{{hbase_heapsize}} -Xmx{{hbase_heapsize}} -Xmn{{hbase_master_xmn_size}} -XX:CMSInitiatingOccupancyFraction=70 -XX:+UseCMSInitiatingOccupancyOnly\"\nexport HBASE_REGIONSERVER_OPTS=\" -Xmn{{regionserver_xmn_size}} -XX:CMSInitiatingOccupancyFraction=70 -XX:+UseCMSInitiatingOccupancyOnly -Xms{{regionserver_heapsize}} -Xmx{{regionserver_heapsize}}\"\n{% endif %}\n\n\n# export HBASE_THRIFT_OPTS=\"$HBASE_JMX_BASE -Dcom.sun.management.jmxremote.port=10103\"\n# export HBASE_ZOOKEEPER_OPTS=\"$HBASE_JMX_BASE -Dcom.sun.management.jmxremote.port=10104\"\n\n# File naming hosts on which HRegionServers will run. $HBASE_HOME/conf/regionservers by default.\nexport HBASE_REGIONSERVERS=${HBASE_CONF_DIR}/regionservers\n\n# Extra ssh options. Empty by default.\n# export HBASE_SSH_OPTS=\"-o ConnectTimeout=1 -o SendEnv=HBASE_CONF_DIR\"\n\n# Where log files are stored. $HBASE_HOME/logs by default.\nexport HBASE_LOG_DIR={{hbase_log_dir}}\n\n# A string representing this instance of hbase. $USER by default.\n# export HBASE_IDENT_STRING=$USER\n\n# The scheduling priority for daemon processes. See 'man nice'.\n# export HBASE_NICENESS=10\n\n# The directory where pid files are stored. /tmp by default.\nexport HBASE_PID_DIR={{hbase_pid_dir}}\n\n# Seconds to sleep between slave commands. Unset by default. This\n# can be useful in large clusters, where, e.g., slave rsyncs can\n# otherwise arrive faster than the master can service them.\n# export HBASE_SLAVE_SLEEP=0.1\n\n# Tell HBase whether it should manage it's own instance of Zookeeper or not.\nexport HBASE_MANAGES_ZK=false\n\n{% if security_enabled %}\nexport HBASE_OPTS=\"$HBASE_OPTS -Djava.security.auth.login.config={{client_jaas_config_file}}\"\nexport HBASE_MASTER_OPTS=\"$HBASE_MASTER_OPTS -Djava.security.auth.login.config={{master_jaas_config_file}} -Djavax.security.auth.useSubjectCredsOnly=false\"\nexport HBASE_REGIONSERVER_OPTS=\"$HBASE_REGIONSERVER_OPTS -Djava.security.auth.login.config={{regionserver_jaas_config_file}} -Djavax.security.auth.useSubjectCredsOnly=false\"\nexport HBASE_ZOOKEEPER_OPTS=\"$HBASE_ZOOKEEPER_OPTS -Djava.security.auth.login.config={{ams_zookeeper_jaas_config_file}}\"\n{% endif %}\n\n# use embedded native libs\n_HADOOP_NATIVE_LIB=\"/usr/lib/ams-hbase/lib/hadoop-native/\"\nexport HBASE_OPTS=\"$HBASE_OPTS -Djava.library.path=${_HADOOP_NATIVE_LIB}\"\n\n# Unset HADOOP_HOME to avoid importing HADOOP installed cluster related configs like: /usr/hdp/2.2.0.0-2041/hadoop/conf/\nexport HADOOP_HOME={{ams_hbase_home_dir}}\n\n# Explicitly Setting HBASE_HOME for AMS HBase so that there is no conflict\nexport HBASE_HOME={{ams_hbase_home_dir}}",
           "hbase_pid_dir" : "/var/run/ambari-metrics-collector/",
           "hbase_regionserver_shutdown_timeout" : "30",
-          "hbase_log_dir" : "/hadoop/var/log/ambari-metrics-collector",
+          "hbase_log_dir" : "/var/log/ambari-metrics-collector",
           "hbase_regionserver_heapsize" : "512",
           "hbase_classpath_additional" : ""
         }
@@ -2462,6 +2998,16 @@
           "component_mappings" : "HBASE_MASTER:hbase_master;HBASE_REGIONSERVER:hbase_regionserver;PHOENIX_QUERY_SERVER:hbase_phoenix_server",
           "content" : "\n{\n  \"input\":[\n    {\n      \"type\":\"hbase_master\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/hbase-env/hbase_log_dir', '/var/log/hbase')}}/hbase-*-master-*.log\"\n    },\n    {\n      \"type\":\"hbase_regionserver\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/hbase-env/hbase_log_dir', '/var/log/hbase')}}/hbase-*-regionserver-*.log\"\n    },\n    {\n      \"type\":\"hbase_phoenix_server\",\n      \"rowtype\":\"service\",\n      \"path\":\"{{default('/configurations/hbase-env/hbase_log_dir', '/var/log/hbase')}}/phoenix-*-server.log\"\n    }\n   ],\n  \"filter\":[\n    {\n      \"filter\":\"grok\",\n      \"conditions\":{\n        \"fields\":{\n          \"type\":[\n            \"hbase_master\",\n            \"hbase_regionserver\"\n          ]\n         }\n       },\n      \"log4j_format\":\"%d{ISO8601} %-5p [%t] %c{2}: %m%n\",\n      \"multiline_pattern\":\"^(%{TIMESTAMP_ISO8601:logtime})\",\n      \"message_pattern\":\"(?m)^%{TIMESTAMP_ISO8601:logtime}%{SPACE}%{LOGLEVEL:level}%{SPACE}\\\\[%{DATA:thread_name}\\\\]%{SPACE}%{JAVACLASS:logger_name}:%{SPACE}%{GREEDYDATA:log_message}\",\n      \"post_map_values\":{\n        \"logtime\":{\n          \"map_date\":{\n            \"target_date_pattern\":\"yyyy-MM-dd HH:mm:ss,SSS\"\n          }\n         }\n       }\n     },\n    {\n      \"filter\":\"grok\",\n      \"conditions\":{\n        \"fields\":{\n          \"type\":[\n            \"hbase_phoenix_server\"\n          ]\n         }\n      },\n      \"log4j_format\":\"%d{ISO8601} %-5p [%t] %c{2}: %m%n\",\n      \"multiline_pattern\":\"^(%{TIMESTAMP_ISO8601:logtime})\",\n      \"message_pattern\":\"(?m)^%{TIMESTAMP_ISO8601:logtime}%{SPACE}%{LOGLEVEL:level}%{SPACE}%{JAVACLASS:logger_name}:%{SPACE}%{GREEDYDATA:log_message}\",\n      \"post_map_values\":{\n        \"logtime\":{\n          \"map_date\":{\n            \"target_date_pattern\":\"yyyy-MM-dd HH:mm:ss,SSS\"\n          }\n         }\n       }\n     }\n   ]\n }",
           "service_name" : "HBase"
+        }
+      }
+    },
+    {
+      "ldap-log4j" : {
+        "properties_attributes" : { },
+        "properties" : {
+          "knox_ldap_log_maxbackupindex" : "20",
+          "knox_ldap_log_maxfilesize" : "256",
+          "content" : "\n        # Licensed to the Apache Software Foundation (ASF) under one\n        # or more contributor license agreements.  See the NOTICE file\n        # distributed with this work for additional information\n        # regarding copyright ownership.  The ASF licenses this file\n        # to you under the Apache License, Version 2.0 (the\n        # \"License\"); you may not use this file except in compliance\n        # with the License.  You may obtain a copy of the License at\n        #\n        #     http://www.apache.org/licenses/LICENSE-2.0\n        #\n        # Unless required by applicable law or agreed to in writing, software\n        # distributed under the License is distributed on an \"AS IS\" BASIS,\n        # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n        # See the License for the specific language governing permissions and\n        # limitations under the License.\n\n        app.log.dir=${launcher.dir}/../logs\n        app.log.file=${launcher.name}.log\n\n        log4j.rootLogger=ERROR, drfa\n        log4j.logger.org.apache.directory.server.ldap.LdapServer=INFO\n        log4j.logger.org.apache.directory=WARN\n\n        log4j.appender.stdout=org.apache.log4j.ConsoleAppender\n        log4j.appender.stdout.layout=org.apache.log4j.PatternLayout\n        log4j.appender.stdout.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{2}: %m%n\n\n        log4j.appender.drfa=org.apache.log4j.DailyRollingFileAppender\n        log4j.appender.drfa.File=${app.log.dir}/${app.log.file}\n        log4j.appender.drfa.DatePattern=.yyyy-MM-dd\n        log4j.appender.drfa.layout=org.apache.log4j.PatternLayout\n        log4j.appender.drfa.layout.ConversionPattern=%d{ISO8601} %-5p %c{2} (%F:%M(%L)) - %m%n\n        log4j.appender.drfa.MaxFileSize = {{knox_ldap_log_maxfilesize}}MB\n        log4j.appender.drfa.MaxBackupIndex = {{knox_ldap_log_maxbackupindex}}"
         }
       }
     },
@@ -2552,7 +3098,7 @@
           "ranger.plugin.hdfs.policy.cache.dir" : "/etc/ranger/{{repo_name}}/policycache",
           "ranger.plugin.hdfs.policy.pollIntervalMs" : "30000",
           "ranger.plugin.hdfs.service.name" : "{{repo_name}}",
-          "ranger.plugin.hdfs.policy.rest.url" : "http://vm-115-146-86-102.rc.cloud.unimelb.edu.au:6080"
+          "ranger.plugin.hdfs.policy.rest.url" : "http://vm-115-146-86-24.rc.cloud.unimelb.edu.au:6080"
         }
       }
     },
@@ -2657,7 +3203,7 @@
           "ranger.plugin.hive.policy.cache.dir" : "/etc/ranger/{{repo_name}}/policycache",
           "ranger.plugin.hive.urlauth.filesystem.schemes" : "hdfs:,file:,wasb:,adl:",
           "ranger.plugin.hive.service.name" : "{{repo_name}}",
-          "ranger.plugin.hive.policy.rest.url" : "http://vm-115-146-86-102.rc.cloud.unimelb.edu.au:6080"
+          "ranger.plugin.hive.policy.rest.url" : "http://vm-115-146-86-24.rc.cloud.unimelb.edu.au:6080"
         }
       }
     }
@@ -2666,6 +3212,9 @@
     {
       "components" : [
         {
+          "name" : "LIVY_SERVER"
+        },
+        {
           "name" : "HIVE_SERVER"
         },
         {
@@ -2673,6 +3222,9 @@
         },
         {
           "name" : "METRICS_MONITOR"
+        },
+        {
+          "name" : "INFRA_SOLR_CLIENT"
         },
         {
           "name" : "HIVE_METASTORE"
@@ -2690,9 +3242,6 @@
           "name" : "WEBHCAT_SERVER"
         },
         {
-          "name" : "SECONDARY_NAMENODE"
-        },
-        {
           "name" : "HST_AGENT"
         },
         {
@@ -2705,6 +3254,9 @@
           "name" : "SPARK_THRIFTSERVER"
         },
         {
+          "name" : "PHOENIX_QUERY_SERVER"
+        },
+        {
           "name" : "SPARK_CLIENT"
         },
         {
@@ -2714,10 +3266,141 @@
           "name" : "HDFS_CLIENT"
         },
         {
-          "name" : "MYSQL_SERVER"
+          "name" : "SQOOP"
         },
         {
           "name" : "HISTORYSERVER"
+        },
+        {
+          "name" : "PIG"
+        },
+        {
+          "name" : "MAPREDUCE2_CLIENT"
+        },
+        {
+          "name" : "DATANODE"
+        },
+        {
+          "name" : "HBASE_CLIENT"
+        },
+        {
+          "name" : "HIVE_CLIENT"
+        }
+      ],
+      "configurations" : [ ],
+      "name" : "host_group_2",
+      "cardinality" : "1"
+    },
+    {
+      "components" : [
+        {
+          "name" : "YARN_CLIENT"
+        },
+        {
+          "name" : "HDFS_CLIENT"
+        },
+        {
+          "name" : "SPARK2_CLIENT"
+        },
+        {
+          "name" : "SPARK2_THRIFTSERVER"
+        },
+        {
+          "name" : "METRICS_MONITOR"
+        },
+        {
+          "name" : "HBASE_MASTER"
+        },
+        {
+          "name" : "NAMENODE"
+        },
+        {
+          "name" : "TEZ_CLIENT"
+        },
+        {
+          "name" : "HST_AGENT"
+        },
+        {
+          "name" : "MAPREDUCE2_CLIENT"
+        },
+        {
+          "name" : "ZOOKEEPER_SERVER"
+        },
+        {
+          "name" : "DATANODE"
+        },
+        {
+          "name" : "LIVY2_SERVER"
+        },
+        {
+          "name" : "SPARK_JOBHISTORYSERVER"
+        },
+        {
+          "name" : "DRPC_SERVER"
+        }
+      ],
+      "configurations" : [ ],
+      "name" : "host_group_1",
+      "cardinality" : "1"
+    },
+    {
+      "components" : [
+        {
+          "name" : "NODEMANAGER"
+        },
+        {
+          "name" : "RANGER_TAGSYNC"
+        },
+        {
+          "name" : "SPARK2_CLIENT"
+        },
+        {
+          "name" : "METRICS_MONITOR"
+        },
+        {
+          "name" : "INFRA_SOLR_CLIENT"
+        },
+        {
+          "name" : "TEZ_CLIENT"
+        },
+        {
+          "name" : "ZOOKEEPER_CLIENT"
+        },
+        {
+          "name" : "HCAT"
+        },
+        {
+          "name" : "SPARK2_JOBHISTORYSERVER"
+        },
+        {
+          "name" : "SECONDARY_NAMENODE"
+        },
+        {
+          "name" : "HST_AGENT"
+        },
+        {
+          "name" : "SLIDER"
+        },
+        {
+          "name" : "HBASE_REGIONSERVER"
+        },
+        {
+          "name" : "SPARK_CLIENT"
+        },
+        {
+          "name" : "YARN_CLIENT"
+        },
+        {
+          "name" : "HDFS_CLIENT"
+        },
+        {
+          "name" : "SQOOP"
+        },
+        {
+          "name" : "HST_SERVER"
+        },
+        {
+          "name" : "SUPERVISOR"
         },
         {
           "name" : "PIG"
@@ -2742,174 +3425,67 @@
         }
       ],
       "configurations" : [ ],
-      "name" : "host_group_2",
-      "cardinality" : "1"
-    },
-    {
-      "components" : [
-        {
-          "name" : "LIVY_SERVER"
-        },
-        {
-          "name" : "SPARK2_CLIENT"
-        },
-        {
-          "name" : "METRICS_MONITOR"
-        },
-        {
-          "name" : "HBASE_MASTER"
-        },
-        {
-          "name" : "TEZ_CLIENT"
-        },
-        {
-          "name" : "ZOOKEEPER_CLIENT"
-        },
-        {
-          "name" : "HCAT"
-        },
-        {
-          "name" : "SPARK2_JOBHISTORYSERVER"
-        },
-        {
-          "name" : "ACTIVITY_ANALYZER"
-        },
-        {
-          "name" : "HST_AGENT"
-        },
-        {
-          "name" : "SLIDER"
-        },
-        {
-          "name" : "ZOOKEEPER_SERVER"
-        },
-        {
-          "name" : "METRICS_GRAFANA"
-        },
-        {
-          "name" : "SPARK_CLIENT"
-        },
-        {
-          "name" : "YARN_CLIENT"
-        },
-        {
-          "name" : "HDFS_CLIENT"
-        },
-        {
-          "name" : "HST_SERVER"
-        },
-        {
-          "name" : "NAMENODE"
-        },
-        {
-          "name" : "PIG"
-        },
-        {
-          "name" : "ACTIVITY_EXPLORER"
-        },
-        {
-          "name" : "MAPREDUCE2_CLIENT"
-        },
-        {
-          "name" : "DATANODE"
-        },
-        {
-          "name" : "HBASE_CLIENT"
-        },
-        {
-          "name" : "SPARK_JOBHISTORYSERVER"
-        },
-        {
-          "name" : "HIVE_CLIENT"
-        }
-      ],
-      "configurations" : [ ],
-      "name" : "host_group_1",
-      "cardinality" : "1"
-    },
-    {
-      "components" : [
-        {
-          "name" : "NODEMANAGER"
-        },
-        {
-          "name" : "RANGER_TAGSYNC"
-        },
-        {
-          "name" : "SPARK_CLIENT"
-        },
-        {
-          "name" : "YARN_CLIENT"
-        },
-        {
-          "name" : "HDFS_CLIENT"
-        },
-        {
-          "name" : "SPARK2_CLIENT"
-        },
-        {
-          "name" : "SPARK2_THRIFTSERVER"
-        },
-        {
-          "name" : "METRICS_MONITOR"
-        },
-        {
-          "name" : "TEZ_CLIENT"
-        },
-        {
-          "name" : "ZOOKEEPER_CLIENT"
-        },
-        {
-          "name" : "HCAT"
-        },
-        {
-          "name" : "PIG"
-        },
-        {
-          "name" : "HST_AGENT"
-        },
-        {
-          "name" : "MAPREDUCE2_CLIENT"
-        },
-        {
-          "name" : "SLIDER"
-        },
-        {
-          "name" : "ZOOKEEPER_SERVER"
-        },
-        {
-          "name" : "HBASE_REGIONSERVER"
-        },
-        {
-          "name" : "DATANODE"
-        },
-        {
-          "name" : "HBASE_CLIENT"
-        },
-        {
-          "name" : "LIVY2_SERVER"
-        },
-        {
-          "name" : "HIVE_CLIENT"
-        }
-      ],
-      "configurations" : [ ],
       "name" : "host_group_4",
       "cardinality" : "1"
     },
     {
       "components" : [
         {
+          "name" : "SPARK_CLIENT"
+        },
+        {
+          "name" : "YARN_CLIENT"
+        },
+        {
+          "name" : "HDFS_CLIENT"
+        },
+        {
+          "name" : "STORM_UI_SERVER"
+        },
+        {
+          "name" : "METRICS_MONITOR"
+        },
+        {
+          "name" : "NFS_GATEWAY"
+        },
+        {
+          "name" : "INFRA_SOLR_CLIENT"
+        },
+        {
+          "name" : "TEZ_CLIENT"
+        },
+        {
+          "name" : "ZEPPELIN_MASTER"
+        },
+        {
+          "name" : "NIMBUS"
+        },
+        {
+          "name" : "KNOX_GATEWAY"
+        },
+        {
+          "name" : "ACTIVITY_ANALYZER"
+        },
+        {
           "name" : "RANGER_ADMIN"
+        },
+        {
+          "name" : "ACTIVITY_EXPLORER"
         },
         {
           "name" : "HST_AGENT"
         },
         {
+          "name" : "MAPREDUCE2_CLIENT"
+        },
+        {
+          "name" : "ZOOKEEPER_SERVER"
+        },
+        {
           "name" : "AMBARI_SERVER"
         },
         {
-          "name" : "METRICS_MONITOR"
+          "name" : "INFRA_SOLR"
         },
         {
           "name" : "RANGER_USERSYNC"
@@ -2919,6 +3495,9 @@
         },
         {
           "name" : "METRICS_COLLECTOR"
+        },
+        {
+          "name" : "METRICS_GRAFANA"
         }
       ],
       "configurations" : [ ],

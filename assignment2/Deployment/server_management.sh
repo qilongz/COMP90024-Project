@@ -1,4 +1,4 @@
-# change /etc/hosts file
+# sudo vi /etc/hosts
 
 sudo apt-get update
 
@@ -8,7 +8,7 @@ sudo mount /dev/vdc /vdc
 sudo mkdir /vdc/usr
 sudo mkdir /vdc/usr/hdp
 sudo mkdir /vdc/hadoop
-sudo ln -s /vdc/hadoop/ /hadoop
+#sudo ln -s /vdc/hadoop/ /hadoop
 sudo ln -s /vdc/usr/hdp/ /usr/hdp
 
 
@@ -22,8 +22,8 @@ sudo apt-get update
 
 # cd ~
 
-sudo apt-get install postgresql postgresql-contrib
-sudo apt-get install libpostgresql-jdbc-java
+sudo apt-get --force-confdef -y install postgresql postgresql-contrib
+sudo apt-get --force-confdef -y install libpostgresql-jdbc-java
 #cd /var/lib/ambari-server/resources/
 #sudo ln -s /usr/share/java/postgresql.jar postgresql.jar
 #cd ~
@@ -34,19 +34,20 @@ sudo apt-get install libpostgresql-jdbc-java
 # sudo ufw allow 6080
 # sudo ufw allow 5432
 # sudo ufw allow 8080
-# sudo ufw allow from 115.146.86/24
+# sudo ufw allow 8020
+# sudo ufw allow from 115.146.86.0/24
 
-sudo apt-get install ambari-server
+sudo apt-get -y install ambari-server
 sudo ambari-server setup
 #sudo ambari-server setup --jdbc-db=mysql --jdbc-driver=/usr/share/java/mysql-connector-java.jar
 sudo ambari-server setup --jdbc-db=postgres --jdbc-driver=/usr/share/java/postgresql.jar
 sudo ambari-server start
 
 ## 
-#sudo vi /etc/systemd/system/disable-thp.service
-#sudo systemctl daemon-reload
-#sudo systemctl start disable-thp
-#sudo systemctl enable disable-thp
+# sudo vi /etc/systemd/system/disable-thp.service
+# sudo systemctl daemon-reload
+# sudo systemctl start disable-thp
+# sudo systemctl enable disable-thp
 
 ## remember to enable postgres connections
 #sudo vi /etc/postgresql/9.5/main/pg_hba.conf
@@ -58,8 +59,14 @@ sudo ambari-server start
 # sudo apt-get update
 # sudo apt-get install oracle-java8-installer
 #sudo apt-get install postgresql postgresql-contrib
+# CREATE USER ambari WITH PASSWORD 'T34m_f0rty!!';
+# CREATE DATABASE ambari OWNER = ambari;
 # CREATE USER hive WITH PASSWORD 'T34m_f0rty!!';
 # CREATE DATABASE hive OWNER = hive;
+# CREATE USER ambari WITH PASSWORD 'T34m_f0rty!!';
+# CREATE DATABASE ambari OWNER = ambari;
+# CREATE USER ranger WITH PASSWORD 'T34m_f0rty!!';
+# CREATE DATABASE ranger OWNER = ranger;
 
 #sudo -u postgres psql
 

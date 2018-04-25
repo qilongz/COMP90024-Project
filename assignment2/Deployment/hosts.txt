@@ -1,5 +1,5 @@
-115.146.86.134	r-kg0hmcw9-0.localdomain	r-kg0hmcw9-0	#management
-115.146.86.37	r-et2ittw0-0.localdomain	r-et2ittw0-0	#node0
-115.146.86.102	r-z07e5acg-0.localdomain	r-z07e5acg-0	#node1
-115.146.86.95	r-gb9inbwf-0.localdomain	r-gb9inbwf-0	#node2
+115.146.86.24	r-kal9pnly-0.localdomain	r-kal9pnly-0	#management
+115.146.86.32	r-9arp1kfy-0.localdomain	r-9arp1kfy-0	#node0
+115.146.86.158	r-rhq1jjbi-0.localdomain	r-rhq1jjbi-0	#node1
+115.146.86.37	r-hzgynely-0.localdomain	r-hzgynely-0	#node2
 
