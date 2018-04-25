@@ -51,8 +51,7 @@ def main(argv):
 		elif opt in ("-s", "--ec2SecretKey"):
 			ec2_secret_key = arg
 
-	hosts_file_content = """
-127.0.0.1       localhost
+	hosts_file_content = """127.0.0.1       localhost
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     localhost       ip6-localhost   ip6-loopback
@@ -108,7 +107,7 @@ ff02::2 ip6-allrouters
 
 		reservations = wait_for_instance (ec2_conn, reservation)
 
-		hosts += hosts_file_content + "{ip}\t{host}-0.localdomain\t{host}-0\t#node{number}\n".format (host=reservations[0].id, ip=reservations[0].instances[0].private_ip_address, number=i)
+		hosts += "{ip}\t{host}-0.localdomain\t{host}-0\t#node{number}\n".format (host=reservations[0].id, ip=reservations[0].instances[0].private_ip_address, number=i)
 		
 		print('\nID: {r_id}\tStatus: {r_status}\tIP: {r_ip}\tPlacement: {r_placement}'.format(
 			r_id=reservations[0].instances[0].id,
