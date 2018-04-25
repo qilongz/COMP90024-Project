@@ -1,0 +1,5 @@
+115.146.86.24	r-kal9pnly-0.localdomain	r-kal9pnly-0	#management
+115.146.86.32	r-9arp1kfy-0.localdomain	r-9arp1kfy-0	#node0
+115.146.86.158	r-rhq1jjbi-0.localdomain	r-rhq1jjbi-0	#node1
+115.146.86.37	r-hzgynely-0.localdomain	r-hzgynely-0	#node2
+
