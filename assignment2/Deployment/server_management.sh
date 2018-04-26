@@ -11,6 +11,8 @@ sudo mkdir /vdc/hadoop
 #sudo ln -s /vdc/hadoop/ /hadoop
 sudo ln -s /vdc/usr/hdp/ /usr/hdp
 
+# no need to change /etc/fstab, ambari automatically adds the entry
+# sudo vi -w /etc/fstab
 
 sudo wget -O /etc/apt/sources.list.d/ambari.list http://public-repo-1.hortonworks.com/ambari/ubuntu16/2.x/updates/2.6.1.5/ambari.list
 sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com B9733A7A07513CAD
@@ -22,8 +24,8 @@ sudo apt-get update
 
 # cd ~
 
-sudo apt-get --force-confdef -y install postgresql postgresql-contrib
-sudo apt-get --force-confdef -y install libpostgresql-jdbc-java
+sudo apt-get -y install postgresql postgresql-contrib
+sudo apt-get -y install libpostgresql-jdbc-java
 #cd /var/lib/ambari-server/resources/
 #sudo ln -s /usr/share/java/postgresql.jar postgresql.jar
 #cd ~
