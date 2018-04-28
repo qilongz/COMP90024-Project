@@ -3,6 +3,7 @@ import boto
 from boto.ec2.regioninfo import RegionInfo
 import getopt
 import time
+import config
 
 def wait_for_instance (ec2_conn, inst):
 	res = None
@@ -25,7 +26,6 @@ def wait_for_volume (ec2_conn, vol):
 			break
 	return curr_vols
 
-#
 # start of function mainetn
 #
 def main(argv):
@@ -35,7 +35,7 @@ def main(argv):
 	ec2_access_key = ""
 	ec2_secret_key = ""
 	try:
-		opts, args = getopt.getopt(argv[1:], "ha:s:", ["ec2AccessKey=", "ec2SecretKey="])
+		opts,   args = getopt.getopt(argv[1:], "ha:s:", ["ec2AccessKey=", "ec2SecretKey="])
 	except getopt.GetoptError:
 		print_help(file=sys.stderr)
 		sys.exit(2)

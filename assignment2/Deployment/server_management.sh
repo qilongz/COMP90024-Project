@@ -22,8 +22,8 @@ sudo apt-get update
 
 # cd ~
 
-sudo apt-get --force-confdef -y install postgresql postgresql-contrib
-sudo apt-get --force-confdef -y install libpostgresql-jdbc-java
+sudo apt-get -y install postgresql postgresql-contrib
+sudo apt-get -y install libpostgresql-jdbc-java
 #cd /var/lib/ambari-server/resources/
 #sudo ln -s /usr/share/java/postgresql.jar postgresql.jar
 #cd ~
@@ -78,3 +78,8 @@ sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsof
 sudo apt-get install apt-transport-https
 sudo apt-get update
 sudo apt-get install dotnet-sdk-2.1.105
+
+sudo apt-get install -y openjdk-8-jdk-headless 
+
+sudo apt-get update
+#sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install mypackage1 mypackage2

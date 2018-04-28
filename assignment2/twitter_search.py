@@ -107,13 +107,14 @@ def search(api, geo, query,limit,outfile):
                     #     logging.info("Ignored duplicate tweet.")
                     try:
                         with open(outfile, 'a+') as f:
-                            r = json.dumps(jtweet)
-                            f.write(r)
+                            json.dump(jtweet, f)
+                            f.write('\n')
                     except BaseException as e:
                         print("Error on_data: %s" % str(e))
                         time.sleep(5)
             # Output current number of tweets.
             tweet_count += len(new_tweets)
+            print (tweet_count)
             logging.info("Downloaded {0} tweets".format(tweet_count))
 
             # Track upper id.
