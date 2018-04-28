@@ -11,8 +11,8 @@ sudo mkdir /vdc/hadoop
 #sudo ln -s /vdc/hadoop/ /hadoop
 sudo ln -s /vdc/usr/hdp/ /usr/hdp
 
-# no need to change /etc/fstab, ambari automatically adds the entry
-# sudo vi -w /etc/fstab
+# need to change /etc/fstab
+sudo bash -c "echo '/dev/vdc        /vdc    auto    default 0       3' >> /etc/fstab"
 
 sudo wget -O /etc/apt/sources.list.d/ambari.list http://public-repo-1.hortonworks.com/ambari/ubuntu16/2.x/updates/2.6.1.5/ambari.list
 sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com B9733A7A07513CAD
@@ -80,3 +80,8 @@ sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsof
 sudo apt-get install apt-transport-https
 sudo apt-get update
 sudo apt-get install dotnet-sdk-2.1.105
+
+sudo apt-get install -y openjdk-8-jdk-headless 
+
+sudo apt-get update
+#sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install mypackage1 mypackage2
