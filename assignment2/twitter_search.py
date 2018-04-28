@@ -136,5 +136,5 @@ if __name__ == '__main__':
     query = args.query
     limit = 50
     query_fname = format_filename(query)
-    outfile = "%s/search_%s.json" % (args.data_dir, query_fname)
+    outfile = "%ssearch_%s.json" % (args.data_dir, query_fname)
     search(api,geo, query,limit,outfile)
