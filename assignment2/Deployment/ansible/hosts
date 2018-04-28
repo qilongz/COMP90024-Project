@@ -42,3 +42,11 @@
 
 ## db-[99:101]-node.example.com
 
+[mangementservers]
+115.146.86.24	
+
+[datanodeservers]
+115.146.86.32	
+115.146.86.158
+115.146.86.37	
+    
