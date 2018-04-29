@@ -17,7 +17,7 @@ sudo mkdir /vdc/usr/share/dotnet
 sudo ln -s /vdc/usr/share/dotnet/ /usr/share/dotnet
 
 # need to change /etc/fstab
-sudo bash -c "echo '/dev/vdc        /vdc    auto    default 0       3' >> /etc/fstab"
+sudo bash -c "echo '/dev/vdc /vdc ext4 rw,relatime,data=ordered 0 0' >> /etc/fstab"
 
 sudo wget -O /etc/apt/sources.list.d/ambari.list http://public-repo-1.hortonworks.com/ambari/ubuntu16/2.x/updates/2.6.1.5/ambari.list
 sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com B9733A7A07513CAD
