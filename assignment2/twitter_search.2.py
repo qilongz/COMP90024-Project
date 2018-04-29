@@ -1,12 +1,12 @@
 import tweepy
 from tweepy import OAuthHandler
-import json 
+#import json 
 import jsonpickle
 import config
 import logging
 import string
 import argparse
-
+import hdfs
 def get_parser():
     """Get parser for command line arguments."""
     parser = argparse.ArgumentParser(description="Twitter Searcher")
@@ -46,31 +46,42 @@ def convert_valid(one_char):
 
 def search(api,geo,query,startID,searchLimits,maxTweets,outfile):
     """Search for tweets via Twitter Search API."""
-    sinceId = startID
-    max_id = -1
+    print ("start",startID)
+    sinceId = None
+    max_id = startID
     tweetsCounts  = 0
-    with open (outfile,'w') as f:
+    finshed_job = False
+    with open (outfile,'w+') as f:
         while tweetsCounts < maxTweets:
             try:
                 if (max_id <= 0):
                     if (not sinceId):
                         new_tweets = api.search(
                             q = query,
+                            geocode = geo,
                             count = searchLimits)
                     else:
+                        print("wrong!!!!!")
                         new_tweets =  api.search(
                             q=query,
                             count = searchLimits,
                             geocode=geo,
                             sinceId = sinceId)
                 else:
-                    if(not sinceId):
-                        new_tweets=  api.search(
-                            q = query,
-                            geocode=geo,
-                            count = searchLimits)
+                    if (not sinceId):
+                        new_tweets = api.search(
+                            q=query, 
+                            count=searchLimits,
+                            geocode = geo,
+                            max_id=str(max_id - 1))
+                    else:
+                        new_tweets = api.search(
+                            q=query, 
+                            count=searchLimits,
+                            geocode = geo,
+                            max_id=str(max_id - 1),
+                            since_id=sinceId)
                 if not new_tweets:
-                    #print
                     finshed_job = True
                     break
                 for tweet in new_tweets:
@@ -83,9 +94,9 @@ def search(api,geo,query,startID,searchLimits,maxTweets,outfile):
             except tweepy.TweepError as e:
                 logging.error(str(e))
                 break
-    print(max_id)
-    startID = max_id
     f.close()
+    return finshed_job,max_id
+    
 
 if __name__ == '__main__':
     parser = get_parser()
@@ -95,9 +106,14 @@ if __name__ == '__main__':
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
     geo = config.Geocode
     query = args.query
-    limit = 100
-    maxTweets = 5000
+    searchLimits = 10
+    maxTweets = 100
     query_fname = format_filename(query)
-    startID = None
+    startID = -1
     outfile = "%s/search_%s.json" % (args.data_dir, query_fname)
-    search(api,geo,query,limit,startID,maxTweets,outfile)
+    finshed_job = False
+    while finshed_job == False:
+        finshed_job,startID = search(api,geo,query,startID,searchLimits,maxTweets,outfile)
+        #print('next loop id',startID)
+
+    
