@@ -85,3 +85,11 @@ sudo apt-get install -y openjdk-8-jdk-headless
 
 sudo apt-get update
 #sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install mypackage1 mypackage2
+
+
+# sudo useradd -G team40 qilong
+
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
+sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+sudo apt-get update
+sudo apt-get install r-base -y
