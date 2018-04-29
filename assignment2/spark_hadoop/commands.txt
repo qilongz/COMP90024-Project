@@ -1,0 +1,5 @@
+export SPARK_HOME=/usr/hdp/current/spark2-client/
+
+curl -i -L "http://r-9arp1kfy-0.localdomain:50070/webhdfs/v1/user/nikikiq/nia_test/output/part-00000?user=nikikiq&op=OPEN"
+
+/usr/hdp/current/spark2-client/bin/spark-submit     --master yarn     --deploy-mode cluster        /vdc/team40/nia_test/test01.py
