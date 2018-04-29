@@ -10,6 +10,9 @@ sudo mkdir /vdc/usr/hdp
 sudo mkdir /vdc/hadoop
 #sudo ln -s /vdc/hadoop/ /hadoop
 sudo ln -s /vdc/usr/hdp/ /usr/hdp
+sudo mkdir /vdc/usr/share
+sudo mkdir /vdc/usr/share/dotnet
+sudo ln -s /vdc/usr/share/dotnet/ /usr/share/dotnet
 
 # need to change /etc/fstab
 sudo bash -c "echo '/dev/vdc        /vdc    auto    default 0       3' >> /etc/fstab"
