@@ -1,4 +1,6 @@
 # sudo vi /etc/hosts
+# sudo du -a / | sort -n -r | head -n 20
+# df -h
 
 sudo apt-get update
 
@@ -96,3 +98,28 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD
 sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
 sudo apt-get update
 sudo apt-get install r-base -y
+sudo apt-get install libssl-dev -y
+sudo apt-get install libxml2-dev -y
+sudo apt-get install -y curl
+sudo apt-get install -y httr
+sudo apt-get install -y libcurl4-openssl-dev
+sudo apt-get install -y libudunits2-dev
+sudo apt-get install -y libpq-dev
+sudo apt-get install -y libgdal-dev
+sudo apt-get install -y libgeos-dev
+
+sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
+sudo apt-get update
+sudo apt-get install -y libudunits2-dev libgdal-dev libgeos-dev libproj-dev 
+sudo apt-get install -y libcairo2-dev
+sudo apt-get install -y libxt-dev
+
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+sudo add-apt-repository -y ppa:opencpu/jq
+sudo apt-get update
+sudo apt-get install -y libjq-dev
+sudo apt-get install -y libprotobuf-dev
+sudo apt-get install -y libv8-dev
+sudo apt-get install -y protobuf-compiler 
+
+sudo pip install pyspark
