@@ -112,5 +112,5 @@ if __name__ == '__main__':
         finshed_job,startID = search(api,geo,query,startID,searchLimits,maxTweets,outfile)
         destination_dir = '/team40/search_data/'+datetime.datetime.now().strftime("%y-%m-%d-%H-%M-%S-") + outfile
         with open(outfile) as f:
-             hdfs.create_file(destination_dir, file_data=f)
+             hdfs.write(destination_dir, data=f)
         
