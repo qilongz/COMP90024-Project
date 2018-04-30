@@ -15,14 +15,23 @@ import time
 import argparse
 import string
 import json
+import config
 
-twitter_info = json.load(open('twitter_config.json'))
-consumer_key = twitter_info['api_key']['consumer_key']
-consumer_secret = twitter_info['api_key']['consumer_secret']
-access_token = twitter_info['api_key']['access_token']
-access_secret = twitter_info['api_key']['access_secret']
-ausCoordinates = twitter_info['harvest_config']['ausCoordinates']
+# with open ('twitter_config.json') as f:
+# 	twitter_info = json.load(f)
+# 	consumer_key = twitter_info['api_key']['consumer_key']
+# 	consumer_secret = twitter_info['api_key']['consumer_secret']
+# 	access_token = twitter_info['api_key']['access_token']
+# 	access_secret = twitter_info['api_key']['access_secret']
+# 	ausCoordinates = twitter_info['harvest_config']['ausCoordinates']
+# f.close()
 
+
+consumer_key = config.consumer_key
+consumer_secret = config.consumer_secret
+access_token = config.access_token
+access_secret = config.access_secret
+ausCoordinates = config.ausCoordinates
 
 
 def get_parser():
@@ -87,7 +96,7 @@ if __name__ == '__main__':
 	auth.set_access_token(access_token, access_secret)
 	api = tweepy.API(auth)
 	client = InsecureClient('http://115.146.86.32:50070', user='qilongz')
-	hdfs_path = '/team40/stream_data/stream_data.json'
+	hdfs_path = '/team40/stream_data/stream_data_2.json'
 	if client.status(hdfs_path,strict = False) == None:
 		client.write(hdfs_path,'')
 	twitter_stream = Stream(auth, MyListener(args.query))
