@@ -1,15 +1,15 @@
 import tweepy
 from tweepy import OAuthHandler
 import json 
-import jsonpickle
 import config
 import logging
 import string
 import argparse
+import time
 
 def get_parser():
     """Get parser for command line arguments."""
-    parser = argparse.ArgumentParser(description="Twitter Searcher")
+    parser = argparse.ArgumentParser(description="Twitter Downloader")
     parser.add_argument("-q",
                         "--query",
                         dest="query",
@@ -44,48 +44,88 @@ def convert_valid(one_char):
     else:
         return '_'
 
-def search(api,geo,query,startID,searchLimits,maxTweets,outfile):
+def search(api, geo, query,limit,outfile):
     """Search for tweets via Twitter Search API."""
-    sinceId = startID
-    max_id = -1
-    tweetsCounts  = 0
-    with open (outfile,'w') as f:
-        while tweetsCounts < maxTweets:
-            try:
-                if (max_id <= 0):
-                    if (not sinceId):
-                        new_tweets = api.search(
-                            q = query,
-                            count = searchLimits)
-                    else:
-                        new_tweets =  api.search(
-                            q=query,
-                            count = searchLimits,
-                            geocode=geo,
-                            sinceId = sinceId)
+    # Track the upper and lower bound of each returned set.
+    lower_id = None
+    upper_id = -1
+
+    # Track number of tweets returned in total.
+    tweet_count = 0
+    hdfs = PyWebHdfsClient(host='r-9arp1kfy-0.localdomain',port='50070', user_name='qilongz')
+    # Pull tweets until erorr or no more to process.
+    while True:
+        try:
+            if (upper_id <= 0):
+                if (not lower_id):
+                    new_tweets = api.search(
+                        q=query,
+                        geocode=geo,
+                        count=limit
+                    )
+
                 else:
-                    if(not sinceId):
-                        new_tweets=  api.search(
-                            q = query,
-                            geocode=geo,
-                            count = searchLimits)
-                if not new_tweets:
-                    #print
-                    finshed_job = True
-                    break
-                for tweet in new_tweets:
-                    if tweet.coordinates or tweet.place:
-                        f.write(jsonpickle.encode(tweet._json, unpicklable=False) +'\n')
-                tweetsCounts += len(new_tweets)
-                print("Downloaded {0} tweets".format(tweetsCounts))
-                max_id = new_tweets[-1].id
-            # Exit upon error.
-            except tweepy.TweepError as e:
-                logging.error(str(e))
+                    new_tweets = api.search(
+                        q=query,
+                        geocode=geo,
+                        count=limit,
+                        since_id=lower_id
+                    )
+            else:
+                if (not lower_id):
+                    new_tweets = api.search(
+                        q=query,
+                        geocode=geo,
+                        count=limit,
+                        upper_id=str(upper_id - 1)
+                    )
+                else:
+                    new_tweets = api.search(
+                        q=query,
+                        geocode=geo,
+                        count=limit,
+                        upper_id=str(upper_id - 1),
+                        since_id=lower_id
+                    )
+
+            # Exit when no new tweets are found.
+            if not new_tweets:
+                logging.info("No more tweets to read.")
                 break
-    print(max_id)
-    startID = max_id
-    f.close()
+
+            # Process received tweets.
+            for tweet in new_tweets:
+
+                jtweet = tweet._json
+
+                # # Only store tweets that have location we can use.
+                if tweet.coordinates or tweet.place:
+                    jtweet['_id'] = str(jtweet['id'])
+                    # try:
+                    #     self.db.save(jtweet)
+                    # except couchdb.http.ResourceConflict:
+                    #     logging.info("Ignored duplicate tweet.")
+                    try:
+                        # with open(outfile, 'a+') as f:
+                        #     json.dump(jtweet, f)
+                        #     f.write('\n')
+
+                    except BaseException as e:
+                        print("Error on_data: %s" % str(e))
+                        time.sleep(5)
+            # Output current number of tweets.
+            tweet_count += len(new_tweets)
+            print (tweet_count)
+            logging.info("Downloaded {0} tweets".format(tweet_count))
+
+            # Track upper id.
+            upper_id = new_tweets[-1].id
+
+        # Exit upon error.
+        except tweepy.TweepError as e:
+            logging.error(str(e))
+            break
+
 
 if __name__ == '__main__':
     parser = get_parser()
@@ -95,9 +135,8 @@ if __name__ == '__main__':
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
     geo = config.Geocode
     query = args.query
-    limit = 100
-    maxTweets = 5000
+    limit = 50
     query_fname = format_filename(query)
-    startID = None
-    outfile = "%s/search_%s.json" % (args.data_dir, query_fname)
-    search(api,geo,query,limit,startID,maxTweets,outfile)
+    outfile = "%ssearch_%s.json" % (args.data_dir, query_fname)
+    my_file = '/user/team40/' + outfile
+    search(api,geo,query,limit,my_file)

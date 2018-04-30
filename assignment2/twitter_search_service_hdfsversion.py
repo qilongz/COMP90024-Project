@@ -1,12 +1,13 @@
 import tweepy
 from tweepy import OAuthHandler
-#import json 
 import jsonpickle
 import config
 import logging
 import string
 import argparse
+import datetime
 import hdfs
+from hdfs import InsecureClient
 def get_parser():
     """Get parser for command line arguments."""
     parser = argparse.ArgumentParser(description="Twitter Searcher")
@@ -15,10 +16,6 @@ def get_parser():
                         dest="query",
                         help="Query/Filter",
                         default='-')
-    parser.add_argument("-d",
-                        "--data-dir",
-                        dest="data_dir",
-                        help="Output/Data Directory")
     return parser
 
 
@@ -46,7 +43,6 @@ def convert_valid(one_char):
 
 def search(api,geo,query,startID,searchLimits,maxTweets,outfile):
     """Search for tweets via Twitter Search API."""
-    print ("start",startID)
     sinceId = None
     max_id = startID
     tweetsCounts  = 0
@@ -61,7 +57,6 @@ def search(api,geo,query,startID,searchLimits,maxTweets,outfile):
                             geocode = geo,
                             count = searchLimits)
                     else:
-                        print("wrong!!!!!")
                         new_tweets =  api.search(
                             q=query,
                             count = searchLimits,
@@ -82,6 +77,7 @@ def search(api,geo,query,startID,searchLimits,maxTweets,outfile):
                             max_id=str(max_id - 1),
                             since_id=sinceId)
                 if not new_tweets:
+                    print("NO MORE TWEETS")
                     finshed_job = True
                     break
                 for tweet in new_tweets:
@@ -90,7 +86,6 @@ def search(api,geo,query,startID,searchLimits,maxTweets,outfile):
                 tweetsCounts += len(new_tweets)
                 print("Downloaded {0} tweets".format(tweetsCounts))
                 max_id = new_tweets[-1].id
-            # Exit upon error.
             except tweepy.TweepError as e:
                 logging.error(str(e))
                 break
@@ -106,14 +101,16 @@ if __name__ == '__main__':
     api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
     geo = config.Geocode
     query = args.query
-    searchLimits = 10
-    maxTweets = 100
+    searchLimits = 100
+    maxTweets = 100000
     query_fname = format_filename(query)
     startID = -1
-    outfile = "%s/search_%s.json" % (args.data_dir, query_fname)
+    outfile = "search_%s.json" % (query_fname)
     finshed_job = False
+    hdfs = InsecureClient('http://115.146.86.32:50070', user='qilongz')
     while finshed_job == False:
         finshed_job,startID = search(api,geo,query,startID,searchLimits,maxTweets,outfile)
-        #print('next loop id',startID)
-
-    
+        destination_dir = '/team40/search_data/'+datetime.datetime.now().strftime("%y-%m-%d-%H-%M-%S-") + outfile
+        with open(outfile) as f:
+             hdfs.create_file(destination_dir, file_data=f)
+        
