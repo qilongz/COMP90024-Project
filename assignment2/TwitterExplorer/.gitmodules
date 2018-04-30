@@ -1,0 +1,3 @@
+[submodule "vadersharp"]
+	path = vadersharp
+	url = https://github.com/codingupastorm/vadersharp.git

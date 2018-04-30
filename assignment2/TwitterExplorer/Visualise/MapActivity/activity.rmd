@@ -1,0 +1,93 @@
+---
+title: "Exploration of Twitter Activity over Melbourne 2018"
+author: Anthony Kelly
+date: '`r format(Sys.Date(), "%d %B %Y")`'
+output: html_document
+---
+
+
+```{r setup, echo=FALSE, message=FALSE, warning = FALSE}
+
+library(tidyverse)
+library(lubridate)
+library(ggmap)
+library(scales)
+
+knitr::opts_chunk$set(fig.width = 12, fig.height = 10)
+readr.show_progress=FALSE
+
+insta <- read_delim("E:\\uni\\Cluster and Cloud Computing\\assign2\\TwitterExplore\\Extracts\\TwitterExplore\\bin\\location-2018.csv", ",", col_types = "nnn", quote = '', progress = FALSE)
+
+oz <- filter(insta, 113 < Xloc & Xloc < 154, -44 < Yloc & Yloc < -10.5)
+region <- c(left = 144.71, right = 145.1, top = -37.6, bottom = -38)
+innermelb <- filter(oz, region['left'] <= Xloc & Xloc <= region['right'],
+region['top'] >= Yloc & Yloc >= region['bottom'])
+
+```
+
+
+zooming in the Australia
+
+```{r echo=FALSE, warning=FALSE }
+
+pts <- oz %>%   
+mutate(Xloc = round(Xloc, 3), Yloc = round(Yloc, 3)) %>%
+select(Xloc,Yloc) %>%
+distinct(Xloc,Yloc)    
+
+qmplot(Xloc, Yloc, data = pts, maptype = "toner-lite", color = I('red'), alpha = 0.5, zoom =10) + theme(legend.position = "none")
+
+```
+
+
+distribution of posts in Melbourne
+
+```{r echo=FALSE,fig.height = 12,warning = FALSE}
+
+pts <- innermelb %>%  
+mutate(Xloc = round(Xloc, 4), Yloc = round(Yloc, 4)) %>%
+mutate(Coord = paste(Xloc, Yloc, sep = ':')) %>%
+group_by(Coord) %>%
+summarise(Freq = n()) %>%
+separate(Coord, into = c('Xloc', 'Yloc'), sep = ':') %>%
+mutate(Xloc = as.numeric(Xloc), Yloc = as.numeric(Yloc))
+
+
+ggmap(get_stamenmap(region, zoom = 11, maptype = "toner-lite")) +
+stat_density_2d(data = pts, aes(x = Xloc, y = Yloc, fill = ..level..), geom = "polygon", alpha = 0.5) +
+scale_fill_distiller(palette = "Spectral") +
+geom_point(data = pts, aes(x = Xloc, y = Yloc, size = Freq, alpha = Freq), color = 'navy') +
+scale_alpha(trans = 'log10') + xlab('Longitude')+ylab('Latitude') +
+theme(legend.position = "none")
+
+```
+
+
+
+distribution of posts in inner Melbourne
+
+```{r echo=FALSE,fig.height = 12,warning = FALSE}
+
+
+region <- c(left = 144.925, right = 145, top = -37.775, bottom = -37.875)
+innermelb <- filter(oz, region['left'] <= Xloc & Xloc <= region['right'],
+region['top'] >= Yloc & Yloc >= region['bottom'])
+
+pts <- innermelb %>%  
+mutate(Xloc = round(Xloc, 4), Yloc = round(Yloc, 4)) %>%
+mutate(Coord = paste(Xloc, Yloc, sep = ':')) %>%
+group_by(Coord) %>%
+summarise(Freq = n()) %>%
+separate(Coord, into = c('Xloc', 'Yloc'), sep = ':') %>%
+mutate(Xloc = as.numeric(Xloc), Yloc = as.numeric(Yloc))
+
+
+ggmap(get_stamenmap(region, zoom = 14,  maptype = "toner-lite")) +
+stat_density_2d(data = pts, aes(x = Xloc, y = Yloc, fill = ..level..), geom = "polygon", alpha = 0.5) +
+scale_fill_distiller(palette = "Spectral") +
+geom_point(data = pts, aes(x = Xloc, y = Yloc, size = Freq, alpha = Freq), color = 'navy') +
+scale_alpha(trans = 'log10') + xlab('Longitude')+ylab('Latitude') +
+theme(legend.position = "none")
+
+
+```
