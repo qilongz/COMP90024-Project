@@ -10,6 +10,41 @@ namespace TwitterUtil.Geo
     }
 
 
+    public class OrderedFeatures
+    {
+        private readonly SortedList<double, List<Feature>> _list;
+        private readonly List<double> _lons;
+
+        // save some processing time as ordered by in longitude
+
+        public OrderedFeatures(IEnumerable<Feature> src)
+        {
+            _list = new SortedList<double, List<Feature>>(src.GroupBy(x => x.BoundedBy.Xmax)
+                .ToDictionary(x => x.Key, x => x.ToList()));
+            _lons = _list.Keys.ToList();
+        }
+
+        public IEnumerable<Feature> BoundariesContainingPoint(LatLong pt)
+        {
+            // always step backwards to ensure start to the left of the possible boundary
+            var offset = _lons.BinarySearch(pt.Lon);
+            if (offset < 0) offset = ~offset - 1;
+            if (offset < 0) offset = 0;
+
+
+            // jump to nearest guess, then linearly scan all remainder
+
+            for (; offset < _lons.Count; offset++)
+            {
+                var series = _list.Values[offset];
+                foreach (var feat in series)
+                    if (feat.BoundedBy.InBox(pt))
+                        yield return feat;
+            }
+        }
+    }
+
+
     [DataContract]
     public class Feature
     {

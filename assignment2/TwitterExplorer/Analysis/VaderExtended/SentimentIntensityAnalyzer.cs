@@ -12,12 +12,14 @@ namespace VaderExtended
     /// </summary>
     public class SentimentIntensityAnalyzer
     {
-       // @"\b[^ '""]+\b"
+        // @"\b[^ '""]+\b"
 
         private const double ExclIncr = 0.292;
         private const double QuesIncrSmall = 0.18;
         private const double QuesIncrLarge = 0.96;
-        public Regex StripPunc = new Regex(@"([ \.,\?\!]*)([^ ,\.]+)([ \.,\?\!]*)", RegexOptions.Compiled | RegexOptions.Multiline);
+
+        public Regex StripPunc = new Regex(@"([ \.,\?\!]*)([^ ,\.]+)([ \.,\?\!]*)",
+            RegexOptions.Compiled | RegexOptions.Multiline);
 
         public Regex SubsubstituteEmoji = new Regex(@"\p{So}|\p{Cs}", RegexOptions.Compiled | RegexOptions.Multiline);
 
@@ -50,13 +52,18 @@ namespace VaderExtended
             }
         }
 
+        public SentimentIntensityAnalyzer(SentimentIntensityAnalyzer src)
+        {
+            Lexicon = src.Lexicon;
+            Emojicon = src.Emojicon;
+        }
+
         public Dictionary<string, double> Lexicon { get; }
         public Dictionary<string, string> Emojicon { get; }
 
 
-    
         //     Return metrics for positive, negative and neutral sentiment based on the input text.
-      
+
         public SentimentAnalysisResults PolarityScores(string input)
         {
             var sentiText = new SentiText(this, input);
@@ -223,11 +230,11 @@ namespace VaderExtended
 
         private double IdiomsCheck(double valence, List<string> lcWords, int i)
         {
-            var oneZero      = $"{lcWords[i - 1]} {lcWords[i]}";
-            var twoOneZero   = $"{lcWords[i - 2]} {lcWords[i - 1]} {lcWords[i]}";
-            var twoOne       = $"{lcWords[i - 2]} {lcWords[i - 1]}";
-            var threeTwoOne  = $"{lcWords[i - 3]} {lcWords[i - 2]} {lcWords[i - 1]}";
-            var threeTwo     = $"{lcWords[i - 3]} {lcWords[i - 2]}";
+            var oneZero = $"{lcWords[i - 1]} {lcWords[i]}";
+            var twoOneZero = $"{lcWords[i - 2]} {lcWords[i - 1]} {lcWords[i]}";
+            var twoOne = $"{lcWords[i - 2]} {lcWords[i - 1]}";
+            var threeTwoOne = $"{lcWords[i - 3]} {lcWords[i - 2]} {lcWords[i - 1]}";
+            var threeTwo = $"{lcWords[i - 3]} {lcWords[i - 2]}";
 
             string[] sequences = {oneZero, twoOneZero, twoOne, threeTwoOne, threeTwo};
 
@@ -254,7 +261,7 @@ namespace VaderExtended
                     valence = SentimentUtils.SpecialCaseIdioms[zeroOneTwo];
             }
 
-            if (SentimentUtils.BoosterDict.ContainsKey(threeTwo) || 
+            if (SentimentUtils.BoosterDict.ContainsKey(threeTwo) ||
                 SentimentUtils.BoosterDict.ContainsKey(twoOne))
                 valence += SentimentUtils.BDecr;
 

@@ -2,7 +2,7 @@
 
 namespace TwitterUtil.Geo
 {
-    public class StatAreaLocation : IComparable<StatAreaLocation>, IEquatable<StatAreaLocation>
+    public struct StatAreaLocation : IComparable<StatAreaLocation>, IEquatable<StatAreaLocation>
     {
         public StatAreaLocation(long id, string name)
         {
@@ -16,5 +16,8 @@ namespace TwitterUtil.Geo
 
         public int CompareTo(StatAreaLocation other) => Id.CompareTo(other.Id);
         public bool Equals(StatAreaLocation other) => Id == other.Id;
+
+
+        public static StatAreaLocation Null() => new StatAreaLocation(0, "");
     }
 }
