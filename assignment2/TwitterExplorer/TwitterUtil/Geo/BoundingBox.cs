@@ -51,5 +51,12 @@ namespace TwitterUtil.Geo
             return Xmin <= longitude && longitude <= Xmax &&
                    Ymin <= latitude && latitude <= Ymax;
         }
+
+
+        public bool InBox(LatLong pt)
+        {
+            return Xmin <= pt.Lon && pt.Lon <= Xmax &&
+                   Ymin <= pt.Lat && pt.Lat <= Ymax;
+        }
     }
 }

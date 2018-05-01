@@ -1,14 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using TwitterUtil.Geo;
 
-namespace AnotateWithAurin
+namespace TwitterUtil.Geo
 {
     [CollectionDataContract]
     public class Features : List<Feature>
     {
+        
     }
+
+
+   
+
 
 
     [DataContract]

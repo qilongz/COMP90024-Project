@@ -71,7 +71,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VaderExtensionsTest", "Vade
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VaderExtended", "Analysis\VaderExtended\VaderExtended.csproj", "{395BE9CA-3876-4325-80E7-F2C01E1176C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VaderExtendedTests", "Analysis\VaderExtendedTests\VaderExtendedTests.csproj", "{DD2A238E-10C6-4589-B2DC-892A7C3E7D73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VaderExtendedTests", "Analysis\VaderExtendedTests\VaderExtendedTests.csproj", "{DD2A238E-10C6-4589-B2DC-892A7C3E7D73}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SentimentBySA", "Analysis\SentimentBySA\SentimentBySA.csproj", "{46300070-837B-45E5-94CE-29B771FDEEB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +133,10 @@ Global
 		{DD2A238E-10C6-4589-B2DC-892A7C3E7D73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD2A238E-10C6-4589-B2DC-892A7C3E7D73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD2A238E-10C6-4589-B2DC-892A7C3E7D73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46300070-837B-45E5-94CE-29B771FDEEB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46300070-837B-45E5-94CE-29B771FDEEB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46300070-837B-45E5-94CE-29B771FDEEB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46300070-837B-45E5-94CE-29B771FDEEB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +155,7 @@ Global
 		{CB42787F-4112-40F0-92E8-E40D1C83E2B3} = {D7F562FB-0CC1-46E1-9994-4A4764E2396E}
 		{395BE9CA-3876-4325-80E7-F2C01E1176C5} = {D7F562FB-0CC1-46E1-9994-4A4764E2396E}
 		{DD2A238E-10C6-4589-B2DC-892A7C3E7D73} = {D7F562FB-0CC1-46E1-9994-4A4764E2396E}
+		{46300070-837B-45E5-94CE-29B771FDEEB9} = {D7F562FB-0CC1-46E1-9994-4A4764E2396E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {70F865BA-260D-48C6-B58B-6E520FDD457E}

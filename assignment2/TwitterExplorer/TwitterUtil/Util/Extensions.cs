@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TwitterUtil.Util
 {
@@ -13,6 +11,11 @@ namespace TwitterUtil.Util
                        .Replace("\r", @"\r")
                        .Replace("\n", @"\n")
                        .Replace("\"", "\"\"") + '"';
+        }
+
+        public static T ToEnum<T>(this string src) where T : struct, IConvertible
+        {
+            return (T) Enum.Parse(typeof(T), src, true);
         }
     }
 }
