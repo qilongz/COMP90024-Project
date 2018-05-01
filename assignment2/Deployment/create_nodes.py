@@ -93,14 +93,14 @@ ff02::2 ip6-allrouters
 	region = RegionInfo(name='melbourne', endpoint='nova.rc.nectar.org.au')
 	ec2_conn = boto.connect_ec2(aws_access_key_id=ec2_access_key,aws_secret_access_key=ec2_secret_key,is_secure=True,region=region,port=8773,path='/services/Cloud',validate_certs=False)
 
-
+	vol_mapping=""
 	#Create instance with defualt value.
 	for i in range(num_nodes):
 		#'ami-00003a61'
 		reservation = ec2_conn.run_instances('ami-00003a61',
 			key_name='team40',
 			instance_type='m1.medium',
-			security_groups=['default','ssh','subnet_free_access'],
+			security_groups=['default','ssh','subnet_free_access','hadoop'],
 			placement='melbourne-qh2')
 
 		reservations = wait_for_instance (ec2_conn, reservation)
@@ -112,12 +112,20 @@ ff02::2 ip6-allrouters
 			r_status=reservations[0].instances[0].state,
 			r_ip=reservations[0].instances[0].private_ip_address,
 			r_placement=reservations[0].instances[0].placement))		
-
+		
+		
+		
+		#vol-632ca5ac	70	r-9arp1kfy-0
 		#vol_req	= ec2_conn.create_volume(70,'melbourne-qh2')
 
 		#vol_req = wait_for_volume (ec2_conn, vol_req)
 		#print('Volume status: {}, volume AZ: {}'.format(vol_req[0].status, vol_req[0].zone))
 		#ec2_conn.attach_volume(vol_req[0].id,reservations[0].instances[0].id,'/dev/vdc')	
+
+		#vol-632ca5ac	70	r-9arp1kfy-0
+
+	""" 		vol_mapping += '{}\t{}\t{}-0\n'.format(vol_req[0].id,70,reservations[0].id """
+		
 		
 	hosts_file_content += hosts
 
@@ -126,6 +134,9 @@ ff02::2 ip6-allrouters
 
 	with open("./new_hosts.txt", "w") as host_list_file:
 		print(hosts, file=host_list_file)
+
+""" 	with open("./new_vol_mapping.txt", "w") as vol_map_file:
+		print(vol_mapping, file=vol_map_file) """
 
 	#print all reverations
 	# reservations = ec2_conn.get_all_reservations()

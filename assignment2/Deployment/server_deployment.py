@@ -77,7 +77,7 @@ ff02::2 ip6-allrouters
 	reservation = ec2_conn.run_instances('ami-00003a61',
 		key_name='team40',
 		instance_type='m1.medium',
-		security_groups=['default','ssh','subnet_free_access','ambari'],
+		security_groups=['default','ssh','subnet_free_access','ambari','hadoop'],
 		placement='melbourne-qh2')
 
 	reservations = wait_for_instance (ec2_conn, reservation)
@@ -102,7 +102,7 @@ ff02::2 ip6-allrouters
 		reservation = ec2_conn.run_instances('ami-00003a61',
 			key_name='team40',
 			instance_type='m1.medium',
-			security_groups=['default','ssh','subnet_free_access'],
+			security_groups=['default','ssh','subnet_free_access','hadoop'],
 			placement='melbourne-qh2')
 
 		reservations = wait_for_instance (ec2_conn, reservation)
