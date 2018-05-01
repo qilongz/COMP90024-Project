@@ -10,6 +10,9 @@ namespace SentimentBySA
 {
     internal class Program
     {
+        private const string loc = @"A:\aurin";
+
+
         private static void Main(string[] args)
         {
             var analyzer = new SentimentIntensityAnalyzer();
@@ -17,13 +20,23 @@ namespace SentimentBySA
 
             var sad = new SADictionary();
 
+            const string xmlTemplate = @"medians-{1}p02.xml";
+            var cfg = new[] {StatArea.SA4, StatArea.SA3, StatArea.SA2, StatArea.SA1};
+
+
             // location feature sets
+            var saLoader = new LoadStatisticalAreas();
+            foreach (var area in cfg)
+            {
+                var xmlFile = Path.Combine(loc, string.Format(xmlTemplate, loc, area.ToString().ToLower()));
+                var features = saLoader.GetFeatures(xmlFile);
+                sad.SASets.Add(area, features);
+            }
 
 
-            const string src =
-                @"C:\Users\apk\ccviews\uni\TwitterExplore\Extracts\ExtractAll\bin\twitter-geotagged-posters.json";
+            var dataSrc = "twitter-extract-all.json";
 
-            var geoPosts = new JsonRead<TagPosterDetails>(src);
+            var geoPosts = new JsonRead<TagPosterDetails>(Path.Combine(loc, dataSrc));
             geoPosts.DoLoad();
 
 
@@ -37,28 +50,34 @@ namespace SentimentBySA
                 var regions = sad.WhatRegions(pt);
                 var res = analyzer.PolarityScores(post.Text);
 
+                // NEED TIME OF DAY ASWELL 
+
                 ratings.Add(new Tuple<double, string, StatisticalAreaClassification>(
                     res.Compound, post.Text, regions));
             }
 
             // collates stats & output
-            foreach (var sa in new[] {StatArea.SA1, StatArea.SA2, StatArea.SA3, StatArea.SA4})
+            foreach (var sa in cfg)
+            {
+                var clusteredBySa = ratings
+                    .Where(x => x.Item3.Regions.ContainsKey(sa))
+                    .Select(x => new KeyValuePair<long, double>(x.Item3.Regions[sa].Id, x.Item1))
+                    .ToLookup(x => x.Key);
+
                 using (var of = new StreamWriter($@"..\..\SentimentByRegion-{sa}.csv"))
                 {
                     of.WriteLine("RegionId,Name,Observations,Sentiment");
 
                     // collate regional averages
-                    foreach (var rec in ratings
-                        .Where(x => x.Item3.Regions.ContainsKey(sa))
-                        .Select(x => new {Loc = x.Item3.Regions[sa], Sentiment = x.Item1})
-                        .GroupBy(x => x.Loc).ToList())
+                    foreach (var rec in clusteredBySa)
                     {
                         var count = rec.Count();
-                        var avg = rec.Average(x => x.Sentiment);
+                        var avg = rec.Average(x => x.Value);
 
-                        of.WriteLine($"{rec.Key.Id}\t{rec.Key.Name}\t{count}\t{avg:F3}");
+                        of.WriteLine($"{rec.Key}\t{sad.SANames[sa][rec.Key]}\t{count}\t{avg:F3}");
                     }
                 }
+            }
         }
     }
 }

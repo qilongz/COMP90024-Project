@@ -25,7 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{5424F702
 		Json Handling.txt = Json Handling.txt
 		more curl.txt = more curl.txt
 		..\nectar notes.txt = ..\nectar notes.txt
-		summary.txt = summary.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{581353E4-E215-4AE9-8B8B-D2E3D2708C8D}"

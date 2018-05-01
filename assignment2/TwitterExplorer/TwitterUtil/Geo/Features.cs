@@ -7,12 +7,7 @@ namespace TwitterUtil.Geo
     [CollectionDataContract]
     public class Features : List<Feature>
     {
-        
     }
-
-
-   
-
 
 
     [DataContract]

@@ -1,14 +1,11 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace TwitterUtil.Geo
 {
     [DataContract]
-    public class LatLong
+    public struct LatLong : IEquatable<LatLong>, IComparable<LatLong>
     {
-        public LatLong()
-        {
-        }
-
         public LatLong(double lon, double lat)
         {
             Lat = lat;
@@ -22,8 +19,26 @@ namespace TwitterUtil.Geo
             Lat = double.Parse(lonLat.Substring(sep + 1));
         }
 
-        [DataMember] public double Lat { get; private set; }
-        [DataMember] public double Lon { get; private set; }
+        [DataMember] public double Lat { get; }
+        [DataMember] public double Lon { get; }
+
+        public int CompareTo(LatLong other)
+        {
+            var res = Lat.CompareTo(other.Lat);
+            if (res != 0) return res;
+
+            return Lon.CompareTo(other.Lon);
+        }
+
+        public bool Equals(LatLong other)
+        {
+            return Lat.Equals(other.Lat) && Lon.Equals(other.Lon);
+        }
+
+        public override int GetHashCode()
+        {
+            return Lat.GetHashCode() ^ Lon.GetHashCode();
+        }
 
         public int IsLeft(LatLong p1, LatLong p2)
         {

@@ -126,11 +126,11 @@ XX   curl -v -X GET "https://geoserver.aurin.org.au/aurin/ows?service=WFS&versio
 
 
  
- curl "http://openapi.aurin.org.au/wfs?version=1.0.0&request=DescribeFeatureType&typeName=aurin:datasource-AU_Govt_ABS-UoM_AURIN_DB_2_sa4_p02_selected_medians_and_averages_census_2016"  \
- -G -v --user "student:dj78dfGF"    -o  medians-attributes-sa4p02.xml
+ curl "http://openapi.aurin.org.au/wfs?version=1.0.0&request=DescribeFeatureType&typeName=aurin:datasource-AU_Govt_ABS-UoM_AURIN_DB_2_sa3_p02_selected_medians_and_averages_census_2016"  \
+ -G -v --user "student:dj78dfGF"    -o  medians-attributes-sa3p02.xml
 
- curl "http://openapi.aurin.org.au/wfs?version=1.0.0&request=GetFeature&typeName=aurin:datasource-AU_Govt_ABS-UoM_AURIN_DB_2_sa4_p02_selected_medians_and_averages_census_2016"  \
- -G -v --user "student:dj78dfGF"    -o  medians-sa4p02.xml
+ curl "http://openapi.aurin.org.au/wfs?version=1.0.0&request=GetFeature&typeName=aurin:datasource-AU_Govt_ABS-UoM_AURIN_DB_2_sa3_p02_selected_medians_and_averages_census_2016"  \
+ -G -v --user "student:dj78dfGF"    -o  medians-sa3p02.xml
 
 
  

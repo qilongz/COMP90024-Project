@@ -17,6 +17,10 @@ namespace TwitterUtil.Geo
 
     public class SADictionary
     {
+        public SADictionary()
+        {
+        }
+
         public SADictionary(IEnumerable<KeyValuePair<string, Features>> sets)
         {
             foreach (var set in sets)
@@ -26,14 +30,20 @@ namespace TwitterUtil.Geo
             }
         }
 
+
         public Dictionary<StatArea, Features> SASets { get; set; } = new Dictionary<StatArea, Features>();
+
+        public Dictionary<StatArea, Dictionary<long, string>> SANames { get; set; } =
+            new Dictionary<StatArea, Dictionary<long, string>>();
 
         public Dictionary<LatLong, StatisticalAreaClassification> Locations { get; } =
             new Dictionary<LatLong, StatisticalAreaClassification>();
 
+
         public StatisticalAreaClassification WhatRegions(LatLong pt)
         {
-            if (Locations.TryGetValue(pt, out var area)) return area;
+            if (Locations.TryGetValue(pt, out var area))
+                return area;
 
 
             // else work out where fits
@@ -42,7 +52,17 @@ namespace TwitterUtil.Geo
             {
                 (bool found, StatAreaLocation loc) = InFeatureSet(pt, setpair.Value);
 
-                if (found) clas.Regions.Add(setpair.Key, loc);
+                if (found)
+                {
+                    clas.Regions.Add(setpair.Key, loc);
+
+                    if (!SANames.TryGetValue(setpair.Key, out var outer))
+                    {
+                        outer = new Dictionary<long, string>();
+                        SANames.Add(setpair.Key, outer);
+                    }
+                    outer[loc.Id] = loc.Name;
+                }
             }
 
             return clas;
@@ -59,33 +79,12 @@ namespace TwitterUtil.Geo
                             // allocate to the first region it finds
 
                             var areaName = feat.Parameters.Name;
-                            var statisticalArea = feat.Parameters.Id;
+                            var statisticalArea = long.Parse(feat.Parameters.Id);
 
-                            return (true, new StatAreaLocation(areaName, statisticalArea));
+                            return (true, new StatAreaLocation(statisticalArea, areaName));
                         }
 
             return (false, null);
         }
-    }
-
-    public class StatAreaLocation
-    {
-        public StatAreaLocation(string id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
-
-        public string Id { get; }
-        public string Name { get; }
-    }
-
-
-    public enum StatArea
-    {
-        SA1,
-        SA2,
-        SA3,
-        SA4
     }
 }

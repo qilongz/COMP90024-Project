@@ -6,6 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="extract.xslt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="extract.xslt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\TwitterUtil\TwitterUtil.csproj" />
     <ProjectReference Include="..\VaderExtended\VaderExtended.csproj" />
   </ItemGroup>
