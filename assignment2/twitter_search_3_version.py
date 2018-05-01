@@ -94,7 +94,6 @@ def search_machine(ID,machine):
 						json.dump(tweet._json,f,ensure_ascii=False)
 						f.write('\n')
 				tweetsCounts += len(new_tweets)
-				print("Downloaded {0} tweets".format(tweetsCounts))
 				max_id = new_tweets[-1].id
 			except tweepy.RateLimitError as e:
 				print('Time to sleep 15 mins') 
@@ -109,41 +108,47 @@ def search_machine(ID,machine):
 	return finshed_job,max_id
 	
 def upload_hdfs(outfile):
-	destination_dir = '/team40/3_search_data/'+ time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + outfile
-	hdfs = InsecureClient('http://115.146.86.32:50070', user='qilongz')
-	hdfs.upload(destination_dir, outfile)
-	print(hdfs.status(destination_dir))
+	try :
+		destination_dir = '/team40/3_search_data/'+ time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + outfile
+		hdfs = InsecureClient('http://115.146.86.32:50070', user='qilongz')
+		hdfs.upload(destination_dir, outfile)
+	except Exception as e:
+		logging.error(str(e))
 
 if __name__ == '__main__':
 	parser = get_parser()
 	args = parser.parse_args()
 	finshed_job  = False
-	maxID = -1
+	maxID = 989127427782823937
 	geo = search_config.Geocode
 	query = args.query
 	outfile = "_3_search_%s.json" % (args.query)	
 	searchLimits = 100
-	maxTweets = 500
+	maxTweets = 1000000
 	query_fname = format_filename(query)
 	API_status = {'machine1':True,'machine2':True,'machine3':True,'time':0.0}
+	job_record = ''
 	while finshed_job == False:
 		if API_status['machine1'] == True:
-			print ("1 in")
 			finshed_job,maxID = search_machine(maxID,search_config.machine1)
+			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
 		if API_status['machine2'] == True:
-			print('2 in',maxID)
 			finshed_job,maxID= search_machine(maxID,search_config.machine2)
+			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) + '\n'
 			upload_hdfs(outfile)
 		if API_status['machine3'] == True:
-			print ("3 in",maxID)
 			finshed_job,maxID = search_machine(maxID,search_config.machine3)
+			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) + '\n'
 			upload_hdfs(outfile)
+
+		with open('job_record.txt','a+') as f:
+			print(job_record,file = f )
+			job_record = ''
 		
 		time_to_wait  = 900.0 - (time.time() - API_status['time'])
 		
 		if  time_to_wait >= 0.0:
-			print('i ll wait',API_status)
 			time.sleep(time_to_wait)
 			API_status = {'machine1':True,'machine2':True,'machine3':True,'time':0.0}
 		else:
