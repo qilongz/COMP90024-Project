@@ -2,7 +2,7 @@
 cloud_config:
   name_suffix: ''
   zone: PS
-  admin_username: ubunru
+  admin_username: ubuntu
   ssh:
     keyname: field
     privatekey: ~/.ssh/field.pem
