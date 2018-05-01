@@ -98,8 +98,13 @@ def search(api,geo,query,startID,searchLimits,maxTweets,outfile):
 if __name__ == '__main__':
 	parser = get_parser()
 	args = parser.parse_args()
-	auth = OAuthHandler(search_config.consumer_key, search_config.consumer_secret)
-	auth.set_access_token(search_config.access_token, search_config.access_secret)
+	consumer_key = search_config.machine1['consumer_key']
+	consumer_secret = search_config.machine1['consumer_secret']
+	access_token =  search_config.machine1['access_token']
+	access_secret =  search_config.machine1['access_secret']
+
+	auth = OAuthHandler(consumer_key, consumer_secret)
+	auth.set_access_token(access_token, access_secret)
 	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 	geo = search_config.Geocode
 	query = args.query
