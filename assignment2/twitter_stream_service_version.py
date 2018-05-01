@@ -11,20 +11,21 @@ import tweepy
 from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
-import time
+import datetime
 import argparse
 import string
 import json
+import config
 
 
 def get_parser():
 	"""Get parser for command line arguments."""
 	parser = argparse.ArgumentParser(description="Twitter Downloader")
 	parser.add_argument("-q",
-	                    "--query",
-	                    dest="query",
-	                    help="Query/Filter",
-	                    default='*')
+						"--query",
+						dest="query",
+						help="Query/Filter",
+						default='*')
 	return parser
 
 
@@ -33,18 +34,29 @@ class MyListener(StreamListener):
 	
 	def __init__(self, query):
 		query_fname = format_filename(query)
+		self.outfile = "stream_%s.json" % (query_fname)
 		self.count = 0
+
 	
 	def on_data(self, data):
 		try:
-			#buffersize=131072
-			client.write(hdfs_path, json.dumps(data), append=True,encoding='utf-8')
-			self.count += len(data)
-			print(self.count)
-			return True
+			if self.count <= 1000000:       
+				with open(self.outfile, 'a+') as f:
+					f.write(data)
+				self.count += len(data)
+				return True
+			else:
+				hdfs_path =  '/team40/stream_data/'+datetime.datetime.now().strftime("%y-%m-%d-%H-%M-%S-") + self.outfile
+				client = InsecureClient('http://115.146.86.32:50070', user='qilongz')
+				client.upload(hdfs_path, self.outfile)
+				print(client.status(hdfs_path, strict=False))
+				self.count = 0
+				with open(self.outfile, 'w') as f:
+					f.write(data)
+				self.count += len(data)
+
 		except BaseException as e:
 			print("Error on_data: %s" % str(e))
-			time.sleep(5)
 		return True
 	
 	def on_error(self, status):
@@ -54,21 +66,21 @@ class MyListener(StreamListener):
 
 def format_filename(fname):
 	"""Convert file name into a safe string.
-    Arguments:
-        fname -- the file name to convert
-    Return:
-        String -- converted file name
-    """
+	Arguments:
+		fname -- the file name to convert
+	Return:
+		String -- converted file name
+	"""
 	return ''.join(convert_valid(one_char) for one_char in fname)
 
 
 def convert_valid(one_char):
 	"""Convert a character into '_' if invalid.
-    Arguments:
-        one_char -- the char to convert
-    Return:
-        Character -- converted char
-    """
+	Arguments:
+		one_char -- the char to convert
+	Return:
+		Character -- converted char
+	"""
 	valid_chars = "-_.%s%s" % (string.ascii_letters, string.digits)
 	if one_char in valid_chars:
 		return one_char
@@ -79,18 +91,8 @@ def convert_valid(one_char):
 if __name__ == '__main__':
 	parser = get_parser()
 	args = parser.parse_args()
-	twitter_info = json.load(open('twitter_config.json'))
-
-	auth = OAuthHandler(twitter_info['api_key']['consumer_key'], twitter_info['api_key']['consumer_secret'])
-	auth.set_access_token(twitter_info['api_key']['access_token'],twitter_info['api_key']['access_secret'] )
+	auth = OAuthHandler(config.consumer_key, config.consumer_secret)
+	auth.set_access_token(config.access_token, config.access_secret)
 	api = tweepy.API(auth)
-	client = InsecureClient('http://115.146.86.32:50070', user='qilongz')
-	hdfs_path = '/team40/stream_data/stream_data_2.json'
-	if client.status(hdfs_path,strict  = False) == None:
-		client.write(hdfs_path, '')
-	
 	twitter_stream = Stream(auth, MyListener(args.query))
-	if args.query:
-		twitter_stream.filter(track=args.query, locations=twitter_info['harvest_config']['ausCoordinates'])
-	else:
-		twitter_stream.filter(track='*', locations=twitter_info['harvest_config']['ausCoordinates'])
+	twitter_stream.filter(track=args.query,locations = config.ausCoordinates)

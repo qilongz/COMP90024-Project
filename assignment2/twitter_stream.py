@@ -74,7 +74,7 @@ def convert_valid(one_char):
     if one_char in valid_chars:
         return one_char
     else:
-        return '_'
+        return '*'
 
 if __name__ == '__main__':
     parser = get_parser()

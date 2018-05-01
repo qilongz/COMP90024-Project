@@ -33,11 +33,11 @@ class MyListener(StreamListener):
 
     def __init__(self, query):
         self.count = 0
+        self.client = InsecureClient('http://115.146.86.32:50070', user='qilongz')
     def on_data(self, data):
         try:  
-            client.write(hdfs_path, json.dumps(data),append=True)
+            self.client.write(hdfs_path, json.dumps(data),append=True)
             self.count += len(data)
-            print(self.count)
             return True
         except BaseException as e:
             print("Error on_data: %s" % str(e))
