@@ -3,8 +3,8 @@ import boto
 from boto.ec2.regioninfo import RegionInfo
 import getopt
 import time
-
-
+import json
+import logging
 def wait_for_instance (ec2_conn, inst):
 	res = None
 	id = inst.instances[0].id
@@ -27,16 +27,35 @@ def wait_for_volume (ec2_conn, vol):
 	return curr_vols
 
 # start of function mainetn
-#
+
+def get_credentials(config):
+	"""Read and return credentials from config file."""
+	with open(config) as fp:
+		jconfig = json.load(fp)
+
+		# Attempt to read authentification details from config file.
+		try:
+			ec2_access_key = jconfig['ec2_access_key']
+			ec2_secret_key = jconfig['ec2_secret_key']
+
+		except Exception as e:
+			logging.error(str(e))
+			sys.exit()
+
+		return ec2_access_key,ec2_secret_key
+
+
+
+
 def main(argv):
 	def print_help(file=sys.stdout):
 		print('server_deployment.py -a <EC2 Access Key> -s <EC2 Secret Key> [-n <# of nodes>]', file=file)
 
-	ec2_access_key = ""
-	ec2_secret_key = ""
-	num_nodes = 1
+	ec2_access_key = None
+	ec2_secret_key = None
+	num_nodes = None
 	try:
-		opts,   args = getopt.getopt(argv[1:], "ha:s:n:", ["ec2AccessKey=", "ec2SecretKey="])
+		opts, args = getopt.getopt(argv[1:], "ha:s:n:", ["ec2AccessKey=", "ec2SecretKey="])
 	except getopt.GetoptError:
 		print_help(file=sys.stderr)
 		sys.exit(2)
@@ -64,6 +83,13 @@ ff02::2 ip6-allrouters
 
 	hosts = ""
 
+
+	if ec2_access_key == None or ec2_secret_key == None:
+		ec2_access_key,ec2_secret_key = get_credentials('ec2_credential.json')
+
+	if num_nodes == None:
+		num_nodes = 1
+	
 	region = RegionInfo(name='melbourne', endpoint='nova.rc.nectar.org.au')
 	ec2_conn = boto.connect_ec2(aws_access_key_id=ec2_access_key,aws_secret_access_key=ec2_secret_key,is_secure=True,region=region,port=8773,path='/services/Cloud',validate_certs=False)
 
