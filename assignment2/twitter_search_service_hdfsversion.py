@@ -39,7 +39,7 @@ def convert_valid(one_char):
 	if one_char in valid_chars:
 		return one_char
 	else:
-		return '_'
+		return '*'
 
 def search(api,geo,query,startID,searchLimits,maxTweets,outfile):
 	"""Search for tweets via Twitter Search API."""
