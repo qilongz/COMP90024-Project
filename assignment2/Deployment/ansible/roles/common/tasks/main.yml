@@ -1,0 +1,74 @@
+- name: Update apt packages 
+  become: true
+  apt:
+    update_cache: yes
+
+- name: "Copy Hosts file to Servers"
+  copy:
+    src: inventory/files/hosts
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+- name: "create directory vdc"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+  with_items:
+    - /vdc
+
+# - name: Create a ext4 filesystem on /dev/vdc
+#   filesystem:
+#     fstype: ext4
+#     dev: /dev/vdc
+
+
+# - name: Mount vdc 
+#   mount:
+#     path: /mnt/vdc
+#     src: /vdc
+#     state: mounted
+
+- name: "create directory "
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+    recurse: yes
+  with_items:
+    - /vdc/usr/hdp
+    - /vdc/hadoop
+    - /vdc/usr/share/dotnet
+
+- name: "create symlink"
+  file:
+    src: "/vdc/usr/{{ item.path }}"
+    dest: "/usr/{{ item.dest }}"
+    state: link
+  with_items:
+    - { path: 'hdp/', dest: 'hdp' }
+    - { path: 'share/dotnet/', dest: 'share/dotnet' }
+
+
+
+
+
+
+# sudo mkdir /vdc
+# sudo mkfs.ext4 /dev/vdc
+# sudo mount /dev/vdc /vdc
+# sudo mkdir /vdc/usr
+# sudo mkdir /vdc/usr/hdp
+# sudo mkdir /vdc/hadoop
+# #sudo ln -s /vdc/hadoop/ /hadoop
+# sudo ln -s /vdc/usr/hdp/ /usr/hdp
+# sudo mkdir /vdc/usr/share
+# sudo mkdir /vdc/usr/share/dotnet
+# sudo ln -s /vdc/usr/share/dotnet/ /usr/share/dotnet

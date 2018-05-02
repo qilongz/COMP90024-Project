@@ -1,0 +1,5 @@
+---
+- hosts: new_nodes
+  become: true
+  roles:
+  - common
