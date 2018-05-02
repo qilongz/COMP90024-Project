@@ -4,7 +4,7 @@ library(leaflet)
 navbarPage(
   "Menu",
   id = "nav",
-  windowTitle = "Group 40 - COMP90024_2018_SM1: Cluster and Cloud Computing - 2018",
+  windowTitle = "Team 40 - COMP90024_2018_SM1: Cluster and Cloud Computing - 2018",
   
   navbarMenu(
     "Data Exploration",
@@ -81,7 +81,7 @@ navbarPage(
           height = "auto",
           
           radioButtons(
-            "areaId",
+            "AgeBySA.areaId",
             "Area:",
             c(
               "SA4" = 4,
@@ -127,9 +127,9 @@ navbarPage(
           height = "auto",
           
           radioButtons(
-            "areaId",
-            "Area:",
-            c(
+            "SentimentBySA.areaId",
+           label= "Area:",
+           choices= c(
               "SA4" = 4,
               "SA3" = 3,
               "SA2" = 2
@@ -150,7 +150,7 @@ navbarPage(
       style = "float:left;padding-left:15px",
       em("COMP90024_2018_SM1: Cluster and Cloud Computing - 2018")
     ),
-    div(style = "float:right;margin-right:20px;", strong("Group 40")),
+    div(style = "float:right;margin-right:20px;", strong("Team 40")),
     h4(style = "text-align:center;", "Interactive Tweet Explorer")
   )
   
