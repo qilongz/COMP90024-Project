@@ -17,6 +17,10 @@ def get_parser():
 						dest="query",
 						help="Query/Filter",
 						default='*')
+	parser.add_argument("-d",
+					"--data-dir",
+					dest="city",
+					help="Output/Data Directory")
 	return parser
 
 
@@ -29,6 +33,23 @@ def format_filename(fname):
 	"""
 	return ''.join(convert_valid(one_char) for one_char in fname)
 
+def format_cityname(fname):
+	"""Convert file name into a safe string.
+	Arguments:
+		fname -- the file name to convert
+	Return:
+		String -- converted city name
+	"""
+	aus_cities = ['melbourne','sydeny','canberra','perth','brisbane']
+	if fname in aus_cities:
+		return fname
+	else:
+		return 'melbourne'
+
+
+
+
+
 def convert_valid(one_char):
 	"""Convert a character into '_' if invalid.
 	Arguments:
@@ -40,7 +61,7 @@ def convert_valid(one_char):
 	if one_char in valid_chars:
 		return one_char
 	else:
-		return '*'
+		return ''
 
 def search_machine(ID,machine):
 	consumer_key = machine['consumer_key']
@@ -110,7 +131,7 @@ def search_machine(ID,machine):
 	
 def upload_hdfs(outfile):
 	try :
-		destination_dir = '/team40/3_search_data/'+ time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + outfile
+		destination_dir = '/team40/' + city_name + '_search_data/'+ time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + outfile
 		hdfs = InsecureClient('http://115.146.86.32:50070', user='qilongz')
 		hdfs.upload(destination_dir, outfile)
 	except Exception as e:
@@ -121,12 +142,13 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 	finshed_job  = False
 	maxID = -1
-	geo = search_config.Geocode['melbourne']
-	query = args.query
-	outfile = "_4_search_%s.json" % (args.query)	
 	searchLimits = 100
-	maxTweets = 1000000
+	maxTweets = 10000
+	query = args.query
 	query_fname = format_filename(query)
+	city_name = format_cityname(args.city)
+	outfile ="%s_search_%s.json" % (city_name, query_fname)	
+	geo = search_config.Geocode[city_name]
 	API_status = {'machine1':True,'machine2':True,'machine3':True,'machine4':True,'time':0.0}
 	job_record = ''
 	while finshed_job == False:
