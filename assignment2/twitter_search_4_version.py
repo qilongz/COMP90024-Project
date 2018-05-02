@@ -96,10 +96,10 @@ def search_machine(ID,machine):
 				tweetsCounts += len(new_tweets)
 				max_id = new_tweets[-1].id
 			except tweepy.RateLimitError as e:
-				print('Time to sleep 15 mins') 
+				print(machine['index'],'Time to sleep 15 mins') 
 				API_status[machine['index']] = False
 				if machine['index'] == 0:
-					API_status['time'] = time.time()
+					API_status['time'] = time.time() + 901.00
 				return finshed_job,max_id
 			except tweepy.TweepError as e:
 				logging.error(str(e))
@@ -113,46 +113,66 @@ def upload_hdfs(outfile):
 		hdfs = InsecureClient('http://115.146.86.32:50070', user='qilongz')
 		hdfs.upload(destination_dir, outfile)
 	except Exception as e:
-		logging.error(str(e))
+		logging.error(str(e))\
 
 if __name__ == '__main__':
 	parser = get_parser()
 	args = parser.parse_args()
 	finshed_job  = False
-	maxID = 989127427782823937
+	maxID = 989051025540730881
 	geo = search_config.Geocode
 	query = args.query
-	outfile = "_3_search_%s.json" % (args.query)	
+	outfile = "_4_search_%s.json" % (args.query)	
 	searchLimits = 100
 	maxTweets = 1000000
 	query_fname = format_filename(query)
-	API_status = {'machine1':True,'machine2':True,'machine3':True,'time':0.0}
+	API_status = {'machine1':True,'machine2':True,'machine3':True,'machine4':True,'time':0.0}
 	job_record = ''
 	while finshed_job == False:
 		if API_status['machine1'] == True:
+			print('working with 1')
+			s = time.time()
 			finshed_job,maxID = search_machine(maxID,search_config.machine1)
 			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
+			e = time.time()
+			print ('time used',e-s)
 		if API_status['machine2'] == True:
-			finshed_job,maxID= search_machine(maxID,search_config.machine2)
-			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) + '\n'
+			print('working with 2')
+			s = time.time()
+			finshed_job,maxID = search_machine(maxID,search_config.machine2)
+			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
+			e = time.time()
+			print ('time used',e-s)
 		if API_status['machine3'] == True:
+			print('working with 3')
+			s = time.time()
 			finshed_job,maxID = search_machine(maxID,search_config.machine3)
-			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) + '\n'
+			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
+			e = time.time()
+			print ('time used',e-s)
+		if API_status['machine4'] == True:
+			print('working with 4')
+			s = time.time()
+			finshed_job,maxID = search_machine(maxID,search_config.machine4)
+			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) +'\n'
+			upload_hdfs(outfile)
+			e = time.time()
+			print ('time used',e-s)
 
 		with open('job_record.txt','a+') as f:
 			print(job_record,file = f )
 			job_record = ''
 		
-		time_to_wait  = 900.0 - (time.time() - API_status['time'])
+		time_to_wait  = API_status['time'] -time.time()
 		
 		if  time_to_wait >= 0.0:
 			time.sleep(time_to_wait)
-			API_status = {'machine1':True,'machine2':True,'machine3':True,'time':0.0}
+			API_status = {'machine1':True,'machine2':True,'machine3':True,'machine4':True,'time':0.0}
 		else:
-			API_status = {'machine1':True,'machine2':True,'machine3':True,'time':0.0}
+			API_status = {'machine1':True,'machine2':True,'machine3':True,'machine4':True,'time':0.0}
 
 
 		

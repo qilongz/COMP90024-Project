@@ -25,5 +25,16 @@ machine3 = dict(
     consumer_key = 'BHGlf8f3m66tDR0N66Zuemw4j',
     consumer_secret = '5A62qB4RV5mv3Yysn6X8R9gB9RHTml3BUzoFcAIXUZ1avyY2VZ',
     access_token = '988044719287549954-N3jQbeBpMEbpV6A568YuGO8mqyl9qAE',
-    access_secret = 'sntBRsRJiDjaYtkoX2AYY3uqFxtXRgcJ6xMTdE2mYObS8'    
+    access_secret = 'sntBRsRJiDjaYtkoX2AYY3uqFxtXRgcJ6xMTdE2mYObS8'  
+
+)
+
+
+machine4 = dict(
+    index = 3,
+    consumer_key = 'yr2bOG1zlw9gDHmbC7VR0FwuO',
+    consumer_secret = 'MAgpGO1jnsM5QKNZzrImhvGiiyqcadU1rG6D0vtEEbVqPBLKf0',
+    access_token = '988044719287549954-LByCW5hafHXKYhnCY6mpGbLoVFNNJ9T',
+    access_secret = 'FGXlkhzOUo7yPWI8zNqKQCVz0PKdQNZkQqcaUAkrY8tZS'  
+      
 )
