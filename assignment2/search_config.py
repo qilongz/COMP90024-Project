@@ -2,7 +2,10 @@
 
 ausCoordinates=[113.6594, -43.00311, 153.61194, -12.46113]
 
-Geocode = "-37.8142385,144.9622775,40km"  
+Geocode  = dict(
+    melbourne = "-37.8142385,144.9622775,40km" ,
+    sydeny = "-33.8559799094 151.20666584,50km"
+)
 
 machine1 = dict(
     index = 0,

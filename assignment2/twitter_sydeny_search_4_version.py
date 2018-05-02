@@ -94,6 +94,7 @@ def search_machine(ID,machine):
 						json.dump(tweet._json,f,ensure_ascii=False)
 						f.write('\n')
 				tweetsCounts += len(new_tweets)
+
 				max_id = new_tweets[-1].id
 			except tweepy.RateLimitError as e:
 				print(machine['index'],'Time to sleep 15 mins') 
@@ -119,8 +120,8 @@ if __name__ == '__main__':
 	parser = get_parser()
 	args = parser.parse_args()
 	finshed_job  = False
-	maxID = 989051025540730881
-	geo = search_config.Geocode
+	maxID = -1
+	geo = search_config.Geocode['melbourne']
 	query = args.query
 	outfile = "_4_search_%s.json" % (args.query)	
 	searchLimits = 100
@@ -129,7 +130,7 @@ if __name__ == '__main__':
 	API_status = {'machine1':True,'machine2':True,'machine3':True,'machine4':True,'time':0.0}
 	job_record = ''
 	while finshed_job == False:
-		if API_status['machine1'] == True:
+		if API_status['machine1'] == True and finshed_job == False:
 			print('working with 1')
 			s = time.time()
 			finshed_job,maxID = search_machine(maxID,search_config.machine1)
@@ -137,7 +138,7 @@ if __name__ == '__main__':
 			upload_hdfs(outfile)
 			e = time.time()
 			print ('time used',e-s)
-		if API_status['machine2'] == True:
+		if API_status['machine2'] == True and finshed_job == False:
 			print('working with 2')
 			s = time.time()
 			finshed_job,maxID = search_machine(maxID,search_config.machine2)
@@ -145,7 +146,7 @@ if __name__ == '__main__':
 			upload_hdfs(outfile)
 			e = time.time()
 			print ('time used',e-s)
-		if API_status['machine3'] == True:
+		if API_status['machine3'] == True and finshed_job == False:
 			print('working with 3')
 			s = time.time()
 			finshed_job,maxID = search_machine(maxID,search_config.machine3)
@@ -153,7 +154,7 @@ if __name__ == '__main__':
 			upload_hdfs(outfile)
 			e = time.time()
 			print ('time used',e-s)
-		if API_status['machine4'] == True:
+		if API_status['machine4'] == True and finshed_job == False:
 			print('working with 4')
 			s = time.time()
 			finshed_job,maxID = search_machine(maxID,search_config.machine4)
