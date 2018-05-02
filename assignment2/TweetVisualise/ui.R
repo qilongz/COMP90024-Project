@@ -50,48 +50,100 @@ navbarPage(
   
   navbarMenu(
     "Sentiment Analysis",
+    
     tabPanel(
-      "Sentiment By Statistical Area",
-      id = "sentiment.bySA ",
-
-        div(
-          class = "sentiment",
-          
-          tags$head(# Include our custom CSS
-            includeCSS("styles.css"),
-            includeScript("gomap.js")),
-          
+      "Age By Statistical Area",
+      id = "sentiment.AgeBySA ",
+      
+      div(
+        class = "sentiment",
         
-          div(class="wait", "Please wait while data loads ...."),
+        tags$head(# Include our custom CSS
+          includeCSS("styles.css"),
+          includeScript("gomap.js")),
+        
+        
+        div(class = "wait", "Please wait while data loads ...."),
+        
+        # render map
+        leafletOutput("mapAgeByArea", width = "100%", height = "100%"),
+        
+        absolutePanel(
+          id = "controls.AgeBySA",
+          class = "panel panel-default max",
+          fixed = TRUE,
+          draggable = TRUE,
+          top = 180,
+          left = 10,
+          right = "auto",
+          bottom = "auto",
+          width = 70,
+          height = "auto",
           
-          # render map
-          leafletOutput("mapSentimentByArea", width = "100%", height = "100%"),
-          
-          absolutePanel(id = "controls", class = "panel panel-default max", 
-                        fixed = TRUE,
-                        draggable = TRUE, 
-                        top = 180, left = 10, right = "auto", bottom = "auto",
-                        width = 70, height = "auto",
-          
-            radioButtons(
-              "areaId",
-              "Area:",
-              c(
-                "SA4" = 4,
-                "SA3" = 3,
-                "SA2" = 2
-              ),
-              selected = 4,
-              inline = FALSE
-            )
+          radioButtons(
+            "areaId",
+            "Area:",
+            c(
+              "SA4" = 4,
+              "SA3" = 3,
+              "SA2" = 2
+            ),
+            selected = 4,
+            inline = FALSE
+          )
           
         )
       )
-    )
     ),
     
-    tabPanel("User Analysis", id = "user ",
-             div())  ,
+    
+    tabPanel(
+      "Sentiment By Statistical Area",
+      id = "sentiment.SentimentBySA",
+      
+      div(
+        class = "sentiment",
+        
+        tags$head(# Include our custom CSS
+          includeCSS("styles.css"),
+          includeScript("gomap.js")),
+        
+        
+        div(class = "wait", "Please wait while data loads ...."),
+        
+        # render map
+        leafletOutput("mapSentimentByArea", width = "100%", height = "100%"),
+        
+        absolutePanel(
+          id = "controls.SentimentBySA",
+          class = "panel panel-default max",
+          fixed = TRUE,
+          draggable = TRUE,
+          top = 180,
+          left = 10,
+          right = "auto",
+          bottom = "auto",
+          width = 70,
+          height = "auto",
+          
+          radioButtons(
+            "areaId",
+            "Area:",
+            c(
+              "SA4" = 4,
+              "SA3" = 3,
+              "SA2" = 2
+            ),
+            selected = 4,
+            inline = FALSE
+          )
+        )
+      )
+    )
+  ),
+  
+  tabPanel("User Analysis", id = "user ",
+           div())  ,
   
   tags$head(
     div(
@@ -101,4 +153,5 @@ navbarPage(
     div(style = "float:right;margin-right:20px;", strong("Group 40")),
     h4(style = "text-align:center;", "Interactive Tweet Explorer")
   )
+  
 )

@@ -123,7 +123,7 @@ function(input, output, session) {
     ## Sentiment Maps -------------------------------------------------
     
     # Create the [map: Sentiment Analysis]
-    output$mapSentimentByArea <- renderLeaflet({
+    output$mapAgeByArea <- renderLeaflet({
       
       aid <- 4
       pal <- colorNumeric("viridis", NULL)
@@ -153,7 +153,7 @@ function(input, output, session) {
      if(!is.null(srcData)){
       pal <- colorNumeric("viridis", NULL)
     
-      leafletProxy("mapSentimentByArea", data=srcData) %>%
+      leafletProxy("mapAgeByArea", data=srcData) %>%
         clearShapes() %>%
         clearControls() %>%
         addPolygons(stroke = TRUE, 
@@ -164,6 +164,53 @@ function(input, output, session) {
                     label = ~Name) %>%
         addLegend(pal = pal, title='Median Age', values = ~median_age_persons, opacity = 0.75) 
      }
+      
+    })
+    
+    #              -------------------------------------     
+    
+    # Create the [map: Sentiment Analysis]
+    output$mapSentimentByArea <- renderLeaflet({
+      
+      aid <- 4
+      pal <- colorNumeric("viridis", NULL)
+      
+      leaflet(sas[[aid]]) %>%
+        addTiles(
+          urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+          attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
+        ) %>%
+        fitBounds(114,-11, 154,-44)   %>%
+        addPolygons(stroke = TRUE, 
+                    smoothFactor = 1, fillOpacity = 0.5, weight=1, opacity = 0.6, color='black',
+                    fillColor = ~pal(Sentiment),
+                    highlightOptions = highlightOptions(
+                      color = 'red', weight = 3, bringToFront = TRUE),
+                    label = ~Name) %>%
+        addLegend(pal = pal, title='Median Age', values = ~median_age_persons, opacity = 0.75) 
+    })
+    
+    
+    
+    observe({
+      
+      aid<- as.integer(input$areaId)
+      srcData <- sas[[aid]] 
+      
+      if(!is.null(srcData)){
+        pal <- colorNumeric("viridis", NULL)
+        
+        leafletProxy("mapSentimentByArea", data=srcData) %>%
+          clearShapes() %>%
+          clearControls() %>%
+          addPolygons(stroke = TRUE, 
+                      smoothFactor = 1, fillOpacity = 0.5, weight=1, opacity = 0.6, color='black',
+                      fillColor = ~pal(Sentiment),
+                      highlightOptions = highlightOptions(
+                        color = 'red', weight = 3, bringToFront = TRUE),
+                      label = ~Name) %>%
+          addLegend(pal = pal, title='Median Age', values = ~median_age_persons, opacity = 0.75) 
+      }
       
     })
   

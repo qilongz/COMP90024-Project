@@ -9,7 +9,7 @@ namespace SentimentBySA
 {
     internal class Program
     {
-        private const string loc = @"A:\aurin";
+        private const string Loc = @"..\..\..\..\..\..\..\..\data";
 
 
         private static void Main(string[] args)
@@ -26,7 +26,7 @@ namespace SentimentBySA
             var featureSets = new Dictionary<StatArea, Features>();
             foreach (var area in cfg)
             {
-                var xmlFile = Path.Combine(loc, string.Format(xmlTemplate, loc, area.ToString().ToLower()));
+                var xmlFile = Path.Combine(Loc, string.Format(xmlTemplate, Loc, area.ToString().ToLower()));
                 var features = saLoader.GetFeatures(xmlFile);
                 featureSets.Add(area, features);
             }
@@ -42,7 +42,7 @@ namespace SentimentBySA
 
             var dataSrc = "twitter-extract-all.json";
 
-            var geoPosts = new JsonRead<TagPosterDetails>(Path.Combine(loc, dataSrc));
+            var geoPosts = new JsonRead<TagPosterDetails>(Path.Combine(Loc, dataSrc));
             geoPosts.DoLoad();
 
 
@@ -69,7 +69,7 @@ namespace SentimentBySA
                         var count = rec.Count();
                         var avg = rec.Average(x => x.Value);
 
-                        of.WriteLine($"{rec.Key}\t{sad.SANames[sa][rec.Key]}\t{count}\t{avg:F3}");
+                        of.WriteLine($"{rec.Key},\"{sad.SANames[sa][rec.Key]}\",{count},{avg:F4}");
                     }
                 }
             }
