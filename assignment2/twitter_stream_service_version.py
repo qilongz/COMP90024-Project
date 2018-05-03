@@ -11,7 +11,7 @@ import tweepy
 from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
-import datetime
+import time
 import argparse
 import string
 import json
@@ -40,13 +40,13 @@ class MyListener(StreamListener):
 	
 	def on_data(self, data):
 		try:
-			if self.count <= 1000000:       
+			if self.count <= 10000000:       
 				with open(self.outfile, 'a+') as f:
 					f.write(data)
 				self.count += len(data)
 				return True
 			else:
-				hdfs_path =  '/team40/stream_data/'+datetime.datetime.now().strftime("%y-%m-%d-%H-%M-%S-") + self.outfile
+				hdfs_path = '/team40/stream_data/'+ time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + self.outfile
 				client = InsecureClient('http://115.146.86.32:50070', user='qilongz')
 				client.upload(hdfs_path, self.outfile)
 				print(client.status(hdfs_path, strict=False))
@@ -54,6 +54,7 @@ class MyListener(StreamListener):
 				with open(self.outfile, 'w') as f:
 					f.write(data)
 				self.count += len(data)
+				return True
 
 		except BaseException as e:
 			print("Error on_data: %s" % str(e))
@@ -91,8 +92,12 @@ def convert_valid(one_char):
 if __name__ == '__main__':
 	parser = get_parser()
 	args = parser.parse_args()
-	auth = OAuthHandler(config.consumer_key, config.consumer_secret)
-	auth.set_access_token(config.access_token, config.access_secret)
+	consumer_key = config.stream_api['consumer_key']
+	consumer_secret = config.stream_api['consumer_secret']
+	access_token =  config.stream_api['access_token']
+	access_secret =  config.stream_api['access_secret']
+	auth = OAuthHandler(consumer_key, consumer_secret)
+	auth.set_access_token(access_token, access_secret)
 	api = tweepy.API(auth)
 	twitter_stream = Stream(auth, MyListener(args.query))
 	twitter_stream.filter(track=args.query,locations = config.ausCoordinates)

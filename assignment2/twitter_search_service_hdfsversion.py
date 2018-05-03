@@ -7,7 +7,7 @@ import argparse
 import datetime
 import hdfs
 from hdfs import InsecureClient
-import search_config
+import config
 def get_parser():
 	"""Get parser for command line arguments."""
 	parser = argparse.ArgumentParser(description="Twitter Searcher")
@@ -98,15 +98,15 @@ def search(api,geo,query,startID,searchLimits,maxTweets,outfile):
 if __name__ == '__main__':
 	parser = get_parser()
 	args = parser.parse_args()
-	consumer_key = search_config.machine1['consumer_key']
-	consumer_secret = search_config.machine1['consumer_secret']
-	access_token =  search_config.machine1['access_token']
-	access_secret =  search_config.machine1['access_secret']
+	consumer_key = config.machine1['consumer_key']
+	consumer_secret = config.machine1['consumer_secret']
+	access_token =  config.machine1['access_token']
+	access_secret =  config.machine1['access_secret']
 
 	auth = OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_secret)
 	api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
-	geo = search_config.Geocode
+	geo = config.Geocode
 	query = args.query
 	searchLimits = 100
 	maxTweets = 1000000

@@ -7,7 +7,7 @@ import argparse
 import time
 import hdfs
 from hdfs import InsecureClient
-import search_config
+import config
 
 def get_parser():
 	"""Get parser for command line arguments."""
@@ -40,9 +40,14 @@ def format_cityname(fname):
 	Return:
 		String -- converted city name
 	"""
-	aus_cities = ['melbourne','sydeny','canberra','perth','brisbane']
-	if fname in aus_cities:
-		return fname
+	aus_cities = dict(
+		m = 'melbourne',
+		s ='sydeny',
+		c = 'canberra',
+		p ='perth',
+		b ='brisbane')
+	if fname in aus_cities.keys():
+		return aus_cities[fname]
 	else:
 		return 'melbourne'
 
@@ -114,8 +119,9 @@ def search_machine(ID,machine):
 					if tweet.coordinates or tweet.place:
 						json.dump(tweet._json,f,ensure_ascii=False)
 						f.write('\n')
+				
 				tweetsCounts += len(new_tweets)
-
+				#print("Downloaded {0} tweets".format(tweetsCounts))
 				max_id = new_tweets[-1].id
 			except tweepy.RateLimitError as e:
 				print(machine['index'],'Time to sleep 15 mins') 
@@ -143,44 +149,44 @@ if __name__ == '__main__':
 	finshed_job  = False
 	maxID = -1
 	searchLimits = 100
-	maxTweets = 10000
+	maxTweets = 1000000
 	query = args.query
 	query_fname = format_filename(query)
 	city_name = format_cityname(args.city)
 	outfile ="%s_search_%s.json" % (city_name, query_fname)	
-	geo = search_config.Geocode[city_name]
+	geo = config.Geocode[city_name]
 	API_status = {'machine1':True,'machine2':True,'machine3':True,'machine4':True,'time':0.0}
 	job_record = ''
 	while finshed_job == False:
 		if API_status['machine1'] == True and finshed_job == False:
 			print('working with 1')
 			s = time.time()
-			finshed_job,maxID = search_machine(maxID,search_config.machine1)
-			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) +'\n'
+			finshed_job,maxID = search_machine(maxID,config.machine1)
+			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t'+ city_name+'\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
 			e = time.time()
 			print ('time used',e-s)
 		if API_status['machine2'] == True and finshed_job == False:
 			print('working with 2')
 			s = time.time()
-			finshed_job,maxID = search_machine(maxID,search_config.machine2)
-			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) +'\n'
+			finshed_job,maxID = search_machine(maxID,config.machine2)
+			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t'+ city_name+'\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
 			e = time.time()
 			print ('time used',e-s)
 		if API_status['machine3'] == True and finshed_job == False:
 			print('working with 3')
 			s = time.time()
-			finshed_job,maxID = search_machine(maxID,search_config.machine3)
-			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) +'\n'
+			finshed_job,maxID = search_machine(maxID,config.machine3)
+			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t'+ city_name+'\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
 			e = time.time()
 			print ('time used',e-s)
 		if API_status['machine4'] == True and finshed_job == False:
 			print('working with 4')
 			s = time.time()
-			finshed_job,maxID = search_machine(maxID,search_config.machine4)
-			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t' + str(maxID) +'\n'
+			finshed_job,maxID = search_machine(maxID,config.machine4)
+			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t'+ city_name+'\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
 			e = time.time()
 			print ('time used',e-s)
@@ -191,7 +197,7 @@ if __name__ == '__main__':
 		
 		time_to_wait  = API_status['time'] -time.time()
 		
-		if  time_to_wait >= 0.0:
+		if  time_to_wait >= 0.0 and finshed_job == False:
 			time.sleep(time_to_wait)
 			API_status = {'machine1':True,'machine2':True,'machine3':True,'machine4':True,'time':0.0}
 		else:
