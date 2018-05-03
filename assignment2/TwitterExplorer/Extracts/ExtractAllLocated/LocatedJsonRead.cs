@@ -6,46 +6,40 @@ using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
-using TwitterUtil;
 using TwitterUtil.TweetSummary;
 using TwitterUtil.Twitter;
-using VaderSharp;
 
-namespace ExtractAll
+namespace ExtractAllLocated
 {
-    public class FilterJsonRead
+    public class LocatedJsonRead
     {
         private static Encoding _encoding;
-        private static readonly object Obj = new object();
-        private readonly DataContractJsonSerializer _ser;
-        private readonly SentimentIntensityAnalyzer analyzer;
+        private DataContractJsonSerializer _ser;
 
-        public FilterJsonRead(List<string> srcLocs, int expectedSize, HashSet<string> ids)
+
+        public LocatedJsonRead(List<string> srcLocs, int expectedSize)
         {
             SrcLocs = srcLocs;
-            Ids = ids;
             ExpectedSize = expectedSize;
-            Records = new List<TweetScore>(ExpectedSize);
+            Records = new List<LocatedTweet>(ExpectedSize);
         }
 
 
-        private FilterJsonRead(FilterJsonRead src)
+        private LocatedJsonRead(LocatedJsonRead src)
         {
-            Ids = src.Ids;
             ExpectedSize = src.ExpectedSize;
-            Records = new List<TweetScore>(ExpectedSize);
+            Records = new List<LocatedTweet>(ExpectedSize);
             _ser = new DataContractJsonSerializer(typeof(UniTwitterRow));
-            analyzer = new SentimentIntensityAnalyzer();
         }
 
 
         public List<string> SrcLocs { get; }
-        public HashSet<string> Ids { get; }
-        public List<TweetScore> Records { get; }
+        public List<LocatedTweet> Records { get; }
         public int ExpectedSize { get; }
+        public bool SingleThreaded { get; set; }
 
 
-        protected IEnumerable<string> GetLinesFromFiles()
+        protected IEnumerable<Tuple<string, string>> GetLinesFromFiles()
         {
             var cnt = 0;
             foreach (var srcLoc in SrcLocs)
@@ -64,7 +58,7 @@ namespace ExtractAll
                             if (!string.IsNullOrWhiteSpace(ln) && ln.Length > 10)
                             {
                                 if (++cnt % 100000 == 0) Console.WriteLine($"done {cnt,10:N0} ...");
-                                yield return ln;
+                                yield return new Tuple<string, string>(fi.Name, ln);
                             }
                     }
             }
@@ -72,23 +66,34 @@ namespace ExtractAll
 
         public void DoLoad()
         {
-            Parallel.ForEach(
-                GetLinesFromFiles(), // files to process
-                () => new FilterJsonRead(this),
-                (line, state, cnt, partial) => partial.Process(cnt, line),
-                partial =>
-                {
-                    lock (Obj)
+            if (SingleThreaded)
+            {
+                _ser = new DataContractJsonSerializer(typeof(UniTwitterRow));
+                long cnt = 1;
+                foreach (var ln in GetLinesFromFiles()) Process(cnt++, ln);
+            }
+            else
+            {
+                var obj = new object();
+
+                Parallel.ForEach(
+                    GetLinesFromFiles(), // files to process
+                    () => new LocatedJsonRead(this),
+                    (line, state, cnt, partial) => partial.Process(cnt, line),
+                    partial =>
                     {
-                        Records.AddRange(partial.Records);
-                    }
-                });
+                        lock (obj)
+                        {
+                            Records.AddRange(partial.Records);
+                        }
+                    });
+            }
         }
 
 
-        public FilterJsonRead Process(long cnt, string line)
+        public LocatedJsonRead Process(long cnt, Tuple<string, string> item)
         {
-            var bytes = _encoding.GetBytes(line);
+            var bytes = _encoding.GetBytes(item.Item2);
 
             using (var sf = new MemoryStream(bytes))
             {
@@ -96,14 +101,14 @@ namespace ExtractAll
                 {
                     var row = (UniTwitterRow) _ser.ReadObject(sf);
 
-                    if (!Ids.Contains(row.Doc.User.IdStr)) return this;
+                    if (!(row.Doc.Coordinates != null || row.Doc.Place != null)) return this;
+
 
                     var tm = DateTime.ParseExact(row.Doc.CreatedAt,
                         "ddd MMM dd HH:mm:ss +0000 yyyy", null, DateTimeStyles.None);
 
-                    var res = analyzer.PolarityScores(row.Doc.Text);
 
-                    var post = new TweetScore
+                    var post = new LocatedTweet
                     {
                         Location = row.Key[0],
                         PostId = row.Id,
@@ -113,14 +118,17 @@ namespace ExtractAll
                         UserName = row.Doc.User.Name,
                         RecordId = cnt,
                         Source = row.Doc.Source,
-                        Negative = res.Negative,
-                        Neutral = res.Neutral,
-                        Positive = res.Positive,
-                        Compound = res.Compound
+                        File = item.Item1
                     };
+
+                    if (row.Doc.User.UtcOffset.HasValue)
+                        post.UtcOffset = row.Doc.User.UtcOffset.Value;
 
                     if (row.Doc.User.TimeZone != null)
                         post.TimeZone = row.Doc.User.TimeZone;
+
+                    if (row.Doc.Entities.Urls.Any())
+                        post.ExpandedUrl = row.Doc.Entities.Urls.First().ExpandedUrl;
 
                     if (row.Doc.Coordinates != null)
                     {
@@ -132,6 +140,17 @@ namespace ExtractAll
                         if (row.Doc.Coordinates.Coord[1].HasValue)
                             post.Yloc = row.Doc.Coordinates.Coord[1].Value;
                     }
+
+                    if (row.Doc.Place != null)
+                    {
+                        post.HasPlace = true;
+                        post.PlaceId = row.Doc.Place.Id;
+                        post.PlaceType = row.Doc.Place.PlaceType;
+                        post.PlaceName = row.Doc.Place.Name;
+
+                        post.BoxCoordinates = row.Doc.Place.BoundingBox.Coordinates[0];
+                    }
+
 
                     if (row.Doc.Entities.Hashtags != null)
                         post.HashTags = row.Doc.Entities.Hashtags.Select(x => x.Text).ToList();

@@ -8,6 +8,7 @@ namespace TwitterUtil.TweetSummary
 {
     [DataContract]
     [KnownType(typeof(TweetScore))]
+    [KnownType(typeof(LocatedTweet))]
     public class TagPosterDetails
     {
         public TagPosterDetails()
@@ -66,8 +67,6 @@ namespace TwitterUtil.TweetSummary
         [DataMember(Order = 14)] public int UtcOffset { get; set; }
         [DataMember(Order = 15)] public string ExpandedUrl { get; set; }
 
-        [DataMember(Order = 16)] public string StatisticalArea { get; set; }
-        [DataMember(Order = 17)] public string AreaName { get; set; }
 
         public long RecordId { get; set; }
         public int Count { get; set; }
