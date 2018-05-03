@@ -23,18 +23,22 @@
     - /vdc
 
 # - name: Create a ext4 filesystem on /dev/vdc
+#   become: true
 #   filesystem:
 #     fstype: ext4
 #     dev: /dev/vdc
 
 
 # - name: Mount vdc 
+#   become: true
 #   mount:
-#     path: /mnt/vdc
-#     src: /vdc
+#     path: /vdc
+#     src: /dev/vdc
 #     state: mounted
+#     fstype: ext4
 
 - name: "create directory "
+  become: true
   file:
     path: "{{ item }}"
     state: directory
@@ -48,6 +52,7 @@
     - /vdc/usr/share/dotnet
 
 - name: "create symlink"
+  become: true
   file:
     src: "/vdc/usr/{{ item.path }}"
     dest: "/usr/{{ item.dest }}"
@@ -61,14 +66,3 @@
 
 
 
-# sudo mkdir /vdc
-# sudo mkfs.ext4 /dev/vdc
-# sudo mount /dev/vdc /vdc
-# sudo mkdir /vdc/usr
-# sudo mkdir /vdc/usr/hdp
-# sudo mkdir /vdc/hadoop
-# #sudo ln -s /vdc/hadoop/ /hadoop
-# sudo ln -s /vdc/usr/hdp/ /usr/hdp
-# sudo mkdir /vdc/usr/share
-# sudo mkdir /vdc/usr/share/dotnet
-# sudo ln -s /vdc/usr/share/dotnet/ /usr/share/dotnet
