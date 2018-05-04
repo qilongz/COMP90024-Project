@@ -3507,6 +3507,46 @@
       "configurations" : [ ],
       "name" : "host_group_3",
       "cardinality" : "1"
+    },
+    {
+      "components" : [
+        {
+          "name" : "DATANODE"
+        },
+        {
+          "name" : "NODEMANAGER"
+        },
+        {
+          "name" : "SPARK2_CLIENT"
+        },
+        {
+          "name" : "INFRA_SOLR_CLIENT"
+        },
+        {
+          "name" : "TEZ_CLIENT"
+        },
+        {
+          "name" : "SPARK_CLIENT"
+        },
+        {
+          "name" : "YARN_CLIENT"
+        },
+        {
+          "name" : "HDFS_CLIENT"
+        },
+        {
+          "name" : "MAPREDUCE2_CLIENT"
+        },
+        {
+          "name" : "RANGER_USERSYNC"
+        },
+        {
+          "name" : "HIVE_CLIENT"
+        }
+      ],
+      "configurations" : [ ],
+      "name" : "new_nodes",
+      "cardinality" : "1+"
     }
   ],
   "settings" : [
@@ -3539,6 +3579,7 @@
     }
   ],
   "Blueprints" : {
+    "blueprint_name" : "team40_cluster",
     "stack_name" : "HDP",
     "stack_version" : "2.6"
   }
