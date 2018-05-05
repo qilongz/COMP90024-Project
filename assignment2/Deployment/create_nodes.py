@@ -89,6 +89,8 @@ ff02::2 ip6-allrouters
 
 	if num_nodes == None:
 		num_nodes = 1
+	else:
+		num_nodes = int(num_nodes)
 	
 	region = RegionInfo(name='melbourne', endpoint='nova.rc.nectar.org.au')
 	ec2_conn = boto.connect_ec2(aws_access_key_id=ec2_access_key,aws_secret_access_key=ec2_secret_key,is_secure=True,region=region,port=8773,path='/services/Cloud',validate_certs=False)
