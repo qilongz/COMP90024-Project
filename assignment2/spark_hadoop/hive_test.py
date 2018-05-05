@@ -1,9 +1,7 @@
 from pyspark import SparkContext
 from pyspark.sql import SparkSession
-import pandas
 
 # We have to set the hive metastore uri.
-SparkContext.setSystemProperty("hive.metastore.uris", "thrift://nn1:9083")
 
 spark = (SparkSession
 	        .builder
@@ -20,28 +18,49 @@ spark = (SparkSession
 # sqlContext = SQLContext(sc)
 # hiveContext = HiveContext(sc)
 
-df = spark.read.json('/user/nikikiq/spark_test/collections/twitterStream.json')
-print(df.count())
-df.write.mode('append').format('hive').saveAsTable('ts02')
+# df = spark.read.json('/user/nikikiq/spark_test/collections/twitterStream.json')
+# print(df.count())
+# df.write.mode('append').format('hive').saveAsTable('ts02')
 
-# print(df.head(10))
-# # Write into Hive
+# # print(df.head(10))
+# # # Write into Hive
 # df.write.saveAsTable('ts01')
 
 # 'INSERT OVERWRITE TABLE ts01 SELECT DISTINCT * FROM ts01'
 # Read from Hive
 # 'CREATE TABLE ts04 AS SELECT DISTINCT * FROM ts02'
-df1 = spark.sql('SELECT * FROM ts01')
-df2 = spark.sql('SELECT * FROM ts02')
-df4 = spark.sql('SELECT * FROM ts04')
 
-pdf1 = df1.toPandas()
-pdf2 = df2.toPandas()
-pdf4 = df4.toPandas()
 
-print(len(pdf1), len(pdf2), len(pdf4))
-pdf1.show()
-pdf2.show()
-pdf4.show()
+df2 = spark.sql('SELECT * FROM tweets_01')
+df4 = df2.dropDuplicates(['id'])
+df3 = spark.sql('SELECT * FROM tweets_01').dropDuplicates(['id'])
 
-#print(df3.schema.names)
+l1 = df2.rdd.map(lambda x: x['id']).collect()
+l2 = df3.rdd.map(lambda x: x['id']).collect()
+
+print(l1)
+print(l2)
+print(len(l1),len(l2))
+
+
+l3 = list(set(l1))
+l4 = list(set(l2))
+print(len(l1),len(l2))
+
+# df5 = spark.sql('SELECT * FROM twt_02 LEFT OUTER JOIN twt_03 ON (twt_03.twt_id = twt_02.twt_id) ')
+
+# print('------------------------------------------------------------------------------------------------------------------------------------')
+# print('-----------------------------------------------------after total df2: ' + str(df2.count()) + ' ------------------------------------------------')
+# #76
+
+
+# print('------------------------------------------------------------------------------------------------------------------------------------')
+# #print(df3.take(50))
+# print('-----------------------------------------------------after total df3: ' + str(df3.count()) + ' ------------------------------------------------')
+# #2
+# print('------------------------------------------------------------------------------------------------------------------------------------')
+# print('-----------------------------------------------------after total df4: ' + str(df4.count()) + ' ------------------------------------------------')
+
+# print(df3.take(50))
+# print('-----------------------------------------------------after total df5: ' + str(df5.count()) + ' ------------------------------------------------')
+# print(df3.schema.names)
