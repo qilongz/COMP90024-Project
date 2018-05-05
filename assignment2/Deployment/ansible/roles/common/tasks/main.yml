@@ -4,6 +4,7 @@
     update_cache: yes
 
 - name: "Copy Hosts file to Servers"
+  become: true
   copy:
     src: inventory/files/hosts
     dest: /etc/hosts
@@ -13,6 +14,7 @@
     backup: yes
 
 - name: "create directory vdc"
+  become: true
   file:
     path: "{{ item }}"
     state: directory
@@ -62,7 +64,12 @@
     - { path: 'share/dotnet/', dest: 'share/dotnet' }
 
 
-
+#sudo apt install acl
+- name: Install acl
+  become: true
+  apt: name={{item}} state=present
+  with_items:
+       - acl
 
 
 

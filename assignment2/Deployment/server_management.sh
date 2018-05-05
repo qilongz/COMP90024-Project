@@ -123,3 +123,11 @@ sudo apt-get install -y libv8-dev
 sudo apt-get install -y protobuf-compiler 
 
 sudo pip install pyspark
+
+
+
+
+##############
+#curl -i -H "X-Requested-By: ambari" -u admin:admin -X GET http://115.146.86.215:8080/api/v1/blueprints
+#curl -i -H "X-Requested-By: ambari" -u admin:admin -X POST -d @test_blueprint.json http://115.146.86.215:8080/api/v1/blueprints/team40_cluster
+#curl -i -H "X-Requested-By: ambari" -u admin:admin -X GET http://115.146.86.215:8080/api/v1/blueprints/team40_cluster
