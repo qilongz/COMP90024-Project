@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{5424F702
 		Notes\aurin data.txt = Notes\aurin data.txt
 		Notes\curl notes.txt = Notes\curl notes.txt
 		Json Handling.txt = Json Handling.txt
-		more curl.txt = more curl.txt
+		Notes\more curl.txt = Notes\more curl.txt
 		..\nectar notes.txt = ..\nectar notes.txt
 	EndProjectSection
 EndProject
@@ -75,6 +75,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SentimentBySA", "Analysis\SentimentBySA\SentimentBySA.csproj", "{46300070-837B-45E5-94CE-29B771FDEEB9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtractAllLocated", "Extracts\ExtractAllLocated\ExtractAllLocated.csproj", "{BF861C25-3D84-4E59-BB37-E1C5F2EB39E6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenerateStats", "Analysis\GenerateStats\GenerateStats.csproj", "{114EA264-5F65-4756-99D7-8C5E5928B9F1}"
+EndProject
+Project("{DA7A21FA-8162-4350-AD77-A8D1B671F3ED}") = "Activity", "Visualise\Activity\Activity.rxproj", "{4CC3473C-8D23-4DA0-BB78-0CD931F7B488}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SentimentScorer", "Analysis\SentimentScorer\SentimentScorer.csproj", "{080778B2-963A-4D69-98D3-93FC56DE9B5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -142,6 +148,18 @@ Global
 		{BF861C25-3D84-4E59-BB37-E1C5F2EB39E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF861C25-3D84-4E59-BB37-E1C5F2EB39E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF861C25-3D84-4E59-BB37-E1C5F2EB39E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{114EA264-5F65-4756-99D7-8C5E5928B9F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{114EA264-5F65-4756-99D7-8C5E5928B9F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{114EA264-5F65-4756-99D7-8C5E5928B9F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{114EA264-5F65-4756-99D7-8C5E5928B9F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CC3473C-8D23-4DA0-BB78-0CD931F7B488}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CC3473C-8D23-4DA0-BB78-0CD931F7B488}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CC3473C-8D23-4DA0-BB78-0CD931F7B488}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CC3473C-8D23-4DA0-BB78-0CD931F7B488}.Release|Any CPU.Build.0 = Release|Any CPU
+		{080778B2-963A-4D69-98D3-93FC56DE9B5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{080778B2-963A-4D69-98D3-93FC56DE9B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{080778B2-963A-4D69-98D3-93FC56DE9B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{080778B2-963A-4D69-98D3-93FC56DE9B5B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,6 +180,9 @@ Global
 		{DD2A238E-10C6-4589-B2DC-892A7C3E7D73} = {D7F562FB-0CC1-46E1-9994-4A4764E2396E}
 		{46300070-837B-45E5-94CE-29B771FDEEB9} = {D7F562FB-0CC1-46E1-9994-4A4764E2396E}
 		{BF861C25-3D84-4E59-BB37-E1C5F2EB39E6} = {66BA9A41-D259-4276-8627-20E1CDF0012E}
+		{114EA264-5F65-4756-99D7-8C5E5928B9F1} = {EB4FA0C1-5482-4790-B542-A838ADD998C7}
+		{4CC3473C-8D23-4DA0-BB78-0CD931F7B488} = {09459DE3-D57A-419D-ACA6-B4D3D6C24158}
+		{080778B2-963A-4D69-98D3-93FC56DE9B5B} = {D7F562FB-0CC1-46E1-9994-4A4764E2396E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {70F865BA-260D-48C6-B58B-6E520FDD457E}

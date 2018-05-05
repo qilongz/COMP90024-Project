@@ -42,7 +42,7 @@ namespace SentimentBySA
 
             var dataSrc = "twitter-extract-all.json";
 
-            var geoPosts = new JsonRead<TagPosterDetails>(Path.Combine(Loc, dataSrc));
+            var geoPosts = new JsonRead<TagPosterDetails>(new[]{Path.Combine(Loc, dataSrc)});
             geoPosts.DoLoad();
 
 

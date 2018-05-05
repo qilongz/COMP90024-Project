@@ -20,7 +20,7 @@ namespace FilterHospitals
             var eh = EmergencyHospitals.Load(hospitals);
             var tgts = new TargetRegions(eh.Features.Select(x => x.Description).ToList());
 
-            var jr = new JsonRead<TagPosterDetails>(tweets);
+            var jr = new JsonRead<TagPosterDetails>(new[]{tweets});
             jr.DoLoad();
             Console.WriteLine("\n\n");
 

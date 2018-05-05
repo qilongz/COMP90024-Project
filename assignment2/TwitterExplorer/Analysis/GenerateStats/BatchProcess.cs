@@ -1,46 +1,93 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TwitterUtil.Extraction;
 
-namespace TwitterUtil.Batch
+namespace GenerateStats
 {
-    public class BatchEngine<TAgent, TObject>
-        where TAgent : IGetAgent<TObject>, new()
-        where TObject : new()
+    public class BatchEngine<TS, TE, TV> where TE : IExtractor<TS, TV>, new()
     {
         private const int WaitTimeOut = 4000;
-      public  int EngineCnt { get; }
+        private bool _init;
 
-
-        public BatchEngine(int engineCnt ,TAgent agent)
+        public BatchEngine(int engineCnt, IList<string> srcLocs)
         {
-            Agents = new List<EngineAgent<TAgent, TObject>>(EngineCnt);
             Current = -1;
             EngineCnt = engineCnt;
+            SrcLocs = srcLocs;
 
-            for (var i = 1; i < EngineCnt; i++)
-            {
-                var agt = new EngineAgent<TAgent, TObject>();
-                agt.Initialise(agent);
-                Agents.Add(agt);
-            }
+            Agents = new List<EngineAgent<LocationAgent<TS, TE, TV>>>(EngineCnt);
         }
 
-        public List<EngineAgent<TAgent, TObject>> Agents { get; }
-        public int Current { get; set; }
+        public int EngineCnt { get; }
+        public IList<string> SrcLocs { get; }
 
-        public void Process(IEnumerable<string> links)
+
+        public List<EngineAgent<LocationAgent<TS, TE, TV>>> Agents { get; }
+        public int Current { get; set; }
+        public bool GetGeoLocatedOnly { get; set; }
+
+        public int Count => Agents.Sum(x => x.Process.Records.Count);
+
+        private void Init(Encoding encoding)
         {
-            foreach (var link in links)
-                AllocateToEngine(link);
+            for (var i = 1; i < EngineCnt; i++)
+            {
+                var agt = new EngineAgent<LocationAgent<TS, TE, TV>>();
+                agt.Initialise(i, encoding);
+                Agents.Add(agt);
+            }
+
+            _init = true;
+        }
+
+        public IEnumerable<TV> Records()
+        {
+            foreach (var eng in Agents)
+            foreach (var rec in eng.Process.Records)
+                yield return rec;
+        }
+
+
+        public void Process()
+        {
+            long cnt = 0;
+            foreach (var srcLoc in SrcLocs)
+            {
+                var directory = new DirectoryInfo(srcLoc);
+
+                foreach (var fi in directory.EnumerateFiles("*.json", SearchOption.AllDirectories))
+                    using (var ifs = new StreamReader(
+                        new FileStream(fi.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                    {
+                        Console.WriteLine($"\n{fi.FullName}");
+                        string ln;
+
+                        while ((ln = ifs.ReadLine()) != null)
+                        {
+                            if (!_init) Init(ifs.CurrentEncoding);
+
+                            if (!string.IsNullOrWhiteSpace(ln) && ln.Length > 10)
+                            {
+                                if (++cnt % 500000 == 0)
+                                    Console.WriteLine(
+                                        $"done {cnt,12:N0}  {Agents.Sum(x => x.Process.Records.Count),12:N0}...");
+
+                                AllocateToEngine(cnt, ln);
+                            }
+                        }
+                    }
+            }
 
             Harvest();
         }
 
 
-        public void AllocateToEngine(string link)
+        public void AllocateToEngine(long cnt, string line)
         {
             if (Agents.Count == 0) throw new ArgumentException("No agents defined");
             var item = Agents.FirstOrDefault(x => !x.InUse);
@@ -64,7 +111,7 @@ namespace TwitterUtil.Batch
 
 
             // launch task
-            item.SetTask(link, Task.Run(() => item.Process.Get(link)));
+            item.SetTask(cnt, Task.Run(() => item.Process.Analyse(line)));
         }
 
 
@@ -86,7 +133,7 @@ namespace TwitterUtil.Batch
         }
 
 
-        public EngineAgent<TAgent, TObject> Next()
+        public EngineAgent<LocationAgent<TS, TE, TV>> Next()
         {
             if (Agents.Count == 0) throw new ArgumentException("No agents defined");
             if (++Current >= Agents.Count) Current = 0;
@@ -94,7 +141,7 @@ namespace TwitterUtil.Batch
             return Agents[Current];
         }
 
-        public IEnumerable<EngineAgent<TAgent, TObject>> GetFreeList()
+        public IEnumerable<EngineAgent<LocationAgent<TS, TE, TV>>> GetFreeList()
         {
             if (Agents.Count == 0) throw new ArgumentException("No agents defined");
             var eng = Agents.First(x => !x.InUse);
@@ -104,7 +151,7 @@ namespace TwitterUtil.Batch
         }
 
 
-        public EngineAgent<TAgent, TObject> GetFreeOne()
+        public EngineAgent<LocationAgent<TS, TE, TV>> GetFreeOne()
         {
             if (Agents.Count == 0) throw new ArgumentException("No agents defined");
             return Agents.First(x => !x.InUse);

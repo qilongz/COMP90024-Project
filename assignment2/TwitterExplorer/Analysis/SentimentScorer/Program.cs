@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ExtractAllLocated
+namespace SentimentScorer
 {
     internal class Program
     {
@@ -20,10 +20,9 @@ namespace ExtractAllLocated
             var tgtLoc = args[0];
             var srcLocs = new List<string>(args.Skip(1));
 
-            var eng = new BatchEngine(6, srcLocs, tgtLoc);
+            var eng = new BatchEngine(11, srcLocs, tgtLoc);
 
             eng.Process();
-
 
             Console.WriteLine($"Done {DateTime.Now}");
         }

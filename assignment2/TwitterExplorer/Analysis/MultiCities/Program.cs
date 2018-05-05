@@ -12,7 +12,7 @@ namespace MultiCities
         {
             const string tweets =
                 @"E:\uni\Cluster and Cloud Computing\assign2\TwitterExplore\Extracts\FilteredExtract\data\twitter-extract-all.json";
-            var jr = new JsonRead<TagPosterDetails>(tweets);
+            var jr = new JsonRead<TagPosterDetails>(new[]{tweets});
             jr.DoLoad();
             Console.WriteLine("\n\n");
 

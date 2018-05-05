@@ -20,7 +20,7 @@ namespace SentimentBaseline
             const string bigSrc =
                 @"E:\uni\Cluster and Cloud Computing\assign2\TwitterExplore\Extracts\FilteredExtract\bin\data\twitter-all-geotagged-posters.json";
 
-            var geoPosts = new JsonRead<TagPosterDetails>(bigSrc);
+            var geoPosts = new JsonRead<TagPosterDetails>(new[]{bigSrc});
             geoPosts.DoLoad();
 
             var outcome = new List<KeyValuePair<double, string>>();

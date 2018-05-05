@@ -1,0 +1,56 @@
+---
+output: html_document
+---
+
+
+```{r setup, echo=FALSE, message=FALSE, warning = FALSE}
+
+library(tidyverse)
+library(lubridate)
+library(ggmap)
+library(scales)
+
+knitr::opts_chunk$set(fig.width = 12, fig.height = 10)
+readr.show_progress=FALSE
+
+insta <- read_delim("E:\\uni\\Cluster and Cloud Computing\\assign2\\TwitterExplore\\TwitterExplore\\bin\\location-2018.csv", ",", col_types = "nnn", quote = '', progress = FALSE)
+
+
+
+```
+
+## Tweeter Mobility
+
+It was observed that tweets originated by a proportion of posters from multiple cities.
+Assuming that the city with the most tweets, was the posters home city some insight to the posters mobility and behaviour can be
+obtained by analysing the use 
+
+### Assumptions
+
+The analysis is based on the following assumptions:
+
+* the city with the most tweets for a given poster, is the home city of the poster
+* users that poster from multiple geographic locations are likely to be actual end-users not businesses (e.g. bars, venues, etc.).
+There are some small number of services (e.g. _Where Pets Are Found, CEB Jobs_ ) that post from multiple cities.
+These anomalies have not been filtered.
+
+
+
+
+
+
+
+```{r echo=FALSE,warning = FALSE, fig.height = 6}
+
+ggmap(get_stamenmap(region, maptype = "toner-lite")) +
+    geom_point(data = pts, aes(x = Xloc, y = Yloc, size = Freq, alpha = Freq), color = 'navy') +
+    scale_alpha(trans = 'log10') +
+    xlab('Longitude') +
+    ylab('Latitude') +
+    theme(legend.position = "none") +
+lab(title="")
+
+```
+
+
+

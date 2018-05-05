@@ -11,12 +11,11 @@ namespace TwitterUtil.TweetSummary
     {
         // ReSharper disable once StaticMemberInGenericType
         private static Encoding _encoding;
-        private static readonly object Obj = new object();
         private DataContractJsonSerializer _ser;
 
-        public JsonRead(string srcFile, int expectedSize = 1000000)
+        public JsonRead(IList<string> srcFile, int expectedSize = 1000000)
         {
-            SrcLoc = srcFile;
+            SrcLocs = srcFile;
             ExpectedSize = expectedSize;
             Records = new List<T>(ExpectedSize);
         }
@@ -32,7 +31,7 @@ namespace TwitterUtil.TweetSummary
         }
 
 
-        public string SrcLoc { get; }
+        public IList<string> SrcLocs { get; }
         public List<T> Records { get; private set; }
         public bool SingleThreaded { get; set; }
         public int ExpectedSize { get; }
@@ -47,20 +46,25 @@ namespace TwitterUtil.TweetSummary
         protected IEnumerable<string> GetLinesFromFiles()
         {
             var cnt = 0;
-
-            using (var ifs = new StreamReader(SrcLoc))
+            foreach (var srcLoc in SrcLocs)
             {
-                string ln;
-                while ((ln = ifs.ReadLine()) != null)
-                {
-                    if (_encoding == null) _encoding = ifs.CurrentEncoding;
-
-                    if (!string.IsNullOrWhiteSpace(ln) && ln.Length > 10)
+                var directory = new DirectoryInfo(srcLoc);
+                foreach (var fi in directory.EnumerateFiles("*.json", SearchOption.AllDirectories))
+                    using (var ifs = new StreamReader(
+                        new FileStream(fi.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                     {
-                        if (++cnt % 50000 == 0) Console.WriteLine($"done {cnt,10:N0} ...");
-                        yield return ln;
+                        string ln;
+                        while ((ln = ifs.ReadLine()) != null)
+                        {
+                            if (_encoding == null) _encoding = ifs.CurrentEncoding;
+
+                            if (!string.IsNullOrWhiteSpace(ln) && ln.Length > 10)
+                            {
+                                if (++cnt % 100000 == 0) Console.WriteLine($"done {cnt,12:N0} ...");
+                                yield return ln;
+                            }
+                        }
                     }
-                }
             }
         }
 
@@ -74,13 +78,15 @@ namespace TwitterUtil.TweetSummary
             }
             else
             {
+                var obj = new object();
+
                 Parallel.ForEach(
                     GetLinesFromFiles(), // files to process
                     () => new JsonRead<T>(this),
                     (line, state, cnt, partial) => partial.Process(cnt, line),
                     partial =>
                     {
-                        lock (Obj)
+                        lock (obj)
                         {
                             Records.AddRange(partial.Records);
                         }

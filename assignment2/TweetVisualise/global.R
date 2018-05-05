@@ -1,6 +1,9 @@
 library(tidyverse)
 library(magrittr)
 
+# ----------------------------------------------------------------------------------------
+# load base data 
+
 allLocations <- read_csv("data/location-all.csv")
 
 sentiment4 <- read_csv("data/SentimentWithRegion-SA4.csv") %>% mutate(RegionId=factor(RegionId))
@@ -23,3 +26,9 @@ sa2@data<- left_join(sa2@data,sentiment2, by=c("sa2_main16" = "RegionId"))
 sa1@data<- left_join(sa1@data,sentiment1, by=c("Name" = "Name"))
 
 sas <- list(sa1, sa2, sa3, sa4)
+
+# ----------------------------------------------------------------------------------------
+
+source("Activity.R")
+source("Sentiment.R")
+source("Mobility.R")

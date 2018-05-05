@@ -19,7 +19,7 @@ namespace FilteredExtract
            
 
 
-            var geoPosts = new JsonRead<TagPosterDetails>(activeUsers);
+            var geoPosts = new JsonRead<TagPosterDetails>(new[]{activeUsers});
             geoPosts.DoLoad();
 
             // extract unique userIds

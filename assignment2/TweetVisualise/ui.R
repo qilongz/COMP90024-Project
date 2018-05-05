@@ -9,6 +9,9 @@ navbarPage(
   navbarMenu(
     "Data Exploration",
     
+    activityInput("Activity"),
+    
+    
     tabPanel("Introduction",
              id = "explore.introduction",
              h4("Introduction to data, sourcing, etc.")),
