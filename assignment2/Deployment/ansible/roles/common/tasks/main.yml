@@ -4,6 +4,7 @@
     update_cache: yes
 
 - name: "Copy Hosts file to Servers"
+  become: true
   copy:
     src: inventory/files/hosts
     dest: /etc/hosts
@@ -13,6 +14,7 @@
     backup: yes
 
 - name: "create directory vdc"
+  become: true
   file:
     path: "{{ item }}"
     state: directory
@@ -61,8 +63,27 @@
     - { path: 'hdp/', dest: 'hdp' }
     - { path: 'share/dotnet/', dest: 'share/dotnet' }
 
+- name: "Disable THP"
+  become: true
+  copy:
+    src: inventory/files/disable-thp.service
+    dest: /etc/systemd/system/disable-thp.service
+    owner: root
+    group: root
+    mode: 0755
+    backup: yes
 
-
-
-
-
+- name: "add disable THP service"
+  become: true
+  systemd:
+    name: disable-thp
+    daemon_reload: yes
+    state: started
+    enabled: true
+# - name: "add disable THP service"
+#   become: true
+#   systemd:
+#     name: disable-thp
+#     daemon_reload: yes
+#     state: started
+#     enabled: true

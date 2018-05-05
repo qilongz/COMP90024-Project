@@ -1,6 +1,11 @@
 ---
-- hosts: new_nodes
-  become: true
+- hosts: managementservers
   roles:
   - common
-  - mangement
+  - management
+  - worker_node
+
+- hosts: new_nodes
+  roles:
+  - common
+  - worker_node
