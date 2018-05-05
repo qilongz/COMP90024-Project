@@ -73,6 +73,12 @@
     mode: 0755
     backup: yes
 
+- name: Install acl
+  become: true
+  apt: name={{item}} state=present
+  with_items:
+       - acl
+
 - name: "add disable THP service"
   become: true
   systemd:
@@ -80,10 +86,4 @@
     daemon_reload: yes
     state: started
     enabled: true
-# - name: "add disable THP service"
-#   become: true
-#   systemd:
-#     name: disable-thp
-#     daemon_reload: yes
-#     state: started
-#     enabled: true
+
