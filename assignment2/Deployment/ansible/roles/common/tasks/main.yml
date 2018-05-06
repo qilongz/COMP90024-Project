@@ -24,20 +24,20 @@
   with_items:
     - /vdc
 
-# - name: Create a ext4 filesystem on /dev/vdc
-#   become: true
-#   filesystem:
-#     fstype: ext4
-#     dev: /dev/vdc
+- name: Create a ext4 filesystem on /dev/vdc
+  become: true
+  filesystem:
+    fstype: ext4
+    dev: /dev/vdb
 
 
-# - name: Mount vdc 
-#   become: true
-#   mount:
-#     path: /vdc
-#     src: /dev/vdc
-#     state: mounted
-#     fstype: ext4
+- name: Mount vdc 
+  become: true
+  mount:
+    path: /vdc
+    src: /dev/vdb
+    state: mounted
+    fstype: ext4
 
 - name: "create directory "
   become: true
@@ -63,6 +63,12 @@
     - { path: 'hdp/', dest: 'hdp' }
     - { path: 'share/dotnet/', dest: 'share/dotnet' }
 
+- name: Install acl
+  become: true
+  apt: name={{item}} state=present
+  with_items:
+       - acl
+
 - name: "Disable THP"
   become: true
   copy:
@@ -72,12 +78,6 @@
     group: root
     mode: 0755
     backup: yes
-
-- name: Install acl
-  become: true
-  apt: name={{item}} state=present
-  with_items:
-       - acl
 
 - name: "add disable THP service"
   become: true
