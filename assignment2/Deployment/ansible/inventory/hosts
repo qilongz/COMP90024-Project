@@ -44,7 +44,7 @@
 
 [managementservers]
 #r-kal9pnly-0.localdomain	ansible_host=115.146.86.24 ansible_port=22 ansible_user=ubuntu
-r-ny115wk7-0.localdomain  ansible_host=115.146.86.215 ansible_port=22 ansible_user=ubuntu
+r-sjbzlj6v-0.localdomain  ansible_host=115.146.86.38 ansible_port=22 ansible_user=ubuntu
 
 [datanodeservers]
 r-9arp1kfy-0.localdomain    ansible_host=115.146.86.32 ansible_port=22 ansible_user=ubuntu
@@ -52,5 +52,5 @@ r-rhq1jjbi-0.localdomain    ansible_host=115.146.86.158 ansible_port=22 ansible_
 r-hzgynely-0.localdomain    ansible_host=115.146.86.37 ansible_port=22 ansible_user=ubuntu	
 
 [new_nodes]
-r-utlrusu4-0.localdomain  ansible_host=115.146.86.204 ansible_port=22 ansible_user=ubuntu
+r-ar7ykzk1-0.localdomain  ansible_host=115.146.85.135 ansible_port=22 ansible_user=ubuntu
 #r-ny115wk7-0.localdomain  ansible_host=115.146.86.215 ansible_port=22 ansible_user=ubuntu

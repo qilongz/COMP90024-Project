@@ -4,6 +4,5 @@
 ::1     localhost       ip6-localhost   ip6-loopback
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
-115.146.86.215	r-ny115wk7-0.localdomain	r-ny115wk7-0	#node3
-115.146.86.204	r-utlrusu4-0.localdomain	r-utlrusu4-0	#node4
+115.146.85.135	r-ar7ykzk1-0.localdomain	r-ar7ykzk1-0	#node0
 

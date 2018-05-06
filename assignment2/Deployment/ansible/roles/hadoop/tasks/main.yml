@@ -1,11 +1,7 @@
 - name: "Copy blueprints"
-  become: true
   copy:
     src: inventory/files/{{ item }}
     dest: ~/{{ item }}
-    owner: root
-    group: root
-    mode: 0644
     backup: yes
   with_items:
     - blueprint.json
@@ -13,12 +9,12 @@
     - add_hosts.json
 
 - name: "Post ambari blueprint"
-  shell: "curl -i -H 'X-Requested-By: ambari' -u admin:admin -X POST -d @blueprint.json http://115.146.86.215:8080/api/v1/blueprints/team40_cluster?validate_topology=false"
+  shell: "curl -i -H 'X-Requested-By: ambari' -u admin:admin -X POST -d @blueprint.json http://115.146.86.38:8080/api/v1/blueprints/team40_cluster?validate_topology=false"
 
 
 - name: "Post ambari create cluster"
-  shell: "curl -i -H 'X-Requested-By: ambari' -u admin:admin -X POST -d @cluster.json http://115.146.86.215:8080/api/v1/clusters/team40_cluster"
+  shell: "curl -i -H 'X-Requested-By: ambari' -u admin:admin -X POST -d @cluster.json http://115.146.86.38:8080/api/v1/clusters/team40_cluster"
 
 
 - name: "Post ambari add node to cluster"
-  shell: "curl -i -H 'X-Requested-By: ambari' -u admin:admin -X POST -d @add_hosts.json http://115.146.86.215:8080/api/v1/clusters/team40_cluster/hosts"
+  shell: "curl -i -H 'X-Requested-By: ambari' -u admin:admin -X POST -d @add_hosts.json http://115.146.86.38:8080/api/v1/clusters/team40_cluster/hosts"
