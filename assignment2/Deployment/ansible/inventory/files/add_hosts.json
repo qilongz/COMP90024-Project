@@ -1,11 +1,6 @@
 [
     {
         "blueprint": "team40_cluster",
-        "host_group": "management",
-        "host_name": "r-ny115wk7-0.localdomain"
-    },
-    {
-        "blueprint": "team40_cluster",
         "host_group": "nodes",
         "host_name": "r-utlrusu4-0.localdomain"
     }

@@ -1,0 +1,4 @@
+---
+- hosts: managementservers
+  roles:
+  - hadoop
