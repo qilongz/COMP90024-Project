@@ -5,7 +5,7 @@
   - management
   - worker_node
 
-- hosts: new_nodes
+- hosts: datanodeservers
   roles:
   - common
   - worker_node

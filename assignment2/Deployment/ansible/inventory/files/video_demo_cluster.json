@@ -1,0 +1,14 @@
+{
+    "blueprint": "team40_cluster",
+    "default_password" : "T34m_f0rty!!",
+    "host_groups": [
+        {
+            "name": "management",
+            "hosts": [
+                {
+                    "fqdn": "r-sjbzlj6v-0.localdomain"
+                }
+            ]
+        }
+    ]
+}

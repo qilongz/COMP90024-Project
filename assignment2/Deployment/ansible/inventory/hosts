@@ -43,14 +43,17 @@
 ## db-[99:101]-node.example.com
 
 [managementservers]
-#r-kal9pnly-0.localdomain	ansible_host=115.146.86.24 ansible_port=22 ansible_user=ubuntu
-r-sjbzlj6v-0.localdomain  ansible_host=115.146.86.38 ansible_port=22 ansible_user=ubuntu
+# actual management server
+r-kal9pnly-0.localdomain	ansible_host=115.146.86.24 ansible_port=22 ansible_user=ubuntu
+# server used for video demo
+#r-sjbzlj6v-0.localdomain  ansible_host=115.146.86.38 ansible_port=22 ansible_user=ubuntu
 
 [datanodeservers]
+# actual data nodes
 r-9arp1kfy-0.localdomain    ansible_host=115.146.86.32 ansible_port=22 ansible_user=ubuntu
 r-rhq1jjbi-0.localdomain    ansible_host=115.146.86.158 ansible_port=22 ansible_user=ubuntu
 r-hzgynely-0.localdomain    ansible_host=115.146.86.37 ansible_port=22 ansible_user=ubuntu	
 
 [new_nodes]
-r-ar7ykzk1-0.localdomain  ansible_host=115.146.85.135 ansible_port=22 ansible_user=ubuntu
-#r-ny115wk7-0.localdomain  ansible_host=115.146.86.215 ansible_port=22 ansible_user=ubuntu
+# new nodes used for video demo
+#r-ar7ykzk1-0.localdomain  ansible_host=115.146.85.135 ansible_port=22 ansible_user=ubuntu

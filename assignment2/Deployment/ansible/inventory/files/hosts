@@ -9,6 +9,6 @@ ff02::2 ip6-allrouters
 115.146.86.158	r-rhq1jjbi-0.localdomain	r-rhq1jjbi-0	#node1
 115.146.86.37	r-hzgynely-0.localdomain	r-hzgynely-0	#node2
 
-
-115.146.86.38	r-sjbzlj6v-0.localdomain	r-sjbzlj6v-0	#node3
-115.146.85.135	r-ar7ykzk1-0.localdomain	r-ar7ykzk1-0	#node4
+#Demo video entries
+#115.146.86.38	r-sjbzlj6v-0.localdomain	r-sjbzlj6v-0	#node3
+#115.146.85.135	r-ar7ykzk1-0.localdomain	r-ar7ykzk1-0	#node4
