@@ -18,8 +18,8 @@ namespace GenerateStats
         public T Process { get; }
         public Task Task { get; set; }
 
-        public void Initialise(int engId, Encoding encoding) =>
-            Process.Initialise(engId, encoding);
+        public void Initialise(int engId, Encoding encoding, bool geoOnly) =>
+            Process.Initialise(engId, encoding, geoOnly);
 
         public void ReleaseTask()
         {
@@ -39,6 +39,6 @@ namespace GenerateStats
 
     public interface IEngineAgent
     {
-        void Initialise(int engId, Encoding encoding);
+        void Initialise(int engId, Encoding encoding, bool  geoOnly);
     }
 }

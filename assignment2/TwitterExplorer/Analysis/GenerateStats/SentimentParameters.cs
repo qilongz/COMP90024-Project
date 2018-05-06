@@ -7,7 +7,9 @@ using TwitterUtil.TweetSummary;
 namespace GenerateStats
 {
     [DataContract]
+    [KnownType(typeof(GeoSentimentParameters))]
     [KnownType(typeof(SentimentParameters))]
+    [KnownType(typeof(UserGeoSentimentParameters))]
     public class SentimentParametersBase
     {
         [DataMember(Name = "Loc")] public string Location { get; set; }
@@ -49,6 +51,9 @@ namespace GenerateStats
             };
         }
 
+        public bool IsGeo(TweetScore src) => src.GeoEnabled;
+       
+
         public string Get(HashSet<string> container, string item)
         {
             if (container.TryGetValue(item, out var master)) return master;
@@ -72,6 +77,9 @@ namespace GenerateStats
 
             return src;
         }
+
+        public bool IsGeo(SentimentParametersBase src) => src.GeoEnabled;
+       
 
         public string Get(HashSet<string> container, string item)
         {

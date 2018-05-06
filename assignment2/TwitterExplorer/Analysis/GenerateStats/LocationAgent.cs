@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using TwitterUtil.Extraction;
@@ -15,11 +16,13 @@ namespace GenerateStats
 
         public int EngineId { get; set; }
         public List<TV> Records { get; private set; }
+        public bool GeoOnly { get; set; }
 
 
-        public void Initialise(int engId, Encoding encoding)
+        public void Initialise(int engId, Encoding encoding, bool geoOnly)
         {
             EngineId = engId;
+            GeoOnly = geoOnly;
             Records = new List<TV>();
 
             _encoding = encoding;
@@ -37,8 +40,10 @@ namespace GenerateStats
                 try
                 {
                     var row = (TS) _inSer.ReadObject(sf);
-                    var post = _extractor.Extract(row);
 
+                    if (GeoOnly && !_extractor.IsGeo(row)) return;
+
+                    var post = _extractor.Extract(row);
                     Records.Add(post);
                 }
                 catch (Exception ex)

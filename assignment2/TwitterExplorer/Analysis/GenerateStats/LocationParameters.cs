@@ -46,6 +46,8 @@ namespace GenerateStats
             };
         }
 
+        public bool IsGeo(LocatedTweet src) => src.GeoEnabled;
+
         public string Get(HashSet<string> container, string item)
         {
             if (container.TryGetValue(item, out var master)) return master;
@@ -70,6 +72,9 @@ namespace GenerateStats
 
             return src;
         }
+
+        public bool IsGeo(LocationParameters src) => src.GeoEnabled;
+       
 
         public string Get(HashSet<string> container, string item)
         {

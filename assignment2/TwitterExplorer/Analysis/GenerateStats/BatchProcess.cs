@@ -38,7 +38,7 @@ namespace GenerateStats
             for (var i = 1; i < EngineCnt; i++)
             {
                 var agt = new EngineAgent<LocationAgent<TS, TE, TV>>();
-                agt.Initialise(i, encoding);
+                agt.Initialise(i, encoding, GetGeoLocatedOnly);
                 Agents.Add(agt);
             }
 
