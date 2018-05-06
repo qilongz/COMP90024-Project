@@ -1,10 +1,10 @@
 # To run this code, first edit config.py with your configuration, then:
 #
-# mkdir data
-# python twitter_stream.py -q apple -d data
 # 
-# It will produce the list of tweets for the query "apple" 
-# in the file data/stream_apple.json
+# python twitter_stream.py -q cloud
+# 
+# It will produce the list of tweets for the query "cloud" 
+# in the file stream_apple.json
 import hdfs
 from hdfs import InsecureClient
 import tweepy

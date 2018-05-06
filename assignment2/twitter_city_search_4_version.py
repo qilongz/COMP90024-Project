@@ -1,13 +1,25 @@
-import tweepy
-from tweepy import OAuthHandler
+# To run this code, first edit config.py with your configuration, then:
+#
+# 
+# python twitter_city_search_4_version.py -d s -q cloud
+# only can use -d with  <m ,s ,c, p ,b >(main cities start letter) if failed put write one , deafult will be melbourne
+# 
+# It will produce the list of tweets for the query "cloud"  in sydney 
+# in the file sydney_cloud.json
+
+import argparse
 import json
 import logging
 import string
-import argparse
 import time
+
 import hdfs
+import tweepy
 from hdfs import InsecureClient
+from tweepy import OAuthHandler
+
 import config
+
 
 def get_parser():
 	"""Get parser for command line arguments."""
@@ -199,7 +211,3 @@ if __name__ == '__main__':
 			API_status = {'machine1':True,'machine2':True,'machine3':True,'machine4':True,'time':0.0}
 		else:
 			API_status = {'machine1':True,'machine2':True,'machine3':True,'machine4':True,'time':0.0}
-
-
-		
-	
