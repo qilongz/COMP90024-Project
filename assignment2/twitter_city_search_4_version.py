@@ -42,7 +42,7 @@ def format_cityname(fname):
 	"""
 	aus_cities = dict(
 		m = 'melbourne',
-		s ='sydeny',
+		s ='sydney',
 		c = 'canberra',
 		p ='perth',
 		b ='brisbane')
@@ -50,9 +50,6 @@ def format_cityname(fname):
 		return aus_cities[fname]
 	else:
 		return 'melbourne'
-
-
-
 
 
 def convert_valid(one_char):

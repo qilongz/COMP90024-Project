@@ -1,3 +1,5 @@
+
+import boto
 from boto.s3.connection import S3Connection
 
 ec2_access_key="xxx"
