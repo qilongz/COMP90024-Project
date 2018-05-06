@@ -33,6 +33,10 @@ def get_parser():
 					"--data-dir",
 					dest="city",
 					help="Output/Data Directory")
+	parser.add_argument("-u",
+			"--data-user",
+			dest="users",
+			help="user-csv")
 	return parser
 
 
@@ -76,6 +80,7 @@ def convert_valid(one_char):
 		return one_char
 	else:
 		return ''
+
 
 def search_machine(ID,machine):
 	consumer_key = machine['consumer_key']
@@ -150,7 +155,7 @@ def upload_hdfs(outfile):
 		hdfs = InsecureClient('http://115.146.86.32:50070', user='qilongz')
 		hdfs.upload(destination_dir, outfile)
 	except Exception as e:
-		logging.error(str(e))\
+		logging.error(str(e))
 
 if __name__ == '__main__':
 	parser = get_parser()
