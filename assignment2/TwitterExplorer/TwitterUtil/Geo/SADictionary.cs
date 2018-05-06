@@ -75,7 +75,7 @@ namespace TwitterUtil.Geo
                 }
                 else
                 {
-                    Console.WriteLine($"Still Missed {setpair.Key}\t{pt.Lat}, {pt.Lon}");
+                 //   Console.WriteLine($"Still Missed {setpair.Key}\t{pt.Lat}, {pt.Lon}");
                 }
             }
 

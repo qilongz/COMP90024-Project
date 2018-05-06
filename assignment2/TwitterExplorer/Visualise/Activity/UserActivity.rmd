@@ -23,7 +23,7 @@ toJourneysTweets <- read_csv(
 toJourneysAvg <- inner_join(toJourneysUsers, toJourneysTweets, by = c("Source", "X1", "Y1", "X2", "Y2", "Target"))
 
 
-geoTo <- read_csv(                    "E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\geoToJourneys.csv",
+geoTo <- read_csv("E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\geoToJourneys.csv",
                    progress = FALSE)
 
 region<- c(left=111, right=157, bottom=-46,top=-23)

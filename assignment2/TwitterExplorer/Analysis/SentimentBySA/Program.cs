@@ -9,15 +9,25 @@ namespace SentimentBySA
 {
     internal class Program
     {
-        private const string Loc = @"..\..\..\..\..\..\..\..\data";
+        private const string Loc = @"..\..";
 
 
         private static void Main(string[] args)
         {
             Console.WriteLine($"Start {DateTime.Now}");
 
+            var requiredUsers = new Dictionary<string, string>();
+            using (var ifs = new StreamReader(@"..\..\userHomeCity.csv"))
+            {
+                var ln = ifs.ReadLine(); // skip header
+                while ((ln = ifs.ReadLine()) != null)
+                {
+                    var arr = ln.Split(',');
+                    requiredUsers.Add(arr[0],arr[1]);
+                }
+            }
 
-            const string xmlTemplate = @"medians-{1}p02.xml";
+                const string xmlTemplate = @"medians-{1}p02.xml";
             var cfg = new[] {StatArea.SA4, StatArea.SA3, StatArea.SA2, StatArea.SA1};
 
 
@@ -40,13 +50,16 @@ namespace SentimentBySA
             var sad = new SADictionary(featureSets);
 
 
-            var dataSrc = "twitter-extract-all.json";
+            //      var dataSrc = "twitter-extract-all.json"; var geoPosts = new JsonRead<TagPosterDetails>(new[]{Path.Combine(Loc, dataSrc)});
 
-            var geoPosts = new JsonRead<TagPosterDetails>(new[]{Path.Combine(Loc, dataSrc)});
+            var geoPosts = new JsonRead<TagPosterDetails>(new[]{ @"A:\locatedTargets" });
             geoPosts.DoLoad();
 
 
-            var cls = new Classify(geoPosts.Records, sad); // {SingleThreaded = true};
+            var filtered = geoPosts.Records.Where(x => requiredUsers.ContainsKey(x.UserIdStr)).ToList();
+
+
+            var cls = new Classify(filtered, sad); // {SingleThreaded = true};
             cls.DoClassification();
 
 
@@ -59,7 +72,7 @@ namespace SentimentBySA
                     .Select(x => new KeyValuePair<long, double>(x.Area.Regions[sa].Id, x.Score))
                     .ToLookup(x => x.Key);
 
-                using (var of = new StreamWriter($@"..\..\SentimentWithRegion-{sa}.csv"))
+                using (var of = new StreamWriter($@"..\..\SentimentFilterWithRegion-{sa}.csv"))
                 {
                     of.WriteLine("RegionId,Name,Observations,Sentiment");
 
