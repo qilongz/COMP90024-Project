@@ -1,0 +1,8 @@
+127.0.0.1       localhost
+
+# The following lines are desirable for IPv6 capable hosts
+::1     localhost       ip6-localhost   ip6-loopback
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+115.146.85.135	r-ar7ykzk1-0.localdomain	r-ar7ykzk1-0	#node0
+

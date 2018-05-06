@@ -1,0 +1,38 @@
+{
+    "blueprint": "team40_cluster",
+    "default_password" : "T34m_f0rty!!",
+    "host_groups": [
+        {
+            "name": "management",
+            "hosts": [
+                {
+                    "fqdn": "r-kal9pnly-0.localdomain"
+                }
+            ]
+        },
+        {
+            "name": "node0",
+            "hosts": [
+                {
+                    "fqdn": "r-9arp1kfy-0.localdomain"
+                }
+            ]
+        },
+        {
+            "name": "node1",
+            "hosts": [
+                {
+                    "fqdn": "r-rhq1jjbi-0.localdomain"
+                }
+            ]
+        },
+        {
+            "name": "node2",
+            "hosts": [
+                {
+                    "fqdn": "r-hzgynely-0.localdomain"
+                }
+            ]
+        }
+    ]
+}

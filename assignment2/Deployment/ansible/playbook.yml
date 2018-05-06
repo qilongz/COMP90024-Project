@@ -1,0 +1,11 @@
+---
+- hosts: managementservers
+  roles:
+  - common
+  - management
+  - worker_node
+
+- hosts: datanodeservers
+  roles:
+  - common
+  - worker_node

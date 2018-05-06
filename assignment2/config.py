@@ -6,4 +6,4 @@ access_secret = 'QTVWgbQUq0NKwW1UcQI0afX40coiyWr6a867lt7nBfjSK'
 
 ausCoordinates=[113.6594, -43.00311, 153.61194, -12.46113]
 
-Geocode = "-37.9994,144.5937,100km"
+Geocode = "-37.8142385,144.9622775,40km"

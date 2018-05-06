@@ -1,0 +1,110 @@
+- name: Download Ambari repo list
+  become: true
+  get_url:
+    url: http://public-repo-1.hortonworks.com/ambari/ubuntu16/2.x/updates/2.6.1.5/ambari.list
+    dest: /etc/apt/sources.list.d/ambari.list
+    mode: 0755
+
+
+- name: Add an apt key by id from a keyserver
+  become: true
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: B9733A7A07513CAD
+    state: present
+
+
+- name: Update apt packages 
+  become: true
+  apt:
+    update_cache: yes
+
+
+
+- name: Install list of postgres
+  become: true
+  apt: name={{item}} state=present
+  with_items:
+       - postgresql
+       - postgresql-contrib
+       - libpostgresql-jdbc-java
+       - python-psycopg2
+
+
+- name: Install  ambari-server
+  become: true
+  apt: name={{item}} state=present
+  with_items:
+       - ambari-server
+
+
+- name: Create postgres user for hive
+  become: yes 
+  become_user: postgres 
+  postgresql_user: 
+    name: "hive" 
+    password: "T34m_f0rty!!"
+
+
+- name: Create postgres user for ranger
+  become: yes 
+  become_user: postgres 
+  postgresql_user: 
+    name: "ranger" 
+    password: "T34m_f0rty!!"
+
+- name: cretae data base for hive
+  become: yes 
+  become_user: postgres 
+  postgresql_db: 
+    name: hive
+    state: present
+    owner: hive
+
+- name: create database for ranger
+  become: yes 
+  become_user: postgres 
+  postgresql_db: 
+    name: ranger
+    state: present
+    owner: ranger
+  
+- name: add new configuration to "pg_hba.conf"
+  become: true
+  blockinfile:
+    dest: /etc/postgresql/9.5/main/pg_hba.conf
+    block: |
+      local all hive,ranger md5 
+      host  all hive,ranger 0.0.0.0/0 md5
+      host  all hive,ranger ::/0  md5
+
+- name: restart postgresql 
+  become: true
+  service: name=postgresql state=restarted
+
+  #sudo ambari-server setup -s
+  #sudo ambari-server start
+
+
+- name: Install the ambari-server package
+  become: true
+  package:
+    name: ambari-server
+    update_cache: yes
+    state: latest
+  notify: Reload systemd
+
+
+- name: Run Ambari Server setup
+  become: true
+  shell: ambari-server setup -s 
+
+
+
+- name: Run Ambari Server setup with jdbc-drive
+  become: true
+  shell: ambari-server setup --jdbc-db=postgres --jdbc-driver=/usr/share/java/postgresql.jar
+
+- name: Run Ambari Server 
+  become: true
+  shell: ambari-server restart

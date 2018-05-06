@@ -1,0 +1,38 @@
+- name: Download Ambari repo list
+  become: true
+  get_url:
+    url: http://public-repo-1.hortonworks.com/ambari/ubuntu16/2.x/updates/2.6.1.5/ambari.list
+    dest: /etc/apt/sources.list.d/ambari.list
+    mode: 0755
+
+- name: Add an apt key by id from a keyserver
+  become: true
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: B9733A7A07513CAD
+    state: present
+
+- name: Update apt packages 
+  become: true
+  apt:
+    update_cache: yes
+
+- name: Install  ambari-agent
+  become: true
+  apt: name={{item}} state=present
+  with_items:
+       - ambari-agent
+
+- name: "Copy ambari-agent ini to Servers"
+  become: true
+  copy:
+    src: inventory/files/ambari-agent.ini
+    dest: /etc/ambari-agent/conf/ambari-agent.ini
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+- name: start  ambari-agent
+  become: true
+  shell: ambari-agent restart

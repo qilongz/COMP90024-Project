@@ -1,0 +1,89 @@
+- name: Update apt packages 
+  become: true
+  apt:
+    update_cache: yes
+
+- name: "Copy Hosts file to Servers"
+  become: true
+  copy:
+    src: inventory/files/hosts
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+
+- name: "create directory vdc"
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+  with_items:
+    - /vdc
+
+- name: Create a ext4 filesystem on /dev/vdc
+  become: true
+  filesystem:
+    fstype: ext4
+    dev: /dev/vdb
+
+
+- name: Mount vdc 
+  become: true
+  mount:
+    path: /vdc
+    src: /dev/vdb
+    state: mounted
+    fstype: ext4
+
+- name: "create directory "
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0775
+    recurse: yes
+  with_items:
+    - /vdc/usr/hdp
+    - /vdc/hadoop
+    - /vdc/usr/share/dotnet
+
+- name: "create symlink"
+  become: true
+  file:
+    src: "/vdc/usr/{{ item.path }}"
+    dest: "/usr/{{ item.dest }}"
+    state: link
+  with_items:
+    - { path: 'hdp/', dest: 'hdp' }
+    - { path: 'share/dotnet/', dest: 'share/dotnet' }
+
+- name: Install acl
+  become: true
+  apt: name={{item}} state=present
+  with_items:
+       - acl
+
+- name: "Disable THP"
+  become: true
+  copy:
+    src: inventory/files/disable-thp.service
+    dest: /etc/systemd/system/disable-thp.service
+    owner: root
+    group: root
+    mode: 0755
+    backup: yes
+
+- name: "add disable THP service"
+  become: true
+  systemd:
+    name: disable-thp
+    daemon_reload: yes
+    state: started
+    enabled: true
+

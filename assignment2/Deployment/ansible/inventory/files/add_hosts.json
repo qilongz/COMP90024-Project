@@ -1,0 +1,7 @@
+[
+    {
+        "blueprint": "team40_cluster",
+        "host_group": "newnodes",
+        "host_name": "r-ar7ykzk1-0.localdomain"
+    }
+]
