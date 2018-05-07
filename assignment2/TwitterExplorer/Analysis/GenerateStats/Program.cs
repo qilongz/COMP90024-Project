@@ -642,8 +642,21 @@ namespace GenerateStats
             var jr = new JsonRead<GeoSentimentParameters>(new[] {src});
             jr.DoLoad();
 
+            var requiredUsers = new Dictionary<long, string>();
+            using (var ifs = new StreamReader(@"..\..\userHomeCity.csv"))
+            {
+                var ln = ifs.ReadLine(); // skip header
+                while ((ln = ifs.ReadLine()) != null)
+                {
+                    var arr = ln.Split(',');
+                    requiredUsers.Add(long.Parse(arr[0]), arr[1]);
+                }
+            }
 
-            var cls = new Classify(jr.Records, sad); //{SingleThreaded = true};
+            var filtered = jr.Records.Where(x => requiredUsers.ContainsKey(x.UserId)).ToList();
+
+
+            var cls = new Classify(filtered, sad); //{SingleThreaded = true};
             cls.DoClassification();
 
             foreach (var sa in cfg)

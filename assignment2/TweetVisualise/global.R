@@ -11,25 +11,48 @@ sentiment3 <- read_csv("data/SentimentFilterWithRegion-SA3.csv", col_types="ccin
 sentiment2 <- read_csv("data/SentimentFilterWithRegion-SA2.csv", col_types="ccin") 
 sentiment1 <- read_csv("data/SentimentFilterWithRegion-SA1.csv", col_types="ccin") 
 
+allSent4 <- read_csv("data/SentimentWithRegion-SA4.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
+allSent3 <- read_csv("data/SentimentWithRegion-SA3.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
+allSent2 <- read_csv("data/SentimentWithRegion-SA2.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
+allSent1 <- read_csv("data/SentimentWithRegion-SA1.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
 
 
-sa4 <- readRDS("data/medians-sa4p02.rds") 
-sa3 <- readRDS("data/medians-sa3p02.rds") 
-sa2 <- readRDS("data/medians-sa2p02.rds")
-sa1 <- readRDS("data/medians-sa1p02.rds")
 
-sa1@data$sa1_main16<-as.character(sa1@data$sa1_main16)
-sa1@data%<>% rename("Name"="sa1_main16")
+fsa4 <- readRDS("data/medians-sa4p02.rds") 
+fsa3 <- readRDS("data/medians-sa3p02.rds") 
+fsa2 <- readRDS("data/medians-sa2p02.rds")
+fsa1 <- readRDS("data/medians-sa1p02.rds")
 
-sa4@data<- left_join(sa4@data,sentiment4, by=c("sa4_code16" = "RegionId"))
-sa3@data<- left_join(sa3@data,sentiment3, by=c("sa3_code16" = "RegionId"))
-sa2@data<- left_join(sa2@data,sentiment2, by=c("sa2_main16" = "RegionId"))
-sa1@data<- left_join(sa1@data,sentiment1, by=c("Name" = "Name"))
+fsa1@data$sa1_main16<-as.character(fsa1@data$sa1_main16)
+fsa1@data%<>% rename("Name"="sa1_main16")
 
-sa4@data %<>% rename("Rgn"="sa4_name16")
-sa3@data %<>% rename("Rgn"="sa3_name16")
-sa2@data %<>% rename("Rgn"="sa2_name16")
-sa1@data %<>% mutate("Rgn"="")
+fsa4@data<- left_join(fsa4@data,sentiment4, by=c("sa4_code16" = "RegionId"))
+fsa3@data<- left_join(fsa3@data,sentiment3, by=c("sa3_code16" = "RegionId"))
+fsa2@data<- left_join(fsa2@data,sentiment2, by=c("sa2_main16" = "RegionId"))
+fsa1@data<- left_join(fsa1@data,sentiment1, by=c("Name" = "Name"))
+
+fsa4@data %<>% rename("Rgn"="sa4_name16")
+fsa3@data %<>% rename("Rgn"="sa3_name16")
+fsa2@data %<>% rename("Rgn"="sa2_name16")
+fsa1@data %<>% mutate("Rgn"="")
+
+asa4 <- readRDS("data/medians-sa4p02.rds") 
+asa3 <- readRDS("data/medians-sa3p02.rds") 
+asa2 <- readRDS("data/medians-sa2p02.rds")
+asa1 <- readRDS("data/medians-sa1p02.rds")
+
+asa1@data$sa1_main16<-as.character(asa1@data$sa1_main16)
+asa1@data%<>% rename("Name"="sa1_main16")
+
+asa4@data<- left_join(asa4@data,allSent4, by=c("sa4_code16" = "RegionId"))
+asa3@data<- left_join(asa3@data,allSent3, by=c("sa3_code16" = "RegionId"))
+asa2@data<- left_join(asa2@data,allSent2, by=c("sa2_main16" = "RegionId"))
+asa1@data<- left_join(asa1@data,allSent1, by=c("Name" = "Name"))
+
+asa4@data %<>% rename("Rgn"="sa4_name16")
+asa3@data %<>% rename("Rgn"="sa3_name16")
+asa2@data %<>% rename("Rgn"="sa2_name16")
+asa1@data %<>% mutate("Rgn"="")
 
 
 
@@ -52,33 +75,59 @@ genHoverText <- function(rgn,cnt,age,inc, hsize,mortgage)
 }
 
 
-sa4@data %<>% mutate(HoverText=genHoverText(
+fsa4@data %<>% mutate(HoverText=genHoverText(
   Rgn, Observations, 
   median_age_persons, median_tot_prsnl_inc_weekly, 
   average_household_size, median_mortgage_repay_monthly
 ))
 
-sa3@data %<>% mutate(HoverText=genHoverText(
+fsa3@data %<>% mutate(HoverText=genHoverText(
   Rgn, Observations, 
   median_age_persons, median_tot_prsnl_inc_weekly, 
   average_household_size, median_mortgage_repay_monthly
 ))
 
-sa2@data %<>% mutate(HoverText=genHoverText(
+fsa2@data %<>% mutate(HoverText=genHoverText(
   Rgn, Observations, 
   median_age_persons, median_tot_prsnl_inc_weekly, 
   average_household_size, median_mortgage_repay_monthly
 ))
 
-sa1@data %<>% mutate(HoverText=genHoverText(
+fsa1@data %<>% mutate(HoverText=genHoverText(
   Rgn, Observations, 
   median_age_persons, median_tot_prsnl_inc_weekly, 
   average_household_size, median_mortgage_repay_monthly
 ))
 
+
+
+asa4@data %<>% mutate(HoverText=genHoverText(
+  Rgn, Observations, 
+  median_age_persons, median_tot_prsnl_inc_weekly, 
+  average_household_size, median_mortgage_repay_monthly
+))
+
+asa3@data %<>% mutate(HoverText=genHoverText(
+  Rgn, Observations, 
+  median_age_persons, median_tot_prsnl_inc_weekly, 
+  average_household_size, median_mortgage_repay_monthly
+))
+
+asa2@data %<>% mutate(HoverText=genHoverText(
+  Rgn, Observations, 
+  median_age_persons, median_tot_prsnl_inc_weekly, 
+  average_household_size, median_mortgage_repay_monthly
+))
+
+asa1@data %<>% mutate(HoverText=genHoverText(
+  Rgn, Observations, 
+  median_age_persons, median_tot_prsnl_inc_weekly, 
+  average_household_size, median_mortgage_repay_monthly
+))
   
 
-sas <- list(sa1, sa2, sa3, sa4)
+fas <- list(fsa1, fsa2, fsa3, fsa4)
+aas <- list(asa1, asa2, asa3, asa4)
 
 # --------------------------------------------------
 

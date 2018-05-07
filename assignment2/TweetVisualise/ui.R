@@ -82,22 +82,6 @@ navbarPage(
         tags$div(id = "cite",
                  "Volume of tweets by location")
       )
-    ),
-    
-    tabPanel(
-      "Activity Volume",
-      id = "explore.volume",
-      div(
-        class = "outer",
-        
-        tags$head(# Include our custom CSS
-          includeCSS("styles.css"),
-          includeScript("gomap.js")),
-        
-        # render map
-        leafletOutput("mapExploreVolume", width = "100%", height = "100%")
-      ),
-      tags$div(id = "cite", "Count of distinct tweet from locations")
     )
     ),
   
@@ -251,7 +235,51 @@ navbarPage(
       fluidRow(plotOutput(outputId = "plotBaseByHour")),
       br(),
       fluidRow(plotOutput(outputId = "plotBaseByDay"))
+      ),
+    
+    tabPanel(
+      "Sentiment By Region",
+      
+      div(
+        class = "outer",
+        
+        tags$head(# Include our custom CSS
+          includeCSS("styles.css")),
+        
+        div(class = "wait", "Please wait while data loads ...."),
+        
+        # render map
+        leafletOutput("mapAllSentByArea", width = "100%", height = "100%"),
+        
+        absolutePanel(
+          id = "controls.AllSentByArea",
+          class = "panel panel-default max",
+          fixed = TRUE,
+          draggable = TRUE,
+          top = 180,
+          left = 10,
+          right = "auto",
+          bottom = "auto",
+          width = 70,
+          height = "auto",
+          
+          radioButtons(
+            "AllSentByArea.areaId",
+            label = "Area:",
+            choices = c(
+              "SA4" = 4,
+              "SA3" = 3,
+              "SA2" = 2
+            ),
+            selected = 4,
+            inline = FALSE
+          )
+        ),
+        
+        tags$div(id = "cite",
+                 "Relative sentiment of Tweeters who post tweets with exact GPS coordinates")
       )
+    )
       ),
   
   
@@ -337,8 +365,7 @@ navbarPage(
         class = "outer",
         
         tags$head(# Include our custom CSS
-          includeCSS("styles.css")
-          ),
+          includeCSS("styles.css")),
         # render map
         
         div(class = "wait", "Please wait while data loads ...."),
@@ -406,6 +433,6 @@ navbarPage(
       div(style = "float:right;margin-right:20px;", strong("Team 40")),
       h4(style = "text-align:center;", "Interstate Domestic Traveller Investigator")
     )
-      
+    
+      )
   )
-)
