@@ -61,12 +61,84 @@ h1, h2, h3, h4 { font-weight: 400; }
 /* Position and style citation */
 #cite {
   position: absolute;
-  bottom: 10px;
-  left: 10px;
-  font-size: 12px;
+  bottom: 20px;
+  left: 20px;
+  font-size: 18px;
+  z-index:999;
+  font-style:italic;
+  font-weight:bold;
 }
 
 /* If not using map tiles, show a white background */
 .leaflet-container {
   background-color: white !important;
 }
+
+
+
+
+table		{
+border:1px solid #888;
+font-size: small;
+border-collapse:collapse;
+}
+
+th		{
+border:1px solid #ccc;
+
+text-align:left;
+padding-top:0px;
+padding-bottom:0px;
+vertical-align:top;
+padding-left:3px;
+padding-right:3px;
+
+color:white;
+background-color:#888;
+white-space:nowrap;
+}
+
+th.hdr		{
+color:black;
+font-size: big;
+font-weight:bold;
+background-color:white;
+padding-bottom:7px;
+border-left:1px solid white;
+border-right:1px solid white;
+border-top:1px solid white;
+}
+
+
+td		{
+border:1px solid #ccc;
+vertical-align:top;
+word-wrap:normal;
+text-align:right;
+padding-left:3px;
+padding-right:3px;
+padding-top:0px;
+padding-bottom:0px;
+white-space:nowrap;
+}
+
+
+td.em		{
+text-align:left;
+font-style:italic;
+border-left:1px solid white;
+border-right:1px solid white;
+font-size: xx-small;
+}
+
+td.sm		{
+font-size: xx-small;
+}
+
+
+
+
+
+
+
+

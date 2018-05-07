@@ -1,0 +1,125 @@
+Notes:
+
+
+
+
+ "C:\Program Files\Microsoft\R Open\R-3.4.4\bin\R" -e "shiny::runApp('E:\\uni\\shiny-examples\\063-superzip-example')"
+
+
+"C:\Program Files\Microsoft\R Open\R-3.4.4\bin\R" -e "shiny::runApp('E:\\uni\\Cluster and Cloud Computing\\assign2\\TweetVisualise')"
+
+"C:\Program Files\Microsoft\R Open\R-3.4.4\bin\R"  -e "shiny::runApp('E:\\uni\\Cluster and Cloud Computing\\assign2\\TV', port=3754)"
+
+
+
+%>%
+    addCircleMarkers(data=activeLocations, 
+                     lng=~Xloc, lat=~Yloc, 
+                     color='red',
+                     clusterOptions = markerClusterOptions())
+
+
+ # A reactive expression that returns the details of the maps
+    
+    zoomState <- reactive({
+      bounds <- input$map_bounds
+      zoom <- input$map_zoom
+      latRng <- range(bounds$north, bounds$south)
+      lngRng <- range(bounds$east, bounds$west)
+    })
+    
+     
+  zoomState <- reactive({
+    bounds <- input$map_bounds
+    zoom <- input$map_zoom
+    latRng <- range(bounds$north, bounds$south)
+    lngRng <- range(bounds$east, bounds$west)
+  })
+
+ 
+  observe({
+    pal <- zoomState()
+    
+    precision <- if_else(zoomState$zoom<=5,-1,zoomState$zoom-5)
+    
+    activeLocations <- allLocations %>%
+      filter(oz, region['left'] <= Xloc & Xloc <= region['right'],
+             region['top'] >= Yloc & Yloc >= region['bottom']) %>%
+      mutate(Xloc = round(Xloc, precision), Yloc = round(Yloc, precision)) %>%
+      select(Xloc, Yloc) %>%
+      drop_na() %>%
+      distinct(Xloc,Yloc)
+    
+    leafletProxy("map", data=activeLocations) %>%
+      clearShapes() %>%
+       clearMarkers() %>%
+      addCircleMarkers(lng=~Xloc, lat=~Yloc, 
+                       radius = 2,
+                       stroke = FALSE, 
+                       fillOpacity = 1,
+                       color='red')
+                       
+                       
+ activeLocations <- allLocations %>%
+  mutate(Xloc = round(Xloc, 1), Yloc = round(Yloc, 1)) %>%
+  select(Xloc, Yloc) %>%
+  drop_na() %>%
+  distinct(Xloc,Yloc)                        
+                       
+                       
+                       
+                          activeLocations <- allLocations %>%
+        filter(zs$bounds$west <= Xloc & Xloc <= zs$bounds$east, 
+               zs$bounds$north >= Yloc & Yloc >= zs$bounds$south) %>%
+        mutate(Xloc = round(Xloc, precision), Yloc = round(Yloc, precision)) %>%
+        select(Xloc, Yloc) %>%
+        drop_na() %>%
+        distinct(Xloc,Yloc)
+      
+      leafletProxy("map", data=activeLocations) %>%
+        clearShapes() %>%
+        addCircleMarkers(lng=~Xloc, lat=~Yloc, 
+                         radius = 2,
+                         stroke = FALSE, 
+                         fillOpacity = 1,
+                         color='red')
+                         
+                         
+           h5(style="padding-left:10px;",
+    em("COMP90024_2018_SM1: Cluster and Cloud Computing - 2018"),
+    span( style="margin: 0 auto; width: 100px;text-align: center", "Interactive Tweet Explorer"),
+    span(style="float:right; margin-right:20px;", strong("Group 40")))),                
+                         
+                         
+titlePanel(
+
+))
+                
+       144.935, right = 145, top = -37.81, bottom = -37.87)
+ 
+ pal <- colorNumeric("viridis", NULL)
+
+      
+leaflet(sa4) %>%
+fitBounds(144.935, -37.81, 145,-37.87)  %>%
+addTiles() %>%
+addPolygons(stroke = TRUE, smoothFactor = 0.3, fillOpacity = 0.5,
+fillColor = ~pal(log10(median_tot_prsnl_inc_weekly)))
+
+                       
+pal <- colorNumeric("viridis", NULL)                      
+                      
+leaflet(sa4) %>%
+fitBounds(144.935, -37.81, 145,-37.87)  %>%
+addTiles(     
+    urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+    attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>'
+  ) %>%
+addPolygons(stroke = TRUE, 
+smoothFactor = 1, fillOpacity = 0.5, weight=1, opacity = 0.75, color='gray25',
+    fillColor = ~pal(median_age_persons),
+    highlightOptions = highlightOptions(
+        color = 'red', weight = 3, bringToFront = TRUE),
+        label = ~Name) %>%
+  addLegend(pal = pal, title='Median Age', values = ~median_age_persons, opacity = 0.75) 
+    
