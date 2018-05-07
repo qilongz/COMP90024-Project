@@ -24,7 +24,7 @@ def write_hdfs(tweet):
 
 def upload_hdfs(outfile):
 	try :
-		destination_dir = '/team40/'  + 'user_search_data/'+ time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '_Part3_'+ outfile
+		destination_dir = '/team40/'  + 'user_search_data/' + 'Part3_'+str(piece)+ outfile
 		hdfs = InsecureClient('http://115.146.86.32:50070', user='qilongz')
 		hdfs.upload(destination_dir, outfile)
 	except Exception as e:
@@ -54,9 +54,10 @@ def get_all_tweets(users_list,machine):
 				#save most recent tweets
 				alltweets.extend(new_tweets)
 
-				#save the id of the oldest tweet less one
-				oldest = alltweets[-1].id - 1
-				
+				if alltweets:
+					oldest = alltweets[-1].id - 1
+				else:
+					oldest = -1
 				#keep grabbing tweets until there are no tweets left to grab
 				while len(new_tweets) > 0:
 					
@@ -86,7 +87,7 @@ def get_all_tweets(users_list,machine):
 if __name__ == '__main__':
 	#pass in the username of the account you want to download
 
-	outfile ="user_search.json" 
+	outfile ="part3_user_search.json" 
 	hdfs_dir = '/team40/'+ 'user_search_data/' 
 	userID_list = []
 	with open('userHomeCity.csv') as f:
@@ -103,10 +104,11 @@ if __name__ == '__main__':
 	part3  = userID_list[index_50 :index_75 -1]
 	part4  = userID_list[index_75 :]
 	#get_all_tweets(part3,config.stream_api)
-
+	piece = 0
 	part3_chunks  = [part3[i:i+100] for i in range(0, len(part3), 500)]	
 	for i in  part3_chunks:
 		get_all_tweets(i,config.machine3)
+		piece += 1
 		upload_hdfs(outfile)
 		print('YES ! loaded')
 
