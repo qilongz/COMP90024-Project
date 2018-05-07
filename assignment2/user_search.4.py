@@ -8,6 +8,7 @@ import hdfs
 from hdfs import InsecureClient
 import json
 import jsonpickle
+import itertools
 #Twitter API credentials
 
 def write_hdfs(tweet):
@@ -21,6 +22,14 @@ def write_hdfs(tweet):
 	except Exception as e:
 		logging.error(str(e))
 
+def upload_hdfs(outfile):
+	try :
+		destination_dir = '/team40/'  + 'user_search_data/'+ time.strftime('%Y-%m-%d_%H-%M',time.localtime()) +  '_Part4_'+outfile
+		hdfs = InsecureClient('http://115.146.86.32:50070', user='qilongz')
+		hdfs.upload(destination_dir, outfile)
+	except Exception as e:
+		logging.error(str(e))
+		
 def get_all_tweets(users_list,machine):
 	#Twitter only allows access to a users most recent 3240 tweets with this method
 	#authorize twitter, initialize tweepy
@@ -31,52 +40,53 @@ def get_all_tweets(users_list,machine):
 	auth = OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_secret)
 	api = tweepy.API(auth,wait_on_rate_limit=True ,wait_on_rate_limit_notify=True)
-	count = 0
-	for i in users_list:
-		try:
-			#initialize a list to hold all the tweepy Tweets
-			alltweets = []	
-
-			#make initial request for most recent tweets (200 is the maximum allowed count)
-			new_tweets = api.user_timeline(user_id =i,count=200)
+	with open (outfile,'w+') as writer:
+		count = 0
+		for i in users_list:
 			
-			#save most recent tweets
-			alltweets.extend(new_tweets)
+			try:
+				#initialize a list to hold all the tweepy Tweets
+				alltweets = []	
 
-			#save the id of the oldest tweet less one
-			oldest = alltweets[-1].id - 1
-			
-			#keep grabbing tweets until there are no tweets left to grab
-			while len(new_tweets) > 0:
-				
-				#all subsiquent requests use the max_id param to prevent duplicates
-				new_tweets = api.user_timeline(user_id =i,count=200,max_id=oldest)
+				#make initial request for most recent tweets (200 is the maximum allowed count)
+				new_tweets = api.user_timeline(user_id =i,count=200)
 				
 				#save most recent tweets
 				alltweets.extend(new_tweets)
-				
-				#update the id of the oldest tweet less one
+
+				#save the id of the oldest tweet less one
 				oldest = alltweets[-1].id - 1
 				
-				# print ("...%s tweets downloaded so far" % (len(alltweets)))
+				#keep grabbing tweets until there are no tweets left to grab
+				while len(new_tweets) > 0:
+					
+					#all subsiquent requests use the max_id param to prevent duplicates
+					new_tweets = api.user_timeline(user_id =i,count=200,max_id=oldest)
+					
+					#save most recent tweets
+					alltweets.extend(new_tweets)
+					
+					#update the id of the oldest tweet less one
+					oldest = alltweets[-1].id - 1
+					
+					# print ("...%s tweets downloaded so far" % (len(alltweets)))
 
-			for tweet in alltweets:
-				if tweet.coordinates or tweet.place:
-					write_hdfs(jsonpickle.encode(tweet._json, unpicklable=False) +'\n')
-					count +=1
-		except tweepy.TweepError as e:
-			logging.error(str(e))
-			pass
+				for tweet in alltweets:
+					if tweet.coordinates or tweet.place:
+						json.dump(tweet._json,writer,ensure_ascii=False)
+						count += 1
+						writer.write('\n')
+			except tweepy.TweepError as e:
+				logging.error(str(e))
+				pass
 
-		print ("...%s tweets uploaded so far" % (len(count)))
+			print ("...%s tweets downloaded so far" % (count))
 		
-
-
 
 if __name__ == '__main__':
 	#pass in the username of the account you want to download
 
-	outfile ="part4_user_search.json" 
+	outfile ="user_search.json" 
 	hdfs_dir = '/team40/'+ 'user_search_data/' 
 	userID_list = []
 	with open('userHomeCity.csv') as f:
@@ -92,7 +102,11 @@ if __name__ == '__main__':
 	part2  = userID_list[index_25 :index_50-1]
 	part3  = userID_list[index_50 :index_75 -1]
 	part4  = userID_list[index_75 :]
-	get_all_tweets(part3,config.machine4)
+	#get_all_tweets(part3,config.stream_api)
 
-
+	part4_chunks  = [part4[i:i+100] for i in range(0, len(part4), 500)]	
+	for i in  part4_chunks:
+		get_all_tweets(i,config.machine4)
+		upload_hdfs(outfile)
+		print('YES ! loaded')
 
