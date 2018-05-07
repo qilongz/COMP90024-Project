@@ -2,8 +2,8 @@
 #
 # 
 # python twitter_city_search_4_version.py -d s -q cloud
-# only can use -d with  <m ,s ,c, p ,b >(main cities start letter) if failed put write one , deafult will be melbourne
-# 
+# only can use -d with  <m ,s ,c, p ,b ,a,h>(main cities start letter) if failed put corrrect ont ,  , deafult will be melbourne
+# city can search: melbourne,sydney,canberra,perth,brisbane,adelaide,hobart
 # It will produce the list of tweets for the query "cloud"  in sydney 
 # in the file sydney_cloud.json
 
