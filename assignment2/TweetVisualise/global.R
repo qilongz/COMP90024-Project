@@ -82,23 +82,23 @@ sas <- list(sa1, sa2, sa3, sa4)
 
 # --------------------------------------------------
 
-twitter <- read_delim(  "data\\volumeStats.csv",  ",", col_types = "cDlli", quote = '', progress = FALSE)
+twitter <- read_delim(  "data/volumeStats.csv",  ",", col_types = "cDlli", quote = '', progress = FALSE)
 tdata <- filter(twitter, YearMth >= ymd(20170701), YearMth <= ymd(20180331))
 
 
 
-sentiments <- read_delim("data\\sentimentStats.csv",  ",", col_types = "cDn", quote = '', progress = FALSE)
+sentiments <- read_delim("data/sentimentStats.csv",  ",", col_types = "cDn", quote = '', progress = FALSE)
 sdata <- filter(sentiments, YearMth >= ymd(20170701), YearMth <= ymd(20180331))
 
-sentNeturalExcluded <- read_delim("data\\sentimentStatsExcludedNetural.csv",  ",", col_types = "cDn", quote = '', progress = FALSE)
+sentNeturalExcluded <- read_delim("data/sentimentStatsExcludedNetural.csv",  ",", col_types = "cDn", quote = '', progress = FALSE)
 sentNeturalExcluded <- filter(sentNeturalExcluded, YearMth >= ymd(20170701), YearMth <= ymd(20180331))
 
 
-timeOfDay <- read_delim("data\\sentimentTimeOfDayActivity.csv",  ",", quote = '', progress = FALSE)
+timeOfDay <- read_delim("data/sentimentTimeOfDayActivity.csv",  ",", quote = '', progress = FALSE)
 
-sentLocationBanded <- read_delim("data\\sentimentStatsBanded.csv", ",", quote = '', progress = FALSE)
-sentTimeOfDayBanded <- read_delim("data\\sentimentStatsHourBanded.csv",  ",", quote = '', progress = FALSE)
-sentDayOfWeekBanded <- read_delim("data\\sentimentStatsDayBanded.csv",  ",", quote = '', progress = FALSE)
+sentLocationBanded <- read_delim("data/sentimentStatsBanded.csv", ",", quote = '', progress = FALSE)
+sentTimeOfDayBanded <- read_delim("data/sentimentStatsHourBanded.csv",  ",", quote = '', progress = FALSE)
+sentDayOfWeekBanded <- read_delim("data/sentimentStatsDayBanded.csv",  ",", quote = '', progress = FALSE)
 
 # recentre pillars
 sentLocationBanded %<>% mutate(SentimentBand = SentimentBand - 2.5)
@@ -112,10 +112,10 @@ dw$DayOfWeek <- factor(dw$DayOfWeek, levels(dw$DayOfWeek)[c(4, 2, 6, 7, 5, 1, 3)
 
 #### mobility
 
-toJourneysUsers <- read_csv("data\\geoJourneysUsers.csv",  progress = FALSE)
-toJourneysTweets <- read_csv("data\\geoJourneysActivity.csv",  progress = FALSE)
+toJourneysUsers <- read_csv("data/geoJourneysUsers.csv",  progress = FALSE)
+toJourneysTweets <- read_csv("data/geoJourneysActivity.csv",  progress = FALSE)
 toJourneysAvg <- inner_join(toJourneysUsers, toJourneysTweets, by = c("Source", "X1", "Y1", "X2", "Y2", "Target"))
 
-geoTo <- read_csv("data\\geoToJourneys.csv", progress = FALSE)
+geoTo <- read_csv("data/geoToJourneys.csv", progress = FALSE)
 
 region<- c(left=111, right=157, bottom=-46,top=-23)
