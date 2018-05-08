@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization.Json;
 using TwitterUtil.Geo;
 using TwitterUtil.TweetSummary;
+using TwitterUtil.Twitter;
 
 namespace GenerateStats
 {
@@ -26,13 +27,15 @@ namespace GenerateStats
             //var be = LoadAlreadyLocationsCollated();
             //AnalyseLocations(be);
 
-            var be = LoadAlreadySentimentsCollated();
+          //  var be = LoadAlreadySentimentsCollated();
             // DumpGeoOnlySentiments(be);
-            AnalyseSentiments(be);
+           // AnalyseSentiments(be);
 
             //  AnalyseGeoLocations();
 
             //  AddRegions();
+
+            AddRegionsToAreaSenti();
         }
 
 
@@ -708,5 +711,80 @@ namespace GenerateStats
                 }
             }
         }
-    }
+
+
+        public static void AddRegionsToAreaSenti()
+        {
+            Console.WriteLine($"Analysing AreaSenti \n");
+
+            const string xmlTemplate = @"medians-{0}p02.xml";
+            var cfg = new[] { StatArea.SA4, StatArea.SA3, StatArea.SA2, StatArea.SA1 };
+
+
+            // location feature sets
+            var saLoader = new LoadStatisticalAreas();
+            var featureSets = new Dictionary<StatArea, Features>();
+            foreach (var area in cfg)
+            {
+                var xmlFile = Path.Combine(@"..\..", string.Format(xmlTemplate, area.ToString().ToLower()));
+                var features = saLoader.GetFeatures(xmlFile);
+                featureSets.Add(area, features);
+            }
+
+            // summarise
+            foreach (var area in cfg)
+                Console.WriteLine(
+                    $"{area}\tregions:{featureSets[area].Count,6:N0}\tploygons: {featureSets[area].Sum(x => x.Locations.Count),8:N0}");
+
+            var sad = new SADictionary(featureSets);
+
+            var src = @"E:\uni\Cluster and Cloud Computing\extracted\newActivity";
+            var jr = new JsonRead<AreaSentiExtract>(new[] { src });
+            jr.DoLoad();
+
+            var requiredUsers = new Dictionary<long, string>();
+            using (var ifs = new StreamReader(@"..\..\userHomeCity.csv"))
+            {
+                var ln = ifs.ReadLine(); // skip header
+                while ((ln = ifs.ReadLine()) != null)
+                {
+                    var arr = ln.Split(',');
+                    requiredUsers.Add(long.Parse(arr[0]), arr[1]);
+                }
+            }
+
+            var filtered = jr.Records
+                .Where(x => requiredUsers.ContainsKey(x.User) ).ToList();
+
+
+            var cls = new ClassifyArea(filtered, sad); //{SingleThreaded = true};
+            cls.DoClassification();
+
+            foreach (var sa in cfg)
+            {
+                var clusteredBySa = cls.Scores
+                    .Where(x => x.Area.Regions.ContainsKey(sa))
+                    .Select(x => new KeyValuePair<long, double>(x.Area.Regions[sa].Id, x.Parameters.Sentiment))
+                    .ToLookup(x => x.Key);
+
+                using (var of = new StreamWriter($@"..\..\SentimentRecentWithRegion-{sa}.csv"))
+                {
+                    of.WriteLine("RegionId,Name,Count,SumSentiment,CountExc,SumNeutralExc");
+
+                    // collate regional averages
+                    foreach (var rec in clusteredBySa)
+                    {
+                        var count = rec.Count();
+                        var sm = rec.Sum(x => x.Value) * 100;
+
+                        var counte = rec.Count(x => x.Value < -0.5 || 0.5 < x.Value) ;
+                        var sme = rec.Where(x=>x.Value<-0.5||0.5<x.Value).Sum(x => x.Value) * 100;
+
+                        of.WriteLine($"{rec.Key},\"{sad.SANames[sa][rec.Key]}\",{count},{sm:F2},{counte},{sme:F2}");
+                    }
+                }
+            }
+        }
+    
+}
 }

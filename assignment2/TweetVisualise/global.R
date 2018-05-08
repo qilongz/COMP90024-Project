@@ -17,8 +17,21 @@ allSent3 <- read_csv("data/SentimentWithRegion-SA3.csv", col_types="ccin") %>% m
 allSent2 <- read_csv("data/SentimentWithRegion-SA2.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
 allSent1 <- read_csv("data/SentimentWithRegion-SA1.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
 
+# deduce the relative changes between all sentiments & the filtered activity sentiment
 
-
+sentiment4 <- left_join(sentiment4, allSent4, by=c("RegionId" = "RegionId")) %>%
+	mutate(Relative=Sentiment.x - Sentiment.y) %>%
+	select(RegionId, Name=Name.x, Observations=Observations.x, Sentiment=Sentiment.x, Relative)
+sentiment3 <- left_join(sentiment3, allSent3, by=c("RegionId" = "RegionId")) %>%
+	mutate(Relative=Sentiment.x - Sentiment.y) %>%
+	select(RegionId, Name=Name.x, Observations=Observations.x, Sentiment=Sentiment.x, Relative)
+sentiment2 <- left_join(sentiment2, allSent2, by=c("RegionId" = "RegionId")) %>%
+	mutate(Relative=Sentiment.x - Sentiment.y) %>%
+	select(RegionId, Name=Name.x, Observations=Observations.x, Sentiment=Sentiment.x, Relative)
+sentiment1 <- left_join(sentiment1, allSent1, by=c("RegionId" = "RegionId")) %>%
+	mutate(Relative=Sentiment.x - Sentiment.y) %>%
+	select(RegionId, Name=Name.x, Observations=Observations.x, Sentiment=Sentiment.x, Relative)
+	
 fsa4 <- readRDS("data/medians-sa4p02.rds") 
 fsa3 <- readRDS("data/medians-sa3p02.rds") 
 fsa2 <- readRDS("data/medians-sa2p02.rds")
@@ -160,7 +173,8 @@ dw$DayOfWeek <- as.factor(dw$DayOfWeek)
 dw$DayOfWeek <- factor(dw$DayOfWeek, levels(dw$DayOfWeek)[c(4, 2, 6, 7, 5, 1, 3)])
 
 fullFacet <- read_delim("data/sentimentFullFacet.csv",  ",", quote = '', col_types = "cciinn")
-fullFacet$DayOfWeek <- factor(fullFacet$DayOfWeek, levels(dw$DayOfWeek)[c(4, 2, 6, 7, 5, 1, 3)])
+fullFacet$DayOfWeek <- as.factor(fullFacet$DayOfWeek)
+fullFacet$DayOfWeek <- factor(fullFacet$DayOfWeek, levels(fullFacet$DayOfWeek)[c(4, 2, 6, 7, 5, 1, 3)])
 
 #### mobility
 

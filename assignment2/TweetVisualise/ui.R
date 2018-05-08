@@ -213,19 +213,18 @@ navbarPage(
       
       h2("Basedlined Results"),
       
-      p("Uniformly:"),
+      p("The overall averages for the sentiment scores were:"),
       tags$ul(
-        tags$li(
-          "the  central neutral tweets (-5% to 5%) were excluded from the observations"
-        ),
-        tags$li("the results were scaled by applicable sample sizes")
+        tags$li(tags$b("12.28%"), " - for all observations"),
+        tags$li(tags$b("21.34%"), " - with the central neutral tweets (-5% to 5%) excluded")
       ),
-      p("to obtain an overall average of 12.28%.  "),
+      br(),
       
       
       p(
-        "Assuming that 12.28% represent the baseline for our sentiment analyser,
-        the sample observations were centered around this value to observe relative diferences"
+        "It's assumed that these percentages represent the baseline calibration for our sentiment analyser
+        (as configured during calibration).  
+        The sample statistics were baselined to allow relative differences to be observed."
       ),
       br(),
       br(),
@@ -243,7 +242,7 @@ navbarPage(
       "Facets",
       
       h2("Location & Day of Week Facet"),
-      fluidRow(plotOutput(outputId = "plotDayLocationFacet",height = 500, width=700))  ,
+      fluidRow(plotOutput(outputId = "plotDayLocationFacet",height = 600, width=700))  ,
       
       br(),
       h2("Location vs Day of Week - Time of Day  Facet"),
@@ -418,7 +417,7 @@ navbarPage(
           left = 10,
           right = "auto",
           bottom = "auto",
-          width = 70,
+          width = 80,
           height = "auto",
           
           radioButtons(
@@ -430,6 +429,16 @@ navbarPage(
               "SA2" = 2
             ),
             selected = 4,
+            inline = FALSE
+          ),
+		   radioButtons(
+            "SentimentBySA.baseId",
+            label = "Baseline:",
+            choices = c(              
+              "Relative" = 2,
+              "Region" = 1
+            ),
+            selected = 2,
             inline = FALSE
           )
         ),

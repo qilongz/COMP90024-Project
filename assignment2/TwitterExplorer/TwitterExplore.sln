@@ -22,9 +22,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{5424F702
 	ProjectSection(SolutionItems) = preProject
 		Notes\aurin data.txt = Notes\aurin data.txt
 		Notes\curl notes.txt = Notes\curl notes.txt
-		Json Handling.txt = Json Handling.txt
+		Notes\Json Handling.txt = Notes\Json Handling.txt
 		Notes\more curl.txt = Notes\more curl.txt
 		..\nectar notes.txt = ..\nectar notes.txt
+		streamSample.json = streamSample.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{581353E4-E215-4AE9-8B8B-D2E3D2708C8D}"

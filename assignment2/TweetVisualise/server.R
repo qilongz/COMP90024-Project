@@ -378,14 +378,14 @@ function(input, output, session) {
     
     output$plotDayLocationFacet <- renderPlot({
       
-      alll<-summarise(fullFacet, Tally = (sum(ScaledSum)/sum(Count)))
+      mid<-sum(fullFacet$Sum)/sum(fullFacet$Count)
       
       locationDay <- fullFacet %>%
         group_by(Location,DayOfWeek) %>%
-        summarise(Tally = sum(ScaledSum)/sum(Count)-alll)
+        summarise(Tally = sum(Sum)/sum(Count)-mid)
       
-      ggplot(data = locationDay, aes(x = DayOfWeek, y = Tally)) +
-        geom_col(fill = 'red4') +
+      ggplot(data = locationDay, aes(x = DayOfWeek, y = Tally/100)) +
+        geom_col(fill = 'firebrick2') +
         xlab('Day Of Week') +
         ylab('Relative Sentiment') +
         scale_y_continuous(labels = percent ) +    
@@ -395,11 +395,11 @@ function(input, output, session) {
     
     
     output$plotLocationFullFacet <- renderPlot({
-      alll<-summarise(fullFacet, Tally = (sum(ScaledSum)/sum(Count)))
-      
+	
+     mid<-sum(fullFacet$Sum)/sum(fullFacet$Count)/100      
      
-      ggplot(data = fullFacet, aes(x = TimeOfDay, y = ScaledSum/Count-alll)) +
-        geom_col(fill = 'red4') +
+      ggplot(data = fullFacet, aes(x = TimeOfDay, y = Sum/Count/100-mid)) +
+        geom_col(fill = 'firebrick3') +
         xlab('Hour of Day') +
         ylab('Relative Sentiment') +
         scale_y_continuous(labels = percent ) +    
@@ -408,11 +408,11 @@ function(input, output, session) {
     })
     
     output$plotDayOfWeekFullFacet <- renderPlot({
-      alll<-summarise(fullFacet, Tally = (sum(ScaledSum)/sum(Count)))
+	
+      mid<-sum(fullFacet$Sum)/sum(fullFacet$Count)/100      
       
-      
-      ggplot(data = fullFacet, aes(x = TimeOfDay, y = ScaledSum/Count-alll)) +
-        geom_col(fill = 'red4') +
+      ggplot(data = fullFacet, aes(x = TimeOfDay, y = Sum/Count/100-mid)) +
+        geom_col(fill = 'firebrick4') +
         xlab('Hour of Day') +
         ylab('Relative Sentiment') +
         scale_y_continuous(labels = percent ) +    
@@ -603,7 +603,13 @@ function(input, output, session) {
     # Create the [map: Sentiment Analysis]
     output$mapSentimentByArea <- renderLeaflet({
       aid <- 4
-      pal <- colorNumeric(c( "blue","white","red" ),NULL)
+	  bid <- 2
+      pal <- colorNumeric(c( "navy","white","red" ),NULL)
+      
+      sd <- fas[[aid]]
+      if (bid ==1) {
+        sd@data %<>% mutate(Sentiment=coalesce(Relative,0))
+      }
       
       leaflet(fas[[aid]]) %>%
         addTiles(urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
@@ -653,7 +659,12 @@ function(input, output, session) {
       
       if (exists("zs") & !is.null(zs)) {
         aid <- as.integer(input$SentimentBySA.areaId)
+		    bid <- as.integer(input$SentimentBySA.baseId)
+		
         sd <- fas[[aid]]
+		    if (bid ==1) {
+			    sd@data %<>% mutate(Sentiment=coalesce(Relative,0))
+		    }
         
         if (!isTRUE(session$userData$mapSentimentByArea) &
             zs$zoom > 12) {
@@ -708,7 +719,7 @@ function(input, output, session) {
         srcData <- sd[ff,]
         
         if (!is.null(srcData)) {
-          pal <- colorNumeric(c( "blue","white","red" ), NULL)
+          pal <- colorNumeric(c( "navy","white","red" ), NULL)
           
           leafletProxy("mapSentimentByArea", data = srcData) %>%
             clearShapes() %>%

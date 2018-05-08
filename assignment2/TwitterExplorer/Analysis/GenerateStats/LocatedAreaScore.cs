@@ -4,13 +4,13 @@ using TwitterUtil.Twitter;
 
 namespace GenerateStats
 {
-    public struct LocatedScore
+    public struct LocatedAreaScore
     {
-        public GeoSentimentParameters Parameters { get; set; }
+        public AreaSentiExtract Parameters { get; set; }
         public StatisticalAreaClassification Area { get; }
         
 
-        public LocatedScore(GeoSentimentParameters post, StatisticalAreaClassification area)
+        public LocatedAreaScore(AreaSentiExtract post, StatisticalAreaClassification area)
         {
             Parameters = post;
             Area = area;

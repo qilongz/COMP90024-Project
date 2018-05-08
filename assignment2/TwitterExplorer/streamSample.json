@@ -1,0 +1,33 @@
+﻿[
+
+  // stream
+
+  {
+    "city": "Forestville",
+    "country": "Australia",
+    "created_at": "Mon Apr 30 20:08:00 +0000 2018",
+    "geo": [ -33.86357381, 151.23779297 ],
+    "id": 991046529438728192,
+    "lang": "en",
+    "text": "ASIA | AUNZ —  Minister Mahuta welcomes climate change report https://t.co/yDOaoRcDsl",
+    "user": 149585330.0
+  },
+
+  // area
+  {
+    "city": "Melbourne",
+    "country": "Australia",
+    "created_at": "Tue May 01 06:43:54 +1000 2018",
+    "day": "Tue",
+    "geo": [ -37.8156, 144.9661 ],
+    "hour": 6,
+    "id": 991055567576813569,
+    "lang": "en",
+    "month": "5 2018",
+    "sentiment": 0.0,
+    "text": "Life is short, add those cacao chocolate nibs in your smoothie 🍫#PostWorkoutFuel…",
+    "user": 22419403
+  }
+
+]
+ 
