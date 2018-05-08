@@ -1,0 +1,14 @@
+CREATE EXTERNAL TABLE tweet_test (
+    id string,
+    created_at string,
+    geo array<float>,
+    lang string,
+    text string)
+ ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+ LOCATION '/user/nikikiq/spark_test/collections/'
+;
+
+CREATE EXTERNAL TABLE tweet_test2 (
+    id bigint)
+ ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+ LOCATION '/user/nikikiq/spark_test/collections/'
