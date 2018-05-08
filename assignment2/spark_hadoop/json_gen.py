@@ -37,7 +37,7 @@ print('---------------------------------------------------- ' + str(df.count()) 
 pdf = df.toPandas()
 print(pdf.columns.values)
 # correct a typo leng -> lang
-pdf = pdf.rename(columns={'city': 'city', 'country': 'country', 'created_at':'created_at', 'geo': 'geo', 'id':'id', 'leng' : 'lang', 'text': 'text', 'user':'user'})
+# pdf = pdf.rename(columns={'city': 'city', 'country': 'country', 'created_at':'created_at', 'geo': 'geo', 'id':'id', 'leng' : 'lang', 'text': 'text', 'user':'user'})
 print(pdf.columns.values)
 my_data = pdf.to_json(orient='records')[1:-1].replace('},{', '}\n{') + '\n'
 print(my_data)
