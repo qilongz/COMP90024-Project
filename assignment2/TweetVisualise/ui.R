@@ -216,14 +216,17 @@ navbarPage(
       p("The overall averages for the sentiment scores were:"),
       tags$ul(
         tags$li(tags$b("12.28%"), " - for all observations"),
-        tags$li(tags$b("21.34%"), " - with the central neutral tweets (-5% to 5%) excluded")
+        tags$li(
+          tags$b("21.34%"),
+          " - with the central neutral tweets (-5% to 5%) excluded"
+        )
       ),
       br(),
       
       
       p(
         "It's assumed that these percentages represent the baseline calibration for our sentiment analyser
-        (as configured during calibration).  
+        (as configured during calibration).
         The sample statistics were baselined to allow relative differences to be observed."
       ),
       br(),
@@ -242,15 +245,21 @@ navbarPage(
       "Facets",
       
       h2("Location & Day of Week Facet"),
-      fluidRow(plotOutput(outputId = "plotDayLocationFacet",height = 600, width=700))  ,
+      fluidRow(
+        plotOutput(
+          outputId = "plotDayLocationFacet",
+          height = 600,
+          width = 700
+        )
+      )  ,
       
       br(),
       h2("Location vs Day of Week - Time of Day  Facet"),
-      fluidRow(plotOutput(outputId = "plotLocationFullFacet",height = 800)),
+      fluidRow(plotOutput(outputId = "plotLocationFullFacet", height = 800)),
       
       br(),
       h2("Day of Week Vs Location - Time of Day  Facet"),
-      fluidRow(plotOutput(outputId = "plotDayOfWeekFullFacet",height = 800))
+      fluidRow(plotOutput(outputId = "plotDayOfWeekFullFacet", height = 800))
       
     ),
     
@@ -293,11 +302,13 @@ navbarPage(
           )
         ),
         
-        tags$div(id = "cite",
-                 "Relative sentiment of Tweeters who post tweets with exact GPS coordinates")
+        tags$div(
+          id = "cite",
+          "Relative sentiment of Tweeters who post tweets with exact GPS coordinates"
+        )
       )
     )
-      ),
+    ),
   
   
   navbarMenu(
@@ -431,13 +442,11 @@ navbarPage(
             selected = 4,
             inline = FALSE
           ),
-		   radioButtons(
+          radioButtons(
             "SentimentBySA.baseId",
             label = "Baseline:",
-            choices = c(              
-              "Relative" = 2,
-              "Region" = 1
-            ),
+            choices = c("Relative" = 2,
+                        "Region" = 1),
             selected = 2,
             inline = FALSE
           )
@@ -448,18 +457,101 @@ navbarPage(
           "Relative sentiment of inter-city travellers when tweeting away from home"
         )
       )
-    ),
-    
-    
-    
-    tags$head(
-      div(
-        style = "float:left;padding-left:15px",
-        em("COMP90024_2018_SM1: Cluster and Cloud Computing - 2018")
       ),
-      div(style = "float:right;margin-right:20px;", strong("Team 40")),
-      h4(style = "text-align:center;", "Interstate Domestic Traveller Investigator")
-    )
-    
+      
+      
+      
+     
+      "----",
+    "Recent Activity",
+      
+      tabPanel(
+        "Traveller Tweet Locations",
+        
+        id = "recentMultiLocations",
+        div(
+          class = "outer",
+          
+          tags$head(# Include our custom CSS
+            includeCSS("styles.css")),
+          # render map
+          
+          div(class = "wait", "Please wait while data loads ...."),
+          
+          # render map
+          leafletOutput("mapRecentCityTweeters", width = "100%", height = "100%"),
+          
+          tags$div(id = "cite", "Locations that inter-city travellers have from tweeted during the last week")
+        )
+      ),
+      
+      
+      tabPanel(
+        "Sentiment By Region",
+        
+        div(
+          class = "outer",
+          
+          tags$head(# Include our custom CSS
+            includeCSS("styles.css")),
+          
+          div(class = "wait", "Please wait while data loads ...."),
+          
+          # render map
+          leafletOutput("mapRecentSentBySA", width = "100%", height = "100%"),
+          
+          absolutePanel(
+            id = "controls.RecentSentBySA",
+            class = "panel panel-default max",
+            fixed = TRUE,
+            draggable = TRUE,
+            top = 180,
+            left = 10,
+            right = "auto",
+            bottom = "auto",
+            width = 80,
+            height = "auto",
+            
+            radioButtons(
+              "RecentSentBySA.areaId",
+              label = "Area:",
+              choices = c(
+                "SA4" = 4,
+                "SA3" = 3,
+                "SA2" = 2
+              ),
+              selected = 4,
+              inline = FALSE
+            ),
+            radioButtons(
+              "RecentSentBySA.baseId",
+              label = "Baseline:",
+              choices = c("Relative" = 2,
+                          "Region" = 1),
+              selected = 2,
+              inline = FALSE
+            )
+          ),
+          
+          tags$div(
+            id = "cite",
+            "Sentiment of inter-city travellers during the last week"
+          )
+        )
+        
+      ),
+      
+      
+      
+      tags$head(
+        div(
+          style = "float:left;padding-left:15px",
+          em("COMP90024_2018_SM1: Cluster and Cloud Computing - 2018")
+        ),
+        div(style = "float:right;margin-right:20px;", strong("Team 40")),
+        h4(style = "text-align:center;", "Interstate Domestic Traveller Investigator")
       )
-  )
+      
+    )
+      )
+  

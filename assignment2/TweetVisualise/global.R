@@ -5,6 +5,7 @@ library(scales)
 
 
 allLocations <- read_csv("data/location-all.csv")
+recentLocations <- read_csv("data/recentLocations.csv") %>% mutate(Size=6*log(Count))%>% mutate(Size=ifelse(Size<6,6,Size))
 
 
 sentiment4 <- read_csv("data/SentimentFilterWithRegion-SA4.csv", col_types="ccin")
@@ -31,6 +32,12 @@ sentiment2 <- left_join(sentiment2, allSent2, by=c("RegionId" = "RegionId")) %>%
 sentiment1 <- left_join(sentiment1, allSent1, by=c("RegionId" = "RegionId")) %>%
 	mutate(Relative=Sentiment.x - Sentiment.y) %>%
 	select(RegionId, Name=Name.x, Observations=Observations.x, Sentiment=Sentiment.x, Relative)
+
+
+#recSent4 <- read_csv("data/SentimentWithRegion-SA4.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
+#recSent3 <- read_csv("data/SentimentWithRegion-SA3.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
+#recSent2 <- read_csv("data/SentimentWithRegion-SA2.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
+#recSent1 <- read_csv("data/SentimentWithRegion-SA1.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
 	
 fsa4 <- readRDS("data/medians-sa4p02.rds") 
 fsa3 <- readRDS("data/medians-sa3p02.rds") 

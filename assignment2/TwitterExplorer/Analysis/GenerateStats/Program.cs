@@ -756,6 +756,19 @@ namespace GenerateStats
             var filtered = jr.Records
                 .Where(x => requiredUsers.ContainsKey(x.User) ).ToList();
 
+            // extract unique locations
+
+            var locs = filtered
+                .GroupBy(x => new { Y = x.Yloc, X = x.Xloc })
+                .ToDictionary(x => x.Key, x => x.Count());
+
+            using (var ofs = new StreamWriter($@"..\..\recentLocations.csv"))
+            {
+                ofs.WriteLine("Yloc,Xloc,Count");
+                foreach (var kvp in locs.OrderByDescending(x => x.Value))
+                    ofs.WriteLine($"{kvp.Key.Y},{kvp.Key.X},{kvp.Value}");
+            }
+
 
             var cls = new ClassifyArea(filtered, sad); //{SingleThreaded = true};
             cls.DoClassification();
