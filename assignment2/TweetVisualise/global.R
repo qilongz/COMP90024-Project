@@ -1,6 +1,7 @@
 library(tidyverse)
 library(magrittr)
 library(lubridate)
+library(scales)
 
 
 allLocations <- read_csv("data/location-all.csv")
@@ -71,7 +72,7 @@ genHoverText <- function(rgn,cnt,age,inc, hsize,mortgage)
 </table>
 </div>
 ",
-    rgn, cnt, age, inc, hsize, mortgage))
+    rgn, comma(cnt), age, inc, hsize, mortgage))
 }
 
 
@@ -158,6 +159,8 @@ dw <- group_by(timeOfDay, DayOfWeek) %>% summarise(Tally = mean(Average))
 dw$DayOfWeek <- as.factor(dw$DayOfWeek)
 dw$DayOfWeek <- factor(dw$DayOfWeek, levels(dw$DayOfWeek)[c(4, 2, 6, 7, 5, 1, 3)])
 
+fullFacet <- read_delim("data/sentimentFullFacet.csv",  ",", quote = '', col_types = "cciinn")
+fullFacet$DayOfWeek <- factor(fullFacet$DayOfWeek, levels(dw$DayOfWeek)[c(4, 2, 6, 7, 5, 1, 3)])
 
 #### mobility
 

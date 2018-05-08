@@ -376,6 +376,52 @@ function(input, output, session) {
     
     
     
+    output$plotDayLocationFacet <- renderPlot({
+      
+      alll<-summarise(fullFacet, Tally = (sum(ScaledSum)/sum(Count)))
+      
+      locationDay <- fullFacet %>%
+        group_by(Location,DayOfWeek) %>%
+        summarise(Tally = sum(ScaledSum)/sum(Count)-alll)
+      
+      ggplot(data = locationDay, aes(x = DayOfWeek, y = Tally)) +
+        geom_col(fill = 'red4') +
+        xlab('Day Of Week') +
+        ylab('Relative Sentiment') +
+        scale_y_continuous(labels = percent ) +    
+        facet_grid(Location ~ .) +
+        theme(text = element_text(size = 16))
+    })
+    
+    
+    output$plotLocationFullFacet <- renderPlot({
+      alll<-summarise(fullFacet, Tally = (sum(ScaledSum)/sum(Count)))
+      
+     
+      ggplot(data = fullFacet, aes(x = TimeOfDay, y = ScaledSum/Count-alll)) +
+        geom_col(fill = 'red4') +
+        xlab('Hour of Day') +
+        ylab('Relative Sentiment') +
+        scale_y_continuous(labels = percent ) +    
+       facet_grid(Location ~ DayOfWeek) +
+        theme(text = element_text(size = 16))
+    })
+    
+    output$plotDayOfWeekFullFacet <- renderPlot({
+      alll<-summarise(fullFacet, Tally = (sum(ScaledSum)/sum(Count)))
+      
+      
+      ggplot(data = fullFacet, aes(x = TimeOfDay, y = ScaledSum/Count-alll)) +
+        geom_col(fill = 'red4') +
+        xlab('Hour of Day') +
+        ylab('Relative Sentiment') +
+        scale_y_continuous(labels = percent ) +    
+        facet_grid(DayOfWeek ~ Location ) +
+        theme(text = element_text(size = 16))
+    })
+    
+    
+    
   ## Mobility  -------------------------------------------------
     
     # Numbers

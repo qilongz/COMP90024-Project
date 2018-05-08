@@ -237,6 +237,24 @@ navbarPage(
       fluidRow(plotOutput(outputId = "plotBaseByDay"))
       ),
     
+    
+    
+    tabPanel(
+      "Facets",
+      
+      h2("Location & Day of Week Facet"),
+      fluidRow(plotOutput(outputId = "plotDayLocationFacet",height = 500, width=700))  ,
+      
+      br(),
+      h2("Location vs Day of Week - Time of Day  Facet"),
+      fluidRow(plotOutput(outputId = "plotLocationFullFacet",height = 800)),
+      
+      br(),
+      h2("Day of Week Vs Location - Time of Day  Facet"),
+      fluidRow(plotOutput(outputId = "plotDayOfWeekFullFacet",height = 800))
+      
+    ),
+    
     tabPanel(
       "Sentiment By Region",
       
