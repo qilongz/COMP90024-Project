@@ -86,9 +86,17 @@ sudo apt-get install apt-transport-https
 sudo apt-get update
 sudo apt-get install dotnet-sdk-2.1.105
 
-sudo apt-get install -y openjdk-8-jdk-headless 
+#sudo apt-get install -y openjdk-8-jdk-headless 
 
 sudo apt-get update
+
+# install hdfs3 package
+sudo apt -y install python3-pip
+echo "deb https://dl.bintray.com/wangzw/deb trusty contrib" | sudo tee /etc/apt/sources.list.d/bintray-wangzw-deb.list
+sudo apt-get install -y apt-transport-https
+sudo apt-get update
+sudo apt-get install libhdfs3 libhdfs3-dev
+
 #sudo apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install mypackage1 mypackage2
 
 

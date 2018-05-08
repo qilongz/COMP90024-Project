@@ -41,13 +41,13 @@ def main(argv):
 		validate_certs=False)
 	
 	reservations = ec2_conn.get_all_reservations()
-	image_IDs = []
-	volumeID_list = []
+	# image_IDs = []
+	# volumeID_list = []
 	for  res in reservations:
 		print('\nID: {}\tIP: {}\tPlacement: {}'.format(res.instances[0].id,
 		res.instances[0].private_ip_address,
 		res.instances[0].placement)) 
-		#ec2_conn.create_image(instance_id=res.instances[0].id,name =res.id)
+		ec2_conn.create_image(instance_id=res.instances[0].id,name =res.id)
 
 	# while True:
 	# 	time.sleep(2)
@@ -56,11 +56,11 @@ def main(argv):
 	# 		print ('ALL instances been terminated')
 	# 		break
 
-	volumnes = ec2_conn.get_all_volumes()
-	print('Index\tID\t\tSize')
-	for idx, vol in enumerate(volumnes):
-		print('{}\t{}\t{}'.format(idx, vol.id,vol.size)) 
-		ec2_conn.create_snapshot(vol.id)
+	# volumnes = ec2_conn.get_all_volumes()
+	# print('Index\tID\t\tSize')
+	# for idx, vol in enumerate(volumnes):
+	# 	print('{}\t{}\t{}'.format(idx, vol.id,vol.size))
+	# 	ec2_conn.create_snapshot(vol.id)
 
 
 
