@@ -1,0 +1,140 @@
+﻿{
+  "id": "875280583026507776",
+  "key": [ "adelaide", 2017, 6, 15 ],
+  "value": 1,
+  "doc": {
+    "_id": "875280583026507776",
+    "_rev": "1-9f40fd6e55444a982fae7524a2b89da1",
+    "created_at": "Thu Jun 15 09:15:27 +0000 2017",
+    "id": 875280583026507800,
+    "id_str": "875280583026507776",
+    "text": "Waiting for footy to start (@ Home Theater Snuggles in Elizabeth South, South Australia w/ @philip01) https://t.co/nkpMIXlC72",
+    "truncated": false,
+    "entities": {
+      "hashtags": [],
+      "symbols": [],
+      "user_mentions": [
+        {
+          "screen_name": "philip01",
+          "name": "Philip Fox",
+          "id": 21863683,
+          "id_str": "21863683",
+          "indices": [ 91, 100 ]
+        }
+      ],
+      "urls": [
+        {
+          "url": "https://t.co/nkpMIXlC72",
+          "expanded_url": "https://www.swarmapp.com/c/9ftLCRevi9J",
+          "display_url": "swarmapp.com/c/9ftLCRevi9J",
+          "indices": [ 102, 125 ]
+        }
+      ]
+    },
+    "metadata": {
+      "iso_language_code": "en",
+      "result_type": "recent"
+    },
+    "source": "<a href=\"http://foursquare.com\" rel=\"nofollow\">Foursquare</a>",
+    "in_reply_to_status_id": null,
+    "in_reply_to_status_id_str": null,
+    "in_reply_to_user_id": null,
+    "in_reply_to_user_id_str": null,
+    "in_reply_to_screen_name": null,
+    "user": {
+      "id": 28773485,
+      "id_str": "28773485",
+      "name": "Cricket",
+      "screen_name": "cricketfox",
+      "location": "Australia",
+      "description": "Writer, Knitter and Crocheter, Adelaide Crows, White Sox, Buckeyes and Dallas",
+      "url": "https://t.co/iw19XG4IUK",
+      "entities": {
+        "url": {
+          "urls": [
+            {
+              "url": "https://t.co/iw19XG4IUK",
+              "expanded_url": "http://cricketfox2001.wix.com/cricketscornerof-oz",
+              "display_url": "cricketfox2001.wix.com/cricketscorner…",
+              "indices": [ 0, 23 ]
+            }
+          ]
+        },
+        "description": { "urls": [] }
+      },
+      "protected": false,
+      "followers_count": 2519,
+      "friends_count": 1503,
+      "listed_count": 131,
+      "created_at": "Sat Apr 04 10:39:22 +0000 2009",
+      "favourites_count": 2856,
+      "utc_offset": 34200,
+      "time_zone": "Adelaide",
+      "geo_enabled": true,
+      "verified": false,
+      "statuses_count": 46083,
+      "lang": "en",
+      "contributors_enabled": false,
+      "is_translator": false,
+      "is_translation_enabled": false,
+      "profile_background_color": "642D8B",
+      "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/153801800/cricketand_operahouse.bmp.jpg",
+      "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/153801800/cricketand_operahouse.bmp.jpg",
+      "profile_background_tile": true,
+      "profile_image_url": "http://pbs.twimg.com/profile_images/502797237378752512/W5SUJX0A_normal.jpeg",
+      "profile_image_url_https": "https://pbs.twimg.com/profile_images/502797237378752512/W5SUJX0A_normal.jpeg",
+      "profile_banner_url": "https://pbs.twimg.com/profile_banners/28773485/1492994153",
+      "profile_link_color": "1B95E0",
+      "profile_sidebar_border_color": "FFFFFF",
+      "profile_sidebar_fill_color": "7AC3EE",
+      "profile_text_color": "3D1957",
+      "profile_use_background_image": true,
+      "has_extended_profile": false,
+      "default_profile": false,
+      "default_profile_image": false,
+      "following": false,
+      "follow_request_sent": false,
+      "notifications": false,
+      "translator_type": "none"
+    },
+    "geo": {
+      "type": "Point",
+      "coordinates": [ -34.7334592, 138.65392677 ]
+    },
+    "coordinates": {
+      "type": "Point",
+      "coordinates": [ 138.65392677, -34.7334592 ]
+    },
+    "place": {
+      "id": "01e8a1a140ccdc5c",
+      "url": "https://api.twitter.com/1.1/geo/id/01e8a1a140ccdc5c.json",
+      "place_type": "city",
+      "name": "Adelaide",
+      "full_name": "Adelaide, South Australia",
+      "country_code": "AU",
+      "country": "Australia",
+      "contained_within": [],
+      "bounding_box": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [ 138.44212992, -35.348970061 ],
+            [ 138.780189824, -35.348970061 ],
+            [ 138.780189824, -34.652564053 ],
+            [ 138.44212992, -34.652564053 ]
+          ]
+        ]
+      },
+      "attributes": {}
+    },
+    "contributors": null,
+    "is_quote_status": false,
+    "retweet_count": 0,
+    "favorite_count": 0,
+    "favorited": false,
+    "retweeted": false,
+    "possibly_sensitive": false,
+    "lang": "en",
+    "location": "adelaide"
+  }
+},

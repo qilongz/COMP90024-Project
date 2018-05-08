@@ -1,0 +1,58 @@
+RegionId,Name,Observations,Sentiment
+403,"Adelaide - South",6348,0.2217
+401,"Adelaide - Central and Hills",29568,0.1923
+404,"Adelaide - West",6729,0.2120
+402,"Adelaide - North",6011,0.1447
+407,"South Australia - South East",287,0.1282
+405,"Barossa - Yorke - Mid North",523,0.2463
+305,"Brisbane Inner City",40781,0.2034
+303,"Brisbane - South",5686,0.1809
+313,"Moreton Bay - North",2606,0.2631
+302,"Brisbane - North",5998,0.1927
+309,"Gold Coast",2598,0.2526
+314,"Moreton Bay - South",2072,0.2528
+311,"Logan - Beaudesert",2342,0.1817
+304,"Brisbane - West",4389,0.1641
+301,"Brisbane - East",3960,0.2499
+310,"Ipswich",2565,0.2264
+317,"Toowoomba",86,0.1449
+307,"Darling Downs - Maranoa",18,0.0246
+901,"Other Territories",49,0.1849
+801,"Australian Capital Territory",25833,0.1144
+101,"Capital Region",2161,0.1514
+113,"Riverina",39,0.0894
+601,"Hobart",16849,0.0996
+603,"South East",746,0.2041
+211,"Melbourne - Outer East",8735,0.2171
+206,"Melbourne - Inner",121615,0.1915
+208,"Melbourne - Inner South",9620,0.2164
+207,"Melbourne - Inner East",5036,0.2006
+213,"Melbourne - West",10666,0.1911
+209,"Melbourne - North East",7498,0.1773
+214,"Mornington Peninsula",2777,0.1899
+212,"Melbourne - South East",8769,0.1302
+210,"Melbourne - North West",6025,0.1544
+203,"Geelong",515,0.2008
+201,"Ballarat",52,0.0795
+503,"Perth - Inner",30337,0.2369
+507,"Perth - South West",8818,0.2376
+505,"Perth - North West",5993,0.2345
+506,"Perth - South East",12270,0.1537
+504,"Perth - North East",3708,0.1968
+509,"Western Australia - Wheat Belt",65,0.1753
+120,"Sydney - Inner West",8414,0.1822
+117,"Sydney - City and Inner South",103063,0.2020
+127,"Sydney - South West",2527,0.2182
+123,"Sydney - Outer South West",2109,0.1490
+121,"Sydney - North Sydney and Hornsby",16586,0.1251
+118,"Sydney - Eastern Suburbs",28400,0.1876
+125,"Sydney - Parramatta",9781,0.1616
+102,"Central Coast",3043,0.2196
+116,"Sydney - Blacktown",4364,0.1268
+119,"Sydney - Inner South West",4679,0.1962
+122,"Sydney - Northern Beaches",11037,0.2538
+128,"Sydney - Sutherland",4277,0.2131
+124,"Sydney - Outer West and Blue Mountains",3408,0.2178
+115,"Sydney - Baulkham Hills and Hawkesbury",2292,0.2056
+126,"Sydney - Ryde",3802,0.1996
+107,"Illawarra",528,0.1819

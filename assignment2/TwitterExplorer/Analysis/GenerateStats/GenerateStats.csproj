@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="extract.xslt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="extract.xslt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\TwitterUtil\TwitterUtil.csproj" />
+  </ItemGroup>
+
+</Project>

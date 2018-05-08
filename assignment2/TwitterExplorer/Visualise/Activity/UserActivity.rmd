@@ -1,0 +1,177 @@
+---
+output: html_document
+---
+
+
+```{r setup, echo=FALSE, message=FALSE, warning = FALSE}
+
+library(tidyverse)
+library(lubridate)
+library(ggmap)
+library(scales)
+
+knitr::opts_chunk$set(fig.width = 12, fig.height = 10)
+readr.show_progress=FALSE
+
+toJourneysUsers <- read_csv(
+                    "E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\geoJourneysUsers.csv",
+                   progress = FALSE)
+toJourneysTweets <- read_csv(
+                    "E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\geoJourneysActivity.csv",
+                   progress = FALSE)
+
+toJourneysAvg <- inner_join(toJourneysUsers, toJourneysTweets, by = c("Source", "X1", "Y1", "X2", "Y2", "Target"))
+
+
+geoTo <- read_csv("E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\geoToJourneys.csv",
+                   progress = FALSE)
+
+region<- c(left=111, right=157, bottom=-46,top=-23)
+
+```
+
+## Tweeter Mobility
+
+It was observed that tweets originated by a proportion of posters from multiple cities.
+Assuming that the city with the most tweets, was the posters home city some insight to the posters mobility and behaviour can be
+obtained by analysing the use 
+
+### Assumptions
+
+The analysis is based on the following assumptions:
+
+* the city with the most tweets for a given poster, is the home city of the poster
+* users that poster from multiple geographic locations are likely to be actual end-users not businesses (e.g. bars, venues, etc.).
+There are some small number of services (e.g. _Where Pets Are Found, CEB Jobs_ ) that post from multiple cities.
+These anomalies have not been removed in this analysis.
+
+
+
+
+### Number of mobile tweeters
+
+Based on geo-located (place tagged and exact-position) data for `r comma(sum(toJourneysUsers$Users))` individual posters
+
+
+```{r echo=FALSE,warning = FALSE, fig.height= 6}
+
+srcCity <- filter(toJourneysUsers, Source == "melbourne")
+
+ggmap(get_stamenmap(region, zoom = 4, maptype = "toner-lite")) +
+    geom_segment(data = srcCity,
+        aes(x = X1, y = Y1, xend = X2, yend = Y2, size = Users),
+        arrow = arrow(angle = 20), lineend = 'square', color = 'deeppink4', alpha = 0.5) +
+        geom_point(data = srcCity, aes(x = X1, y = Y1),
+        size = 4, color = 'deeppink4') +
+        xlab('') +
+        ylab('') +
+        labs(title = 'Number of Melbourne residents who have tweeted in other cities') +
+        labs(caption = 'Line width is proportional to number of tweeters who visit linked city') 
+      
+
+```
+
+
+
+```{r echo=FALSE,warning = FALSE, fig.height= 6}
+
+srcCity <- filter(toJourneysUsers, Target == "melbourne")
+
+ggmap(get_stamenmap(region, zoom = 4, maptype = "toner-lite")) +
+    geom_segment(data = srcCity,
+        aes(x = X1, y = Y1, xend = X2, yend = Y2, size = Users),
+        arrow = arrow(angle = 13), lineend = 'square', color = 'green4', alpha = 0.5) +
+    geom_point(data = srcCity, aes(x = X1, y = Y1),
+        size = 4, color = 'green4') +
+        xlab('') +
+        ylab('') +
+        labs(title = 'Number of non-Melbourne residents who tweeted when visiting Melbourne') +
+         labs(caption = 'Line width is proportional to number of tweeters who visit linked city') 
+         
+
+```
+
+
+### Tweeting activity of mobile tweeters
+
+Based on `r comma(sum(toJourneysTweets$Tweets))` geo-located (place tagged and exact-position) tweets by `r comma(sum(toJourneysUsers$Users))` individual posters
+
+
+```{r echo=FALSE,warning = FALSE, fig.height= 6}
+
+srcCity <- filter(toJourneysAvg, Source == "melbourne")
+
+ggmap(get_stamenmap(region, zoom = 4, maptype = "toner-lite")) +
+    geom_segment(data = srcCity,
+        aes(x = X1, y = Y1, xend = X2, yend = Y2, size = Tweets/Users),
+        arrow = arrow(angle = 20), lineend = 'square', color = 'deeppink4', alpha = 0.5) +
+        geom_point(data = srcCity, aes(x = X1, y = Y1),
+        size = 4, color = 'deeppink4') +
+        xlab('') +
+        ylab('') +
+        labs(title = 'Mean tweets by Melbourne residents who tweeted while in other cities') +
+         labs(caption = 'Line width is proportional to average tweets') 
+        
+```
+
+
+
+```{r echo=FALSE,warning = FALSE, fig.height= 6}
+
+srcCity <- filter(toJourneysAvg, Target == "melbourne")
+
+ggmap(get_stamenmap(region, zoom = 4, maptype = "toner-lite")) +
+    geom_segment(data = srcCity,
+        aes(x = X1, y = Y1, xend = X2, yend = Y2, size = Tweets/Users),
+        arrow = arrow(angle = 13), lineend = 'square', color = 'green4', alpha=0.5) +
+    geom_point(data = srcCity, aes(x = X1, y = Y1),
+        size = 4, color = 'green4') +
+        xlab('') +
+        ylab('') +
+        labs(title = 'Mean tweets by non-Melbourne residents who tweeted when visiting Melbourne') +
+         labs(caption = 'Line width is proportional to average tweets') 
+           
+
+```
+
+
+
+### Tweeted from distinations of mobile tweeters
+
+Based on `r  comma(nrow(geoTo))` geo-located  exact-position  by `r comma(sum(toJourneysUsers$Users))` individual posters,
+
+
+```{r echo=FALSE,warning = FALSE, fig.height= 7}
+
+region <- c(left = 144.91, right = 145.0, top = -37.78, bottom = -37.875)
+innermelb <- filter(geoTo,
+                    region['left'] <= X2 & X2 <= region['right'],
+                    region['top'] >= Y2 & Y2 >= region['bottom'])
+
+ggmap(get_stamenmap(region, zoom = 14, maptype = "toner-lite")) +
+    stat_density_2d(data = innermelb, aes(x = X2, y = Y2, fill = ..level..), geom = "polygon", alpha = 0.5) +
+    scale_fill_distiller(palette = "Spectral") +
+    geom_point(data = innermelb, aes(x = X2, y = Y2), color = 'navy') +
+    scale_alpha(trans = 'log10') + xlab('Longitude') + ylab('Latitude') +
+    theme(legend.position = "none") +
+    labs(title = 'Locations tweeted from by non-Melbourne residents who tweeted when visiting inner-Melbourne') 
+        
+```
+
+
+```{r echo=FALSE,warning = FALSE, fig.height= 7}
+
+region <- c(left = 151.185, right = 151.23, top = -33.842, bottom = -33.875)
+innersyd <- filter(geoTo,
+                    region['left'] <= X2 & X2 <= region['right'],
+                    region['top'] >= Y2 & Y2 >= region['bottom'])
+
+ggmap(get_stamenmap(region, zoom = 15, maptype = "toner-lite")) +
+    stat_density_2d(data = innersyd, aes(x = X2, y = Y2, fill = ..level..), geom = "polygon", alpha = 0.5) +
+    scale_fill_distiller(palette = "Spectral") +
+    geom_point(data = innersyd, aes(x = X2, y = Y2), color = 'navy') +
+    scale_alpha(trans = 'log10') + xlab('Longitude') + ylab('Latitude') +
+    theme(legend.position = "none") +
+    labs(title = 'Locations tweeted from by non-Sydney residents who tweeted when visiting inner-Sydney') 
+        
+```

@@ -1,0 +1,117 @@
+
+
+
+curl -XGET "http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?group_level=2" --user "readonly:ween7ighai9gahR6"
+
+{"rows":[
+{"key":["adelaide",2011],"value":30},
+{"key":["adelaide",2012],"value":387},
+{"key":["adelaide",2013],"value":907},
+{"key":["adelaide",2014],"value":1915},
+{"key":["adelaide",2015],"value":5839},
+{"key":["adelaide",2016],"value":27220},
+{"key":["adelaide",2017],"value":831571},
+{"key":["adelaide",2018],"value":417361},
+{"key":["brisbane",2010],"value":2},
+{"key":["brisbane",2011],"value":40},
+{"key":["brisbane",2012],"value":562},
+{"key":["brisbane",2013],"value":1552},
+{"key":["brisbane",2014],"value":3956},
+{"key":["brisbane",2015],"value":10454},
+{"key":["brisbane",2016],"value":48278},
+{"key":["brisbane",2017],"value":1677850},
+{"key":["brisbane",2018],"value":745902},
+{"key":["canberra",2011],"value":7},
+{"key":["canberra",2012],"value":57},
+{"key":["canberra",2013],"value":159},
+{"key":["canberra",2014],"value":445},
+{"key":["canberra",2015],"value":1136},
+{"key":["canberra",2016],"value":5368},
+{"key":["canberra",2017],"value":180230},
+{"key":["canberra",2018],"value":66237},
+{"key":["hobart",2011],"value":1},
+{"key":["hobart",2012],"value":4},
+{"key":["hobart",2013],"value":24},
+{"key":["hobart",2014],"value":63},
+{"key":["hobart",2015],"value":134},
+{"key":["hobart",2016],"value":867},
+{"key":["hobart",2017],"value":28592},
+{"key":["hobart",2018],"value":13541},
+{"key":["melbourne",2010],"value":12},
+{"key":["melbourne",2011],"value":99},
+{"key":["melbourne",2012],"value":1216},
+{"key":["melbourne",2013],"value":3016},
+{"key":["melbourne",2014],"value":7754},
+{"key":["melbourne",2015],"value":21634},
+{"key":["melbourne",2016],"value":102712},
+{"key":["melbourne",2017],"value":3540663},
+{"key":["melbourne",2018],"value":1649910},
+{"key":["perth",2010],"value":24},
+{"key":["perth",2011],"value":66},
+{"key":["perth",2012],"value":697},
+{"key":["perth",2013],"value":2048},
+{"key":["perth",2014],"value":4245},
+{"key":["perth",2015],"value":11814},
+{"key":["perth",2016],"value":53120},
+{"key":["perth",2017],"value":1592720},
+{"key":["perth",2018],"value":703355},
+{"key":["sydney",2010],"value":12},
+{"key":["sydney",2011],"value":159},
+{"key":["sydney",2012],"value":1881},
+{"key":["sydney",2013],"value":4451},
+{"key":["sydney",2014],"value":10567},
+{"key":["sydney",2015],"value":28017},
+{"key":["sydney",2016],"value":133975},
+{"key":["sydney",2017],"value":4588967},
+{"key":["sydney",2018],"value":2098862}
+]}
+
+
+
+curl -XGET "http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?group_level=3" --user "readonly:ween7ighai9gahR6"
+
+
+curl
+-XGET "http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B"melbourne",2018,1,1]&end_key=["melbourne",2014,12,31]&reduce=false&include_docs=true' \
+--user "readonly:ween7ighai9gahR6" -o /tmp/insta-perth-2014.json
+The composite key of the summary view is composed of: city name, year,
+
+
+
+
+curl "http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary" \
+-G -v  \
+--data-urlencode 'start_key=["melbourne",2018,3,28]' \
+--data-urlencode 'end_key=["melbourne",2018,3,28]' \
+--data-urlencode 'reduce=false' \
+--data-urlencode 'include_docs=true' \
+--user "readonly:ween7ighai9gahR6" -o /tmp/insta-melbourne-2018-3-28.json
+
+
+ http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22melbourne%22%2C2018%2C1%2C1%5D&end_key=%5B%22melbourne%22%2C2018%2C12%2C31%5D&reduce=false&include_docs=true 
+
+ readonly	 ween7ighai9gahR6
+
+ adelaide brisbane canberra hobart perth sydney  
+
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22adelaide%22%2C2018%2C1%2C1%5D&end_key=%5B%22adelaide%22%2C2018%2C12%2C31%5D&reduce=false&include_docs=true 
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22brisbane%22%2C2018%2C1%2C1%5D&end_key=%5B%22brisbane%22%2C2018%2C12%2C31%5D&reduce=false&include_docs=true 
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22canberra%22%2C2018%2C1%2C1%5D&end_key=%5B%22canberra%22%2C2018%2C12%2C31%5D&reduce=false&include_docs=true 
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22hobart%22%2C2018%2C1%2C1%5D&end_key=%5B%22hobart%22%2C2018%2C12%2C31%5D&reduce=false&include_docs=true 
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22perth%22%2C2018%2C1%2C1%5D&end_key=%5B%22perth%22%2C2018%2C12%2C31%5D&reduce=false&include_docs=true 
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22sydney%22%2C2018%2C1%2C1%5D&end_key=%5B%22sydney%22%2C2018%2C12%2C31%5D&reduce=false&include_docs=true 
+
+
+
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22adelaide%22%2C2017%2C1%2C1%5D&end_key=%5B%22adelaide%22%2C2017%2C12%2C31%5D&reduce=false&include_docs=true 
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22brisbane%22%2C2017%2C1%2C1%5D&end_key=%5B%22brisbane%22%2C2017%2C12%2C31%5D&reduce=false&include_docs=true 
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22canberra%22%2C2017%2C1%2C1%5D&end_key=%5B%22canberra%22%2C2017%2C12%2C31%5D&reduce=false&include_docs=true 
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22hobart%22%2C2017%2C1%2C1%5D&end_key=%5B%22hobart%22%2C2017%2C12%2C31%5D&reduce=false&include_docs=true 
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22perth%22%2C2017%2C1%2C1%5D&end_key=%5B%22perth%22%2C2017%2C12%2C31%5D&reduce=false&include_docs=true 
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22sydney%22%2C2017%2C1%2C1%5D&end_key=%5B%22sydney%22%2C2017%2C12%2C31%5D&reduce=false&include_docs=true 
+http://45.113.232.90/couchdbro/instagram/_design/instagram/_view/summary?start_key=%5B%22melbourne%22%2C2017%2C1%2C1%5D&end_key=%5B%22melbourne%22%2C2017%2C12%2C31%5D&reduce=false&include_docs=true 
+
+
+
+
+

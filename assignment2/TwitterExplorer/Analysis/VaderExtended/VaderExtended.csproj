@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="emoji_utf8_lexicon.txt" />
+    <None Remove="vader_lexicon.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="emoji_utf8_lexicon.txt" />
+    <EmbeddedResource Include="vader_lexicon.txt" />
+  </ItemGroup>
+
+</Project>

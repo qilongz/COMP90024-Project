@@ -1,0 +1,346 @@
+---
+output: html_document
+---
+
+
+```{r setup, echo=FALSE, message=FALSE, warning = FALSE}
+
+library(tidyverse)
+library(lubridate)
+library(ggmap)
+library(scales)
+library(tidyverse)
+library(magrittr)
+
+
+knitr::opts_chunk$set(fig.width = 12, fig.height = 10)
+readr.show_progress=FALSE
+
+sentiments <- read_delim(
+                    "E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\sentimentStats.csv",
+                    ",", col_types = "cDn", quote = '', progress = FALSE)
+sdata <- filter(sentiments, YearMth >= ymd(20170701), YearMth <= ymd(20180331))
+
+sentNeturalExcluded <- read_delim(
+                    "E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\sentimentStatsExcludedNetural.csv",
+                    ",", col_types = "cDn", quote = '', progress = FALSE)
+sentNeturalExcluded <- filter(sentNeturalExcluded, YearMth >= ymd(20170701), YearMth <= ymd(20180331))
+
+
+
+timeOfDay <- read_delim(
+                    "E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\sentimentTimeOfDayActivity.csv",
+                    ",", quote = '', progress = FALSE)
+
+twitter <- read_delim(
+                    "E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\volumeStats.csv",
+                    ",", col_types = "cDlli", quote = '', progress = FALSE)
+
+tdata <- filter(twitter, YearMth >= ymd(20170701), YearMth <= ymd(20180331))
+totalNumberTweets <- tdata %>% select(Count) %>% sum()
+
+sentLocationBanded <- read_delim(
+                    "E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\sentimentStatsBanded.csv",
+                    ",", quote = '', progress = FALSE)
+sentTimeOfDayBanded <- read_delim(
+                    "E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\sentimentStatsHourBanded.csv",
+                    ",", quote = '', progress = FALSE)
+sentDayOfWeekBanded <- read_delim(
+                    "E:\\uni\\Cluster and Cloud Computing\\COMP90024-Project\\assignment2\\TwitterExplorer\\Analysis\\GenerateStats\\bin\\sentimentStatsDayBanded.csv",
+                    ",", quote = '', progress = FALSE)
+
+# recentre pillars
+sentLocationBanded %<>% mutate(SentimentBand = SentimentBand - 2.5)
+sentTimeOfDayBanded %<>% mutate(SentimentBand = SentimentBand - 2.5)
+sentDayOfWeekBanded %<>% mutate(SentimentBand = SentimentBand - 2.5)
+
+
+
+```
+
+
+## Sentiment Analysis
+
+An existing sentiment analyser formulated for Social Media research was used to establish a baseline sentiment for all the available tweet data.
+The specific analyser (VADER - _Valence Aware Dictionary and sEntiment Reasoner_) is a lexicon and rule-based sentiment analysis tool. 
+The tool was choosen as is specifically attuned to sentiments expressed in social media. 
+
+Configuration and code from multiple sources (https://github.com/cjhutto/vaderSentiment  and  https://github.com/codingupastorm/vadersharp) 
+were merged.  A number of performance issue where addressed with the available implementations.
+
+The analyser is capability generating  scores from multiple perspectives.
+The **compound** score  provides a single unidimensional measure of sentiment for a given sentence.
+The compound score is computed by summing the valence scores of each word in the lexicon, 
+adjusted according to the rules, and then normalized to be between -1 (most extreme negative) 
+and +1 (most extreme positive). 
+
+It can be used standardized thresholds for classifying sentences as either positive, neutral, or negative. 
+Typical threshold values (used with approach) are:
+
+* positive sentiment: compound score >= 0.05
+* neutral sentiment: (compound score > -0.05) and (compound score < 0.05)
+* negative sentiment: compound score <= -0.05
+
+ 
+Specifically, the scoring  process:
+ 
+It covers all features we are meant to address:
+
+* scores word for positive & negative associations (e.g. awesome +)  (e.g. dickhead -)  
+* increased  sentiment with capitalised words (e.g. I LOVE my dog,  I HATE you)  
+* increased positive sentiment for !!!!!   
+* understands some double negatives (e.g. not bad)   
+* understand old smiles   : )   ):<     - it has prescribed weighting for each of these combinations.  
+* understands  emojis   ❤💞😊💙   -  emojis are converted to word equivalents before sentiment analysis is applied
+  e.g. 😊   becomes _"smiling face with smiling eyes"_
+
+
+
+
+## Explorative Statistics 
+
+The following is the observed VADER sentiment over `r comma(totalNumberTweets) `   distinct Geo-located tweets.
+
+### Location Analysis 
+
+```{r echo=FALSE,warning = FALSE, fig.height = 6}
+allCityTtls <- sdata %>%
+     group_by(YearMth) %>%
+     summarise(Tally = mean(AverageSentiment)) %>%
+     mutate(Location = " mean") %>%
+     select(Location,YearMth,Tally)
+
+byCityTtls <- sdata %>%
+     group_by(Location, YearMth) %>%
+     summarise(Tally = mean(AverageSentiment)) %>%
+      ungroup()
+
+
+
+ggplot(data = byCityTtls, aes(x = YearMth, y = Tally, group = Location, colour = Location)) +
+     geom_line() +
+     geom_point() +
+     geom_smooth(method = 'loess', span=0.3,
+     data = allCityTtls, aes(x = YearMth, y = Tally, group = Location, colour = Location), size = 1, linetype = "longdash") +
+     xlab('Month Year') +
+     ylab('Average Sentiment') +
+     scale_color_brewer(palette = 'Dark2') +
+     scale_y_continuous(labels = percent) +
+     scale_x_date(date_breaks = "1 month", date_labels = "%b %y") +
+     labs(title="Average VADER sentiment of geo-located tweets by month")
+
+```
+
+#### Distribution by Location
+
+Sentiment analysis is heavily distorted by large volume of neutral tweets.
+
+```{r echo=FALSE,warning = FALSE, fig.height = 6}
+
+ggplot(data = sentLocationBanded, aes(x = SentimentBand, y = Count, group = Location, color = Location)) +
+    geom_line() +
+    scale_color_brewer(palette = 'Dark2') +
+     scale_y_continuous('Volume', labels = comma) +
+     labs(title = "Tweet sentiment distribution by location")
+
+
+```
+
+Scaling by total number of tweets per location and excluding central neutral tweets, it's clear there is a skew in the distribution.
+
+```{r echo=FALSE,warning = FALSE, fig.height = 4}
+
+sentLocationBandedTtls <- filter(sentLocationBanded, SentimentBand < -5 | 5 < SentimentBand) %>%
+     group_by(SentimentBand) %>%
+     summarise(AllCount = sum(Count), AllTotal=sum(Total)) %>%
+        mutate(Location = "Total") 
+```
+
+
+```{r echo=FALSE,warning = FALSE, fig.height = 6}
+
+filter(sentLocationBanded, SentimentBand < -5 | 5 < SentimentBand) %>%
+    ggplot(aes(x = SentimentBand, y = Count / Total, group = Location, color = Location)) +
+    geom_line() +
+    geom_smooth(method = 'loess', se = FALSE, span=0.3,
+    data = sentLocationBandedTtls,
+    aes(x = SentimentBand, y = AllCount / AllTotal, group = Location, colour = Location),
+    size = 1, linetype = "longdash") +
+     scale_y_continuous('Scaled Volume', labels = percent) +
+     scale_color_brewer(palette = 'Dark2') +
+     xlab("Sentiment (percent)") +
+     labs(title = "Tweet sentiment distribution by location") +
+     labs(subtitle = "Excluding neutral tweets (-%5 < sentiment < 5%)")
+
+```
+
+
+### Time of Day Analysis 
+
+```{r echo=FALSE,warning = FALSE,, fig.height = 6}
+
+group_by(timeOfDay, Hour) %>%
+    summarise(Tally = mean(Average)) %>%
+    ungroup %>%
+    ggplot(aes(x=as.integer(Hour), y=Tally)) +
+    geom_line( color = 'red4', size = 1) +
+     xlab('Hour of Day (LocalTime)') +
+     ylab('Average VADER sentiment in hour [h,h+1) of day') +
+     scale_y_continuous(labels = percent, limits=c(0.11 ,0.14) ) +    
+     labs(title="Average variation in tweet sentiment with time of day")
+
+```
+
+Scaling by total number of tweets per location and excluding central neutral tweets
+
+
+```{r echo=FALSE,warning = FALSE, fig.height = 8}
+
+
+
+sentTimeOfDayBandedTtls <- filter(sentTimeOfDayBanded, SentimentBand < -5 | 5 < SentimentBand) %>%
+     group_by(SentimentBand) %>%
+     summarise(AllCount = sum(Count), AllTotal = sum(Total)) %>%
+        mutate(Hour = "Whole Day")
+
+filter(sentTimeOfDayBanded, SentimentBand < -5 | 5 < SentimentBand) %>%
+    ggplot(aes(x = SentimentBand, y = Count / Total, group = Hour, color = Hour)) +
+    geom_line() +
+    geom_smooth(method = 'loess', se = FALSE, span = 0.3,
+    data = sentTimeOfDayBandedTtls,
+    aes(x = SentimentBand, y = AllCount / AllTotal, group = Hour, colour = Hour),
+    size = 1.5, linetype = "longdash") +
+    scale_x_continuous('Sentiment (percent)') +
+     scale_y_continuous('Scaled Volume', labels = percent) +    
+     labs(title = "Tweet sentiment distribution by day of week") +
+     labs(subtitle = "Excluding neutral tweets (-%5 < sentiment < 5%)")
+
+```
+
+
+
+
+### Day of Week Analysis 
+
+```{r echo=FALSE,warning = FALSE,, fig.height = 6}
+
+
+dw <- group_by(timeOfDay, DayOfWeek) %>%
+    summarise(Tally = mean(Average))
+dw$DayOfWeek <- as.factor(dw$DayOfWeek)
+dw$DayOfWeek <- factor(dw$DayOfWeek, levels(dw$DayOfWeek)[c(4, 2, 6, 7, 5, 1, 3)])
+
+
+ggplot(data = dw, aes(x = as.integer(DayOfWeek), y = Tally)) +
+     geom_line(color = 'red4', size = 1) +
+     scale_x_continuous('Day of Week (LocalTime)',breaks = c(1,2,3,4,5,6,7),
+     labels=c('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')) +   
+     scale_y_continuous('Average VADER sentiment for day of week',labels = percent, limits = c(0.11, 0.14)) +
+     labs(title="Average variation tweet sentiment with day of week")
+
+```
+
+Scaling by total number of tweets per location and excluding central neutral tweets
+
+
+
+```{r echo=FALSE,warning = FALSE, fig.height = 6}
+
+sentDayOfWeekBandedTtls <- filter(sentDayOfWeekBanded, SentimentBand < -5 | 5 < SentimentBand) %>%
+     group_by(SentimentBand) %>%
+     summarise(AllCount = sum(Count), AllTotal = sum(Total)) %>%
+        mutate(DayOfWeek = "Cross Whole Day")
+
+filter(sentDayOfWeekBanded, SentimentBand < -5 | 5 < SentimentBand) %>%
+    ggplot(aes(x = SentimentBand, y = Count / Total, group = DayOfWeek, color = DayOfWeek)) +
+    geom_line() +
+    geom_smooth(method = 'loess', se = FALSE, span = 0.3,
+    data = sentDayOfWeekBandedTtls,
+    aes(x = SentimentBand, y = AllCount / AllTotal, group = DayOfWeek, colour = DayOfWeek),
+    size = 1.5, linetype = "longdash") +
+    scale_x_continuous('Sentiment (percent)') +
+     scale_y_continuous('Scaled Volume', labels = percent) +    
+     labs(title = "Tweet sentiment distribution by time of day") +
+     labs(subtitle = "Excluding neutral tweets (-%5 < sentiment < 5%)")
+
+```
+
+
+### Location Analysis With Neutral Core Excluded
+
+```{r echo=FALSE,warning = FALSE, fig.height = 6}
+allCityTtls <- sentNeturalExcluded %>%
+     group_by(YearMth) %>%
+     summarise(Tally = mean(AverageSentiment)) %>%
+     mutate(Location = " mean") %>%
+     select(Location,YearMth,Tally)
+
+byCityTtls <- sentNeturalExcluded %>%
+     group_by(Location, YearMth) %>%
+     summarise(Tally = mean(AverageSentiment)) %>%
+      ungroup()
+
+allAvg <- mean(byCityTtls$Tally)
+
+
+
+ggplot(data = byCityTtls, aes(x = YearMth, y = Tally, group = Location, colour = Location)) +
+     geom_line() +
+     geom_point() +
+     geom_smooth(method = 'loess', span=0.3,
+     data = allCityTtls, aes(x = YearMth, y = Tally, group = Location, colour = Location), size = 1, linetype = "longdash") +
+     xlab('Month Year') +
+     ylab('Average Sentiment') +
+     scale_color_brewer(palette = 'Dark2') +
+     scale_y_continuous(labels = percent) +
+     scale_x_date(date_breaks = "1 month", date_labels = "%b %y") +
+     labs(title = "Average VADER sentiment of geo-located tweets by month") +
+     labs(subtitle = "Excluding neutral tweets (-%5 < sentiment < 5%)")
+
+```
+
+
+```{r echo=FALSE,warning = FALSE, fig.height = 6}
+ 
+ggplot(data = byCityTtls, aes(x = YearMth, y = Tally - allAvg, group = Location, fill = Location)) +
+     geom_col(position = "dodge", color='white') +
+     xlab('Month Year') +
+     ylab('Average Sentiment') +
+     scale_color_brewer(palette = 'Paired') +
+     scale_y_continuous(labels = percent) +
+     scale_x_date(date_breaks = "1 month", date_labels = "%b %y") +
+     labs(title = "Baselined average VADER sentiment of geo-located tweets by month") +
+     labs(subtitle = "Excluding neutral tweets (-%5 < sentiment < 5%)") 
+     
+
+```
+
+
+
+```{r echo=FALSE,warning = FALSE,, fig.height = 6}
+
+
+byHour <- group_by(timeOfDay, Hour) %>%
+    summarise(Tally = mean(Average))
+byHourAvg <- mean(byHour$Tally)
+
+
+ggplot(data = byHour, aes(x = as.integer(Hour), y = Tally - byHourAvg)) +
+    geom_col(fill = 'red4') +
+     xlab('Hour of Day (LocalTime)') +
+     ylab('Average VADER sentiment in hour [h,h+1) of day') +
+     scale_y_continuous(labels = percent ) +    
+     labs(title="Baselined average variation in tweet sentiment with time of day")
+
+```
+
+```{r echo=FALSE,warning = FALSE,, fig.height = 6}
+
+ggplot(data = dw, aes(x = as.integer(DayOfWeek), y = Tally - mean(dw$Tally))) +
+     geom_col(fill = 'red4') +
+     scale_x_continuous('Day of Week (LocalTime)',breaks = c(1,2,3,4,5,6,7),
+     labels=c('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')) +   
+     scale_y_continuous('Average VADER sentiment for day of week',labels = percent) +
+     labs(title="Baselined average variation tweet sentiment with day of week")
+
+```

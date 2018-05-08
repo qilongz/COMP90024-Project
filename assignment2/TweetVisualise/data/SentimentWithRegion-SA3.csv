@@ -1,0 +1,204 @@
+RegionId,Name,Observations,Sentiment
+40301,"Holdfast Bay",1826,0.2284
+40102,"Adelaide Hills",2518,0.2277
+40402,"Port Adelaide - West",1502,0.1874
+40202,"Playford",1531,0.1272
+40401,"Charles Sturt",3035,0.2622
+40302,"Marion",1358,0.2384
+40701,"Fleurieu - Kangaroo Island",221,0.1112
+40101,"Adelaide City",22031,0.1773
+40403,"West Torrens",2191,0.1594
+40203,"Port Adelaide - East",612,0.2372
+40204,"Salisbury",2519,0.1036
+40103,"Burnside",1167,0.2078
+40304,"Onkaparinga",2455,0.2096
+40105,"Norwood - Payneham - St Peters",1376,0.2000
+40205,"Tea Tree Gully",787,0.1838
+40107,"Unley",1605,0.2923
+40303,"Mitcham",710,0.2142
+40501,"Barossa",520,0.2469
+40106,"Prospect - Walkerville",396,0.2858
+40201,"Gawler - Two Wells",496,0.2150
+40703,"Murray and Mallee",66,0.1851
+40104,"Campbelltown (SA)",475,0.2219
+30501,"Brisbane Inner",33676,0.1992
+30303,"Mt Gravatt",1036,0.2465
+30302,"Holland Park - Yeronga",2650,0.1705
+31305,"Redcliffe",1488,0.2688
+30203,"Nundah",3156,0.1888
+30202,"Chermside",1638,0.1888
+30907,"Ormeau - Oxenford",2412,0.2495
+30503,"Brisbane Inner - North",3723,0.2176
+31401,"The Hills District",1011,0.2837
+30504,"Brisbane Inner - West",2571,0.2138
+30306,"Sunnybank",325,0.1630
+31403,"Strathpine",471,0.2720
+31103,"Browns Plains",467,0.2013
+30403,"Sherwood - Indooroopilly",2155,0.1507
+31105,"Loganlea - Carbrook",654,0.1143
+31402,"North Lakes",570,0.1867
+30404,"The Gap - Enoggera",682,0.2424
+30305,"Rocklea - Acacia Ridge",840,0.1150
+30103,"Wynnum - Manly",605,0.2599
+30204,"Sandgate",902,0.2049
+31001,"Forest Lake - Oxley",505,0.2420
+30904,"Gold Coast Hinterland",130,0.3065
+30402,"Kenmore - Brookfield - Moggill",977,0.1692
+30102,"Cleveland - Stradbroke",2215,0.2444
+31102,"Beenleigh",315,0.1185
+31302,"Caboolture",436,0.2508
+30101,"Capalaba",1139,0.2549
+31301,"Bribie - Beachmere",478,0.2616
+30201,"Bald Hills - Everton Park",320,0.2144
+30301,"Carindale",440,0.1952
+31003,"Ipswich Inner",747,0.2069
+31004,"Springfield - Redbank",830,0.2402
+31106,"Springwood - Kingston",764,0.2423
+31304,"Narangba - Burpengary",183,0.2422
+30502,"Brisbane Inner - East",891,0.2745
+31002,"Ipswich Hinterland",476,0.2192
+30401,"Centenary",502,0.0970
+31104,"Jimboomba",136,0.2364
+30304,"Nathan",395,0.2173
+30903,"Gold Coast - North",58,0.2549
+31701,"Toowoomba",86,0.1449
+31303,"Caboolture Hinterland",22,0.3297
+30702,"Darling Downs - East",18,0.0246
+31101,"Beaudesert",6,0.3749
+80111,"Urriarra - Namadgi",6976,0.0063
+80103,"Canberra East",733,0.1274
+80101,"Belconnen",1394,0.2274
+80105,"North Canberra",7326,0.0905
+80110,"Molonglo",196,0.2047
+10102,"Queanbeyan",1341,0.1166
+80109,"Woden Valley",544,0.1748
+80106,"South Canberra",7076,0.2100
+80107,"Tuggeranong",570,0.1112
+10106,"Young - Yass",791,0.2101
+80104,"Gungahlin",939,0.1461
+80108,"Weston Creek",79,0.2203
+10105,"Goulburn - Mulwaree",29,0.1596
+11302,"Tumut - Tumbarumba",39,0.0894
+60105,"Hobart Inner",12215,0.0749
+60102,"Hobart - North East",1514,0.2319
+60101,"Brighton",1163,0.0183
+60104,"Hobart - South and West",686,0.1851
+60302,"Huon - Bruny Island",467,0.2080
+60103,"Hobart - North West",910,0.2039
+60106,"Sorell - Dodges Ferry",293,0.1994
+60301,"Central Highlands (Tas.)",287,0.2030
+60303,"South East Coast",60,0.2844
+21101,"Knox",2616,0.2215
+20604,"Melbourne City",83760,0.1755
+20607,"Yarra",12046,0.2319
+20801,"Bayside",3452,0.2339
+20605,"Port Phillip",10878,0.2424
+21104,"Whitehorse - East",434,0.1184
+20703,"Whitehorse - West",1469,0.1650
+20601,"Brunswick - Coburg",4604,0.2095
+21303,"Maribyrnong",3360,0.1910
+20904,"Whittlesea - Wallan",2587,0.1515
+21103,"Maroondah",1748,0.1933
+21401,"Frankston",1603,0.1727
+21305,"Wyndham",2246,0.1752
+21202,"Casey - North",1183,0.2078
+21205,"Monash",4396,0.0609
+20901,"Banyule",2014,0.2089
+20902,"Darebin - North",2195,0.1660
+20702,"Manningham - West",832,0.1850
+21204,"Dandenong",1750,0.2061
+21005,"Tullamarine - Broadmeadows",4432,0.1475
+20606,"Stonnington - West",6559,0.2212
+20804,"Stonnington - East",1524,0.1924
+20701,"Boroondara",2735,0.2244
+21402,"Mornington Peninsula",1163,0.2138
+21105,"Yarra Ranges",3672,0.2318
+21302,"Hobsons Bay",1910,0.2175
+21001,"Keilor",815,0.1229
+20302,"Geelong",317,0.2099
+20803,"Kingston",2119,0.2146
+20802,"Glen Eira",2525,0.2085
+21003,"Moreland - North",552,0.2083
+20903,"Nillumbik - Kinglake",702,0.2176
+20603,"Essendon",1372,0.1954
+21301,"Brimbank",1472,0.2359
+21304,"Melton - Bacchus Marsh",1679,0.1431
+21201,"Cardinia",858,0.1566
+20602,"Darebin - South",2396,0.2009
+21203,"Casey - South",582,0.2287
+21102,"Manningham - East",265,0.2881
+20303,"Surf Coast - Bellarine Peninsula",197,0.1855
+21004,"Sunbury",110,0.3119
+20102,"Creswick - Daylesford - Ballan",52,0.0795
+21002,"Macedon Ranges",116,0.2305
+50302,"Perth City",26994,0.2397
+50301,"Cottesloe - Claremont",2843,0.2141
+50702,"Fremantle",5418,0.2139
+50503,"Wanneroo",1475,0.2084
+50603,"Canning",2152,0.1816
+50502,"Stirling",2528,0.2241
+50602,"Belmont - Victoria Park",4412,0.2037
+50501,"Joondalup",1952,0.2680
+50704,"Melville",1250,0.2607
+50902,"Wheat Belt - North",86,0.2075
+50705,"Rockingham",1142,0.2756
+50607,"South Perth",952,0.2191
+50601,"Armadale",609,0.2771
+50701,"Cockburn",1100,0.2201
+50403,"Swan",2553,0.2024
+50605,"Kalamunda",3066,-0.0066
+50703,"Kwinana",394,0.4051
+50606,"Serpentine - Jarrahdale",455,0.2010
+50604,"Gosnells",596,0.2397
+50402,"Mundaring",240,0.2462
+50401,"Bayswater - Bassendean",948,0.1695
+50903,"Wheat Belt - South",24,0.0800
+12003,"Strathfield - Burwood - Ashfield",2384,0.2052
+11703,"Sydney Inner City",92852,0.2083
+12002,"Leichhardt",4401,0.1668
+12701,"Bringelly - Green Valley",679,0.1451
+12302,"Campbelltown (NSW)",1271,0.1354
+11702,"Marrickville - Sydenham - Petersham",3641,0.1827
+12101,"Chatswood - Lane Cove",8409,0.0733
+11801,"Eastern Suburbs - North",22429,0.1705
+12501,"Auburn",5827,0.1436
+10201,"Gosford",3043,0.2196
+11602,"Blacktown - North",559,0.1610
+11603,"Mount Druitt",2059,0.1104
+11901,"Bankstown",1053,0.2060
+12104,"North Sydney - Mosman",5565,0.2004
+12201,"Manly",3461,0.2340
+12001,"Canada Bay",1622,0.1924
+11802,"Eastern Suburbs - South",6007,0.2524
+12802,"Sutherland - Menai - Heathcote",1326,0.2270
+11701,"Botany",6543,0.1215
+12403,"Penrith",2179,0.2769
+11501,"Baulkham Hills",1397,0.2489
+12405,"St Marys",338,0.1402
+12103,"Ku-ring-gai",860,0.2043
+12102,"Hornsby",1685,0.0959
+12202,"Pittwater",2938,0.2542
+11904,"Kogarah - Rockdale",1870,0.2137
+12203,"Warringah",4729,0.2653
+12703,"Liverpool",924,0.2506
+11502,"Dural - Wisemans Ferry",482,0.1553
+12503,"Merrylands - Guildford",1153,0.1551
+12602,"Ryde - Hunters Hill",3491,0.1989
+12702,"Fairfield",924,0.2394
+11903,"Hurstville",1062,0.1699
+12504,"Parramatta",2464,0.2004
+11601,"Blacktown",1746,0.1352
+12502,"Carlingford",337,0.2118
+11503,"Hawkesbury",135,0.0158
+12801,"Cronulla - Miranda - Caringbah",2942,0.2068
+12404,"Richmond - Windsor",532,0.0945
+12301,"Camden",651,0.1776
+12303,"Wollondilly",90,0.0554
+10704,"Wollongong",610,0.1873
+10702,"Illawarra Catchment Reserve",15,0.2238
+11902,"Canterbury",694,0.1746
+12401,"Blue Mountains",341,0.1208
+11504,"Rouse Hill - McGraths Hill",278,0.1672
+12601,"Pennant Hills - Epping",292,0.2042
+12402,"Blue Mountains - South",18,0.0051
+40504,"Yorke Peninsula",1,0.4404
