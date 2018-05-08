@@ -10,6 +10,14 @@ library(htmltools)
 
 
 function(input, output, session) {
+  
+  
+  
+  
+  
+  
+  
+  
   # -------------------------------------------------------------------------
   # activity plots
   
@@ -611,7 +619,7 @@ function(input, output, session) {
         sd@data %<>% mutate(Sentiment=coalesce(Relative,0))
       }
       
-      leaflet(fas[[aid]]) %>%
+      leaflet(sd) %>%
         addTiles(urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
                  attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>') %>%
         fitBounds(114,-11, 154,-44)   %>%
@@ -992,154 +1000,167 @@ function(input, output, session) {
       
       
       #              -------------------------------------
+    # last 
+    
+    output$mapRecentSentBySA <- renderLeaflet({
+      aid <- 4
+      bid <- 2
+      pal <- colorNumeric(c("navy", "azure", "red"), NULL)
       
-      # Create the 
-      output$mapRecentSentBySA <- renderLeaflet({
-        aid <- 4
-        pal <- colorNumeric(c( "navy","yellow","red" ),NULL)
-        
-        leaflet(aas[[aid]]) %>%
-          addTiles(urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
-                   attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>') %>%
-          fitBounds(114,-11, 154,-44)   %>%
-          addPolygons(
-            stroke = TRUE,
-            smoothFactor = 1,
-            fillOpacity = 0.5,
-            weight = 1,
-            opacity = 0.6,
-            color = 'black',
-            fillColor = ~ pal(Sentiment),
-            highlightOptions = highlightOptions(
-              color = 'red',
-              weight = 3,
-              bringToFront = TRUE
-            )
-          ) %>%
-          addLegend(
-            pal = pal,
-            title = 'Sentiment',
-            values = ~ Sentiment,
-            opacity = 0.75
+      sd <- ras[[aid]]
+      if (bid == 1) {
+        sd@data %<>% mutate(Sentiment = coalesce(Relative, 0))
+      }
+      
+      leaflet(sd) %>%
+        addTiles(urlTemplate = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
+                 attribution = 'Maps by <a href="http://www.mapbox.com/">Mapbox</a>') %>%
+        fitBounds(114, -11, 154, -44) %>%
+        addPolygons(
+          stroke = TRUE,
+          smoothFactor = 1,
+          fillOpacity = 0.5,
+          weight = 1,
+          opacity = 0.6,
+          color = 'black',
+          fillColor = ~pal(Sentiment),
+          highlightOptions = highlightOptions(
+            color = 'red',
+            weight = 3,
+            bringToFront = TRUE
           )
-      })
-      
-      RecentSentBySAZoomState <- reactive({
-        zoom <- 4
-        bounds <- list(
-          west = 114,
-          east = 154,
-          north = 11,
-          south = -44
+        ) %>%
+        addLegend(
+          pal = pal,
+          title = 'Sentiment',
+          values = ~Sentiment,
+          opacity = 0.75
         )
+    })
+    
+    mapRecentSentBySAZoomState <- reactive({
+      zoom <- 4
+      bounds <- list(
+        west = 114,
+        east = 154,
+        north = 11,
+        south = -44
+      )
+      
+      if (!is.null(input$mapRecentSentBySA_bounds)) {
+        bounds <- input$mapRecentSentBySA_bounds
+        zoom <- input$mapRecentSentBySA_zoom
+      }
+      
+      list("zoom" = zoom, "bounds" = bounds)
+    })
+    
+    observe({
+      zs <- mapRecentSentBySAZoomState()
+      
+      if (exists("zs") & !is.null(zs)) {
+        aid <- as.integer(input$RecentSentBySA.areaId)
+        bid <- as.integer(input$RecentSentBySA.baseId)
         
-        if (!is.null(input$mapRecentSentBySA_bounds)) {
-          bounds <- input$mapRecentSentBySA_bounds
-          zoom <- input$mapRecentSentBySA_zoom
+        sd <- ras[[aid]]
+        if (bid == 1) {
+          sd@data %<>% mutate(Sentiment = coalesce(Relative, 0))
         }
         
-        list("zoom" = zoom, "bounds" = bounds)
-      })
-      
-      observe({
-        zs <- RecentSentBySAZoomState()
+        if (!isTRUE(session$userData$mapRecentSentBySA) &
+            zs$zoom > 12) {
+          session$userData$mapRecentSentBySA <- TRUE
+          updateRadioButtons(
+            session,
+            "RecentSentBySA.areaId",
+            label = "Area:",
+            choices = c(
+              "SA4" = 4,
+              "SA3" = 3,
+              "SA2" = 2,
+              "SA1" = 1
+            ),
+            selected = aid
+          )
+        }
         
-        if (exists("zs") & !is.null(zs)) {
-          aid <- as.integer(input$RecentSentBySA.areaId)
-          sd <- aas[[aid]]
+        if (isTRUE(session$userData$mapRecentSentBySA) &
+            zs$zoom <= 12) {
+          session$userData$mapRecentSentBySA <- FALSE
+          updateRadioButtons(
+            session,
+            "RecentSentBySA.areaId",
+            label = "Area:",
+            choices = c(
+              "SA4" = 4,
+              "SA3" = 3,
+              "SA2" = 2
+            ),
+            selected = 2
+          )
+        }
+        
+        bb <- zs$bounds
+        ff <- ((sd$bbox1 <= bb$west &
+                  bb$west <= sd$bbox3) | (sd$bbox1 <= bb$east &
+                                            bb$east <= sd$bbox3) |
+                 (sd$bbox1 >= bb$west &
+                    bb$east >= sd$bbox1) |
+                 (sd$bbox3 >= bb$west &
+                    bb$east >= sd$bbox3)
+        ) &
+          ((sd$bbox2 <= bb$south &
+              bb$south <= sd$bbox4) |
+             (sd$bbox2 <= bb$north & bb$north <= sd$bbox4) |
+             (sd$bbox2 >= bb$south &
+                bb$north >= sd$bbox2) |
+             (sd$bbox4 >= bb$south & bb$north >= sd$bbox4)
+          )
+        
+        srcData <- sd[ff,]
+        
+        if (!is.null(srcData)) {
+          pal <- colorNumeric(c("navy", "azure", "red"), NULL)
           
-          if (!isTRUE(session$userData$RecentSentBySA) &
-              zs$zoom > 12) {
-            session$userData$RecentSentBySA <- TRUE
-            updateRadioButtons(
-              session,
-              "RecentSentBySA.areaId",
-              label = "Area:",
-              choices = c(
-                "SA4" = 4,
-                "SA3" = 3,
-                "SA2" = 2,
-                "SA1" = 1
+          leafletProxy("mapRecentSentBySA", data = srcData) %>%
+            clearShapes() %>%
+            clearControls() %>%
+            addPolygons(
+              stroke = TRUE,
+              smoothFactor = 1,
+              fillOpacity = 0.5,
+              weight = 1,
+              opacity = 0.6,
+              color = 'black',
+              fillColor = ~pal(Sentiment),
+              highlightOptions = highlightOptions(
+                color = 'red',
+                weight = 3,
+                bringToFront = TRUE
               ),
-              selected = aid
+              label = lapply(srcData@data$HoverText, function(x) { HTML(x) }),
+              labelOptions = labelOptions(
+                direction = 'top',
+                offset = c(0, -10),
+                style = list(
+                  'background' = 'rgba(255,255,255,0.95)',
+                  'border-color' = 'rgba(0,0,0,1)',
+                  'border-radius' = '4px',
+                  'border-style' = 'solid',
+                  'border-width' = '1px'))
+            ) %>%
+            addLegend(
+              pal = pal,
+              title = 'Sentiment',
+              values = ~Sentiment,
+              opacity = 0.75
             )
-          }
-          
-          if (isTRUE(session$userData$RecentSentBySA) &
-              zs$zoom <= 12) {
-            session$userData$RecentSentBySA <- FALSE
-            updateRadioButtons(
-              session,
-              "RecentSentBySA.areaId",
-              label = "Area:",
-              choices = c(
-                "SA4" = 4,
-                "SA3" = 3,
-                "SA2" = 2
-              ),
-              selected = 2
-            )
-          }
-          
-          bb <- zs$bounds
-          ff <-        ((sd$bbox1 <= bb$west &
-                           bb$west <= sd$bbox3) | (sd$bbox1 <= bb$east &
-                                                     bb$east <= sd$bbox3) |
-                          (sd$bbox1 >= bb$west &
-                             bb$east >= sd$bbox1) |
-                          (sd$bbox3 >= bb$west &
-                             bb$east >= sd$bbox3)
-          ) &
-            ((sd$bbox2 <= bb$south &
-                bb$south <= sd$bbox4) |
-               (sd$bbox2 <= bb$north & bb$north <= sd$bbox4) |
-               (sd$bbox2 >= bb$south &
-                  bb$north >= sd$bbox2) |
-               (sd$bbox4 >= bb$south & bb$north >= sd$bbox4)
-            )
-          
-          srcData <- sd[ff,]
-          
-          if (!is.null(srcData)) {
-            pal <- colorNumeric(c( "navy","yellow","red" ), NULL)
-            
-            leafletProxy("mapAllSentByArea", data = srcData) %>%
-              clearShapes() %>%
-              clearControls() %>%
-              addPolygons(
-                stroke = TRUE,
-                smoothFactor = 1,
-                fillOpacity = 0.5,
-                weight = 1,
-                opacity = 0.6,
-                color = 'black',
-                fillColor = ~ pal(Sentiment),
-                highlightOptions = highlightOptions(
-                  color = 'red',
-                  weight = 3,
-                  bringToFront = TRUE
-                ),
-                label = lapply(srcData@data$HoverText, function(x){HTML(x)}),
-                labelOptions = labelOptions(
-                  direction='top',
-                  offset=c(0,-20),
-                  style=list(
-                    'background'='rgba(255,255,255,0.95)',
-                    'border-color' = 'rgba(0,0,0,1)',
-                    'border-radius' = '4px',
-                    'border-style' = 'solid',
-                    'border-width' = '1px'))
-              ) %>%
-              addLegend(
-                pal = pal,
-                title = 'Sentiment',
-                values = ~ Sentiment,
-                opacity = 0.75
-              )
-          }
-          }
+        }
+      }
       
     })
+    
+  
   
   
   

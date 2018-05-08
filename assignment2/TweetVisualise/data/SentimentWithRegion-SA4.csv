@@ -1,58 +1,58 @@
-RegionId,Name,Observations,Sentiment
-403,"Adelaide - South",6348,0.2217
-401,"Adelaide - Central and Hills",29568,0.1923
-404,"Adelaide - West",6729,0.2120
-402,"Adelaide - North",6011,0.1447
-407,"South Australia - South East",287,0.1282
-405,"Barossa - Yorke - Mid North",523,0.2463
-305,"Brisbane Inner City",40781,0.2034
-303,"Brisbane - South",5686,0.1809
-313,"Moreton Bay - North",2606,0.2631
-302,"Brisbane - North",5998,0.1927
-309,"Gold Coast",2598,0.2526
-314,"Moreton Bay - South",2072,0.2528
-311,"Logan - Beaudesert",2342,0.1817
-304,"Brisbane - West",4389,0.1641
-301,"Brisbane - East",3960,0.2499
-310,"Ipswich",2565,0.2264
-317,"Toowoomba",86,0.1449
-307,"Darling Downs - Maranoa",18,0.0246
-901,"Other Territories",49,0.1849
-801,"Australian Capital Territory",25833,0.1144
-101,"Capital Region",2161,0.1514
-113,"Riverina",39,0.0894
-601,"Hobart",16849,0.0996
-603,"South East",746,0.2041
-211,"Melbourne - Outer East",8735,0.2171
-206,"Melbourne - Inner",121615,0.1915
-208,"Melbourne - Inner South",9620,0.2164
-207,"Melbourne - Inner East",5036,0.2006
-213,"Melbourne - West",10666,0.1911
-209,"Melbourne - North East",7498,0.1773
-214,"Mornington Peninsula",2777,0.1899
-212,"Melbourne - South East",8769,0.1302
-210,"Melbourne - North West",6025,0.1544
-203,"Geelong",515,0.2008
-201,"Ballarat",52,0.0795
-503,"Perth - Inner",30337,0.2369
-507,"Perth - South West",8818,0.2376
-505,"Perth - North West",5993,0.2345
-506,"Perth - South East",12270,0.1537
-504,"Perth - North East",3708,0.1968
-509,"Western Australia - Wheat Belt",65,0.1753
-120,"Sydney - Inner West",8414,0.1822
-117,"Sydney - City and Inner South",103063,0.2020
-127,"Sydney - South West",2527,0.2182
-123,"Sydney - Outer South West",2109,0.1490
-121,"Sydney - North Sydney and Hornsby",16586,0.1251
-118,"Sydney - Eastern Suburbs",28400,0.1876
-125,"Sydney - Parramatta",9781,0.1616
-102,"Central Coast",3043,0.2196
-116,"Sydney - Blacktown",4364,0.1268
-119,"Sydney - Inner South West",4679,0.1962
-122,"Sydney - Northern Beaches",11037,0.2538
-128,"Sydney - Sutherland",4277,0.2131
-124,"Sydney - Outer West and Blue Mountains",3408,0.2178
-115,"Sydney - Baulkham Hills and Hawkesbury",2292,0.2056
-126,"Sydney - Ryde",3802,0.1996
-107,"Illawarra",528,0.1819
+RegionId,Name,Observations,Sum,Sentiment
+401,"Adelaide - Central and Hills",14202,568430.02,40.02
+301,"Brisbane - East",2100,98966.98,47.13
+207,"Melbourne - Inner East",2463,101002.06,41.01
+503,"Perth - Inner",15779,718497.69,45.54
+506,"Perth - South East",5887,188565.45,32.03
+505,"Perth - North West",3260,140517.69,43.10
+117,"Sydney - City and Inner South",49474,2081262.02,42.07
+507,"Perth - South West",4567,209531.81,45.88
+118,"Sydney - Eastern Suburbs",15160,532751.45,35.14
+302,"Brisbane - North",2965,115590.71,38.99
+309,"Gold Coast",1451,65609.72,45.22
+314,"Moreton Bay - South",1126,52374.66,46.51
+206,"Melbourne - Inner",58540,2329439.01,39.79
+102,"Central Coast",1807,66808.22,36.97
+121,"Sydney - North Sydney and Hornsby",8871,207517.01,23.39
+305,"Brisbane Inner City",20501,829522.31,40.46
+209,"Melbourne - North East",3617,132975.08,36.76
+213,"Melbourne - West",5062,203766.04,40.25
+212,"Melbourne - South East",4202,114188.27,27.17
+211,"Melbourne - Outer East",4564,189618.26,41.55
+208,"Melbourne - Inner South",4836,208146.44,43.04
+119,"Sydney - Inner South West",2118,91794.91,43.34
+123,"Sydney - Outer South West",879,31403.53,35.73
+125,"Sydney - Parramatta",4563,158056.36,34.64
+303,"Brisbane - South",2542,102866.27,40.47
+210,"Melbourne - North West",2551,93004.48,36.46
+313,"Moreton Bay - North",1418,68557.22,48.35
+304,"Brisbane - West",1984,72058.04,36.32
+601,"Hobart",5083,167842.23,33.02
+504,"Perth - North East",1727,72959.59,42.25
+120,"Sydney - Inner West",3806,153307.18,40.28
+214,"Mornington Peninsula",1358,52725.39,38.83
+122,"Sydney - Northern Beaches",6161,280167.06,45.47
+310,"Ipswich",1308,58064.33,44.39
+403,"Adelaide - South",3243,140735.69,43.40
+127,"Sydney - South West",1295,55123.92,42.57
+126,"Sydney - Ryde",1803,75888.19,42.09
+404,"Adelaide - West",3170,142661.09,45.00
+128,"Sydney - Sutherland",2166,91123.66,42.07
+801,"Australian Capital Territory",9078,295513.92,32.55
+116,"Sydney - Blacktown",1829,55330.52,30.25
+603,"South East",356,15221.30,42.76
+101,"Capital Region",995,32728.87,32.89
+311,"Logan - Beaudesert",1110,42577.98,38.36
+402,"Adelaide - North",2361,86994.65,36.85
+203,"Geelong",256,10341.75,40.40
+124,"Sydney - Outer West and Blue Mountains",1790,74224.55,41.47
+115,"Sydney - Baulkham Hills and Hawkesbury",1203,47120.79,39.17
+107,"Illawarra",248,9607.65,38.74
+113,"Riverina",15,348.60,23.24
+901,"Other Territories",27,906.13,33.56
+407,"South Australia - South East",136,3679.68,27.06
+405,"Barossa - Yorke - Mid North",275,12878.74,46.83
+317,"Toowoomba",35,1246.17,35.60
+307,"Darling Downs - Maranoa",3,44.30,14.77
+201,"Ballarat",19,413.24,21.75
+509,"Western Australia - Wheat Belt",24,1139.19,47.47

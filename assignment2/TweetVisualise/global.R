@@ -8,15 +8,34 @@ allLocations <- read_csv("data/location-all.csv")
 recentLocations <- read_csv("data/recentLocations.csv") %>% mutate(Size=6*log(Count))%>% mutate(Size=ifelse(Size<6,6,Size))
 
 
-sentiment4 <- read_csv("data/SentimentFilterWithRegion-SA4.csv", col_types="ccin")
-sentiment3 <- read_csv("data/SentimentFilterWithRegion-SA3.csv", col_types="ccin") 
-sentiment2 <- read_csv("data/SentimentFilterWithRegion-SA2.csv", col_types="ccin") 
-sentiment1 <- read_csv("data/SentimentFilterWithRegion-SA1.csv", col_types="ccin") 
+sentiment4 <- read_csv("data/SentimentFilterWithRegion-SA4.csv", col_types="ccinn")%>% mutate(Sentiment=Sentiment-44.09)
+sentiment3 <- read_csv("data/SentimentFilterWithRegion-SA3.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-44.09)
+sentiment2 <- read_csv("data/SentimentFilterWithRegion-SA2.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-44.09)
+sentiment1 <- read_csv("data/SentimentFilterWithRegion-SA1.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-44.09)
 
-allSent4 <- read_csv("data/SentimentWithRegion-SA4.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
-allSent3 <- read_csv("data/SentimentWithRegion-SA3.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
-allSent2 <- read_csv("data/SentimentWithRegion-SA2.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
-allSent1 <- read_csv("data/SentimentWithRegion-SA1.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
+recSent4 <- read_csv("data/SentimentRecentWithRegion-SA4.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-56)
+recSent3 <- read_csv("data/SentimentRecentWithRegion-SA3.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-56)
+recSent2 <- read_csv("data/SentimentRecentWithRegion-SA2.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-56)
+recSent1 <- read_csv("data/SentimentRecentWithRegion-SA1.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-56)
+
+recSent4 <- left_join(recSent4, sentiment4, by=c("RegionId" = "RegionId")) %>%
+  mutate(Relative=Sentiment.x - Sentiment.y) %>%
+  select(RegionId, Name=Name.x, Observations=Count, Sentiment=Sentiment.x, Relative)
+recSent3 <- left_join(recSent3, sentiment3, by=c("RegionId" = "RegionId")) %>%
+  mutate(Relative=Sentiment.x - Sentiment.y) %>%
+  select(RegionId, Name=Name.x, Observations=Count, Sentiment=Sentiment.x, Relative)
+recSent2 <- left_join(recSent2, sentiment2, by=c("RegionId" = "RegionId")) %>%
+  mutate(Relative=Sentiment.x - Sentiment.y) %>%
+  select(RegionId, Name=Name.x, Observations=Count, Sentiment=Sentiment.x, Relative)
+recSent1 <- left_join(recSent1, sentiment1, by=c("RegionId" = "RegionId")) %>%
+  mutate(Relative=Sentiment.x - Sentiment.y) %>%
+  select(RegionId, Name=Name.x, Observations=Count, Sentiment=Sentiment.x, Relative)
+
+
+allSent4 <- read_csv("data/SentimentWithRegion-SA4.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-21.34)
+allSent3 <- read_csv("data/SentimentWithRegion-SA3.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-21.34)
+allSent2 <- read_csv("data/SentimentWithRegion-SA2.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-21.34)
+allSent1 <- read_csv("data/SentimentWithRegion-SA1.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-21.34)
 
 # deduce the relative changes between all sentiments & the filtered activity sentiment
 
@@ -34,10 +53,6 @@ sentiment1 <- left_join(sentiment1, allSent1, by=c("RegionId" = "RegionId")) %>%
 	select(RegionId, Name=Name.x, Observations=Observations.x, Sentiment=Sentiment.x, Relative)
 
 
-#recSent4 <- read_csv("data/SentimentWithRegion-SA4.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
-#recSent3 <- read_csv("data/SentimentWithRegion-SA3.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
-#recSent2 <- read_csv("data/SentimentWithRegion-SA2.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
-#recSent1 <- read_csv("data/SentimentWithRegion-SA1.csv", col_types="ccin") %>% mutate(Sentiment=Sentiment*100-12.28)
 	
 fsa4 <- readRDS("data/medians-sa4p02.rds") 
 fsa3 <- readRDS("data/medians-sa3p02.rds") 
@@ -74,6 +89,25 @@ asa4@data %<>% rename("Rgn"="sa4_name16")
 asa3@data %<>% rename("Rgn"="sa3_name16")
 asa2@data %<>% rename("Rgn"="sa2_name16")
 asa1@data %<>% mutate("Rgn"="")
+
+
+rsa4 <- readRDS("data/medians-sa4p02.rds") 
+rsa3 <- readRDS("data/medians-sa3p02.rds") 
+rsa2 <- readRDS("data/medians-sa2p02.rds")
+rsa1 <- readRDS("data/medians-sa1p02.rds")
+
+rsa1@data$sa1_main16<-as.character(rsa1@data$sa1_main16)
+rsa1@data%<>% rename("Name"="sa1_main16")
+
+rsa4@data<- left_join(rsa4@data,recSent4, by=c("sa4_code16" = "RegionId"))
+rsa3@data<- left_join(rsa3@data,recSent3, by=c("sa3_code16" = "RegionId"))
+rsa2@data<- left_join(rsa2@data,recSent2, by=c("sa2_main16" = "RegionId"))
+rsa1@data<- left_join(rsa1@data,recSent1, by=c("Name" = "Name"))
+
+rsa4@data %<>% rename("Rgn"="sa4_name16")
+rsa3@data %<>% rename("Rgn"="sa3_name16")
+rsa2@data %<>% rename("Rgn"="sa2_name16")
+rsa1@data %<>% mutate("Rgn"="")
 
 
 
@@ -149,6 +183,34 @@ asa1@data %<>% mutate(HoverText=genHoverText(
 
 fas <- list(fsa1, fsa2, fsa3, fsa4)
 aas <- list(asa1, asa2, asa3, asa4)
+
+
+rsa4@data %<>% mutate(HoverText=genHoverText(
+  Rgn, Observations, 
+  median_age_persons, median_tot_prsnl_inc_weekly, 
+  average_household_size, median_mortgage_repay_monthly
+))
+
+rsa3@data %<>% mutate(HoverText=genHoverText(
+  Rgn, Observations, 
+  median_age_persons, median_tot_prsnl_inc_weekly, 
+  average_household_size, median_mortgage_repay_monthly
+))
+
+rsa2@data %<>% mutate(HoverText=genHoverText(
+  Rgn, Observations, 
+  median_age_persons, median_tot_prsnl_inc_weekly, 
+  average_household_size, median_mortgage_repay_monthly
+))
+
+rsa1@data %<>% mutate(HoverText=genHoverText(
+  Rgn, Observations, 
+  median_age_persons, median_tot_prsnl_inc_weekly, 
+  average_household_size, median_mortgage_repay_monthly
+))
+
+ras <- list(rsa1, rsa2, rsa3, rsa4)
+
 
 # --------------------------------------------------
 

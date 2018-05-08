@@ -49,7 +49,7 @@ navbarPage(
           ),
           tags$li("covering the period from 1st July, 2017 to 31st March, 2018"),
           tags$li(
-            "0.624% of these tweets consisted the GPS coordinates (Exact Location Tweets)"
+            "619,056 (0.624%) of these tweets consisted the GPS coordinates (Exact Location Tweets)"
           ),
           tags$li("covering 102,072 distinct geographic locations")
         ),
@@ -98,19 +98,22 @@ navbarPage(
       
       
       p(
-        "An existing sentiment analyser formulated for Social Media research was used to establish a baseline sentiment for all the available tweet data.
-        The specific analyser (VADER - _Valence Aware Dictionary and sEntiment Reasoner_) is a lexicon and rule-based sentiment analysis tool.
+        "An existing sentiment analyser formulated for Social Media research was used to establish a baseline sentiment for 
+        all the available tweet data.
+        The specific analyser (VADER - ", tags$em("Valence Aware Dictionary and sEntiment Reasoner"), ") is a lexicon and 
+        rule-based sentiment analysis tool.
         The tool was choosen as is specifically attuned to sentiments expressed in social media."
       ),
       
       p(
-        "Configuration and code from multiple sources (https://github.com/cjhutto/vaderSentiment  and  https://github.com/codingupastorm/vadersharp)
+        "Configuration and code from multiple sources (https://github.com/cjhutto/vaderSentiment  
+          and  https://github.com/codingupastorm/vadersharp)
         were merged.  A number of performance issue where addressed with the available implementations."
       ),
       
       p(
         "The analyser is capability generating  scores from multiple perspectives.
-        The **compound** score  provides a single unidimensional measure of sentiment for a given sentence.
+        The ", tags$b("compound"), "score  provides a single unidimensional measure of sentiment for a given sentence.
         The compound score is computed by summing the valence scores of each word in the lexicon,
         adjusted according to the rules, and then normalized to be between -1 (most extreme negative)
         and +1 (most extreme positive)."
@@ -142,10 +145,10 @@ navbarPage(
         tags$li("increased positive sentiment for !!!!!"),
         tags$li("understands some double negatives (e.g. not bad)"),
         tags$li(
-          "understand old smiles   : )   ):<     - it has prescribed weighting for each of these combinations."
+          "understand old smiles  :)   ):<     - it has prescribed weighting for each of these combinations."
         ),
         tags$li(
-          "understands  emojis     -  emojis are converted to word equivalents before sentiment analysis is applied"
+          "understands  emojis  -  emojis are converted to word equivalents before sentiment analysis is applied"
         )
       ),
       br(),
@@ -213,20 +216,25 @@ navbarPage(
       
       h2("Basedlined Results"),
       
-      p("The overall averages for the sentiment scores were:"),
+      p("The overall means for the sentiment scores were:"),
       tags$ul(
-        tags$li(tags$b("12.28%"), " - for all observations"),
+        tags$li(tags$b("12.28%"), " - for all  Geo-tagged tweets"),
         tags$li(
-          tags$b("21.34%"),
-          " - with the central neutral tweets (-5% to 5%) excluded"
+          tags$b("21.34%"), " - for all  Geo-tagged tweets, with the central neutral tweets (-5% to 5%) excluded"
+        ),
+        tags$li(
+          tags$b("39.52%"), " - exact-position (GPS tagged) tweets - netural core (-0.05 to 0.05) excluded"
+        ), 
+        tags$li(
+          tags$b("44.09%"), " - not in home city tweeters  - netural core (-0.05 to 0.05) excluded"
         )
       ),
       br(),
-      
+     
       
       p(
         "It's assumed that these percentages represent the baseline calibration for our sentiment analyser
-        (as configured during calibration).
+        (as configured during calibration).",br(),"
         The sample statistics were baselined to allow relative differences to be observed."
       ),
       br(),
@@ -320,10 +328,14 @@ navbarPage(
       h2("Tweeter Mobility "),
       
       p(
-        "It was observed that tweets were originated by a proportion of posters from multiple cities.
-        Assuming that the city with the most tweets, was the posters HOME city some insight to the
-        posters mobility and behaviour can be
-        obtained by analysing their activity. "
+        "It was observed that tweets were originated by a proportion of posters from multiple cities.",
+        br(),
+        "
+        Assuming that the city where the tweeter posted the most tweets, was likely to be the  ",
+        tags$b("home"),
+        " city for a poster,", br(),"
+        it was believed that some insight to the
+        posters mobility and behaviour can be   obtained by analysing their  activity in their non-home cities. "
       ),
       
       h4("Assumptions"),
@@ -336,23 +348,47 @@ navbarPage(
         ),
         tags$li(
           "users that poster from multiple geographic locations are likely to be actual end-users not businesses (e.g. bars, venues, etc.).
-          There are some small number of services (e.g. 'Where Pets Are Found', 'CEB Jobs' ) that post from multiple cities.
-          These anomalies have not been removed in this analysis."
+          ", br(),
+        "There are some small number of services (e.g. 'Where Pets Are Found', 'CEB Jobs' ) that post from multiple cities.
+          ", br(),"These anomalies have not been removed in this analysis."
+        ),
+        tags$li(
+          "that any tweets origniated by the poster, while not in their home city, are done while they are travelling."
         )
         ),
       
       br(),
-      p("The analysis is based upon"),
+      p("The following steps were undertaken: "),
       tags$ul(
-        tags$li("246,845 geo-located (place tagged and exact-position) tweets"),
-        tags$li("by  44,587 individual posters,"),
         tags$li(
-          'where 31,893 (71.5%) of these posters tweeted from more than one captial city location.'
+          "from the 87,028,224 geo-located tweets, we identified 44,587 individual tweet posters"
+        ),
+        tags$li(
+          "we observed that 31,892 (72%) of the individual users had tweeted from more than one captial city"
+        ),
+        tags$li(
+          "and for each of these multi-city tweeters, we identified which city they most frequently tweeted from.
+          ", br(),"This was assumed to be there home city."
         )
-        
+        ),
+      br(),
+      p("Some additional analysis was under taken on the exact-position (GPS tagged) tweets:"),
+      tags$ul(
+        tags$li("from the 619,056 exact-position (GPS tagged) tweets"),
+        tags$li("we identified the 246,845 tweets "),
+        tags$li("posted by the 31,892 multi-city travellers"),
+        tags$li("when not in their home city.")
+      ),
+      br(),
+      p("Finally, for the 31,892 multi-city travellers:"),
+      tags$ul(
+        tags$li("we collected any exact-position tweets they posted in the last week"),
+        tags$li("identified locations they posted from"),
+        tags$li("and applied sentiment analysis to what they were tweeting.")
       )
       
-        ),
+      
+      ), 
     tabPanel(
       "Movement of Mobile Tweeters",
       h2("Movement of Mobile Tweeters "),
