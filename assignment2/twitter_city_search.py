@@ -61,7 +61,9 @@ def format_cityname(fname):
 		s ='sydney',
 		c = 'canberra',
 		p ='perth',
-		b ='brisbane')
+		b ='brisbane',
+		h = 'hobart',
+		a = 'adelaide')
 	if fname in aus_cities.keys():
 		return aus_cities[fname]
 	else:
