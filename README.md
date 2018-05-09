@@ -1,4 +1,4 @@
-### Clustering and Cloud Computing Assignment 2
+## Clustering and Cloud Computing Assignment 2
 # Twitter Analysis  
 This repository contains all the scripts for Assignment 2 of subject COMP 90024, Clustering and Cloud Computing.  
 
