@@ -9,7 +9,7 @@ import time
 #
 def main(argv):
 	def print_help(file=sys.stdout):
-		print('server_deployment.py -a <EC2 Access Key> -s <EC2 Secret Key>', file=file)
+		print('create_snapshot.py -a <EC2 Access Key> -s <EC2 Secret Key>', file=file)
 
 	ec2_access_key = ""
 	ec2_secret_key = ""

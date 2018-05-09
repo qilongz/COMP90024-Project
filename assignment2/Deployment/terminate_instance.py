@@ -5,15 +5,32 @@ from boto.ec2.regioninfo import RegionInfo
 import getopt
 import time
 import config
+import logging
+
+def get_credentials(config):
+	"""Read and return credentials from config file."""
+	with open(config) as fp:
+		jconfig = json.load(fp)
+
+		# Attempt to read authentification details from config file.
+		try:
+			ec2_access_key = jconfig['ec2_access_key']
+			ec2_secret_key = jconfig['ec2_secret_key']
+
+		except Exception as e:
+			logging.error(str(e))
+			sys.exit()
+
+		return ec2_access_key,ec2_secret_key
+
 #
 # start of function mainetn
 #
 def main(argv):
 	def print_help(file=sys.stdout):
-		print('server_deployment.py -a <EC2 Access Key> -s <EC2 Secret Key>', file=file)
+		print('terminate_instance.py -a <EC2 Access Key> -s <EC2 Secret Key>', file=file)
 
-	ec2_access_key = config.ec2AccessKey
-	ec2_secret_key = config.ec2SecretKey
+	ec2_access_key,ec2_secret_key = get_credentials('ec2_credential.json')
 	# try:
 	# 	opts, args = getopt.getopt(argv[1:], "ha:s:", ["ec2AccessKey=", "ec2SecretKey="])
 	# except getopt.GetoptError:

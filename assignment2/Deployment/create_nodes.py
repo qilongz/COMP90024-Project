@@ -49,7 +49,7 @@ def get_credentials(config):
 
 def main(argv):
 	def print_help(file=sys.stdout):
-		print('server_deployment.py -a <EC2 Access Key> -s <EC2 Secret Key> [-n <# of nodes>]', file=file)
+		print('create_nodes.py -a <EC2 Access Key> -s <EC2 Secret Key> [-n <# of nodes>]', file=file)
 
 	ec2_access_key = None
 	ec2_secret_key = None
