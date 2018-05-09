@@ -3,7 +3,7 @@ Edit your own config.py file
 Enviorment : Python 3.5
 Make sure the hdfs is ready to use.
 
-# Useage 
+# Usage
 - Stream Twitter data and upload to hdfs
 - Command: python twitter_stream.py -q <Optional Query>
 
@@ -12,3 +12,6 @@ Make sure the hdfs is ready to use.
 
 - Search User Tweets(Make sure the user list csv is ready)
 - Command: python twitter_user_search.py -f <UserID.csv>
+
+# Backup
+object_storage .py is used for backup  data from hdfs
