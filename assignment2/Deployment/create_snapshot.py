@@ -56,11 +56,11 @@ def main(argv):
 	# 		print ('ALL instances been terminated')
 	# 		break
 
-	# volumnes = ec2_conn.get_all_volumes()
-	# print('Index\tID\t\tSize')
-	# for idx, vol in enumerate(volumnes):
-	# 	print('{}\t{}\t{}'.format(idx, vol.id,vol.size))
-	# 	ec2_conn.create_snapshot(vol.id)
+	volumnes = ec2_conn.get_all_volumes()
+	print('Index\tID\t\tSize')
+	for idx, vol in enumerate(volumnes):
+		print('{}\t{}\t{}'.format(idx, vol.id,vol.size))
+		ec2_conn.create_snapshot(vol.id)
 
 
 
