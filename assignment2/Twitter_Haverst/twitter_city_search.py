@@ -85,6 +85,12 @@ def convert_valid(one_char):
 
 
 def search_machine(ID,machine):
+	"""Use maxid and different API machine to search tweets.
+	Arguments:
+		last maxid and API machine
+	Return:
+		last ID searched and Boolean on whether there are more tweets
+	"""
 	consumer_key = machine['consumer_key']
 	consumer_secret = machine['consumer_secret']
 	access_token =  machine['access_token']
@@ -152,6 +158,10 @@ def search_machine(ID,machine):
 	return finshed_job,max_id
 	
 def upload_hdfs(outfile):
+	"""
+	Upload file to hdfs
+
+	"""
 	try :
 		destination_dir = '/team40/' + city_name + '_search_data/'+ time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + outfile
 		hdfs = InsecureClient('http://115.146.86.32:50070', user='qilongz')
@@ -175,37 +185,37 @@ if __name__ == '__main__':
 	job_record = ''
 	while finshed_job == False:
 		if API_status['machine1'] == True and finshed_job == False:
-			print('working with 1')
-			s = time.time()
+			#print('working with 1')
+			#s = time.time()
 			finshed_job,maxID = search_machine(maxID,config.machine1)
 			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t'+ city_name+'\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
-			e = time.time()
-			print ('time used',e-s)
+			#e = time.time()
+			#print ('time used',e-s)
 		if API_status['machine2'] == True and finshed_job == False:
-			print('working with 2')
-			s = time.time()
+			#print('working with 2')
+			#s = time.time()
 			finshed_job,maxID = search_machine(maxID,config.machine2)
 			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t'+ city_name+'\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
-			e = time.time()
-			print ('time used',e-s)
+			#e = time.time()
+			#print ('time used',e-s)
 		if API_status['machine3'] == True and finshed_job == False:
-			print('working with 3')
-			s = time.time()
+			#print('working with 3')
+			#s = time.time()
 			finshed_job,maxID = search_machine(maxID,config.machine3)
 			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t'+ city_name+'\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
-			e = time.time()
-			print ('time used',e-s)
+			#e = time.time()
+			#print ('time used',e-s)
 		if API_status['machine4'] == True and finshed_job == False:
-			print('working with 4')
-			s = time.time()
+			#print('working with 4')
+			#s = time.time()
 			finshed_job,maxID = search_machine(maxID,config.machine4)
 			job_record += time.strftime('%Y-%m-%d_%H-%M',time.localtime()) + '\t'+ city_name+'\t' + str(maxID) +'\n'
 			upload_hdfs(outfile)
-			e = time.time()
-			print ('time used',e-s)
+			#e = time.time()
+			#print ('time used',e-s)
 
 		with open('job_record.txt','a+') as f:
 			print(job_record,file = f )

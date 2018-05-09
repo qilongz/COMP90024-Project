@@ -23,7 +23,9 @@ for bucket in buckets:
 	k =  Key(bucket)
 hdfs_path = "/team40/pack1_stream_data/"
 dirt  = hdfs.walk(hdfs_path,2)
-print (k)
+
+
+# Loop hdfs files and upload to object storage
 for folder, dummy, filenames in dirt:
 	#download
 	for i in filenames:

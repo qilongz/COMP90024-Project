@@ -13,6 +13,7 @@ import itertools
 
 
 def upload_hdfs(outfile):
+	# Upload temp file to hdfs
 	try :
 		destination_dir = '/team40/'  + 'user_search_data/' + outfile
 		hdfs = InsecureClient('http://115.146.86.32:50070', user='qilongz')
