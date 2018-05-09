@@ -94,4 +94,3 @@ if __name__ == '__main__':
 	for i in  userID_chunks:
 		get_all_tweets(i,config.machine1)
 		upload_hdfs(outfile)
-		break	
