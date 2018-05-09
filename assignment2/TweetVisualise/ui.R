@@ -360,7 +360,7 @@ navbarPage(
     tabPanel(
       "Sample Destinations of Travellers",
       h3(
-        "Selected Sample Locations that inter-city Travellers have tweeded from "
+        "Selected Sample Locations that inter-city Travellers have tweeted from "
       ),
       br(),
       h4(
