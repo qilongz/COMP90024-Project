@@ -26,11 +26,13 @@ spark = (SparkSession
 
 
 hdfs = PyWebHdfsClient(host='r-9arp1kfy-0.localdomain',port='50070', user_name='nikikiq')
+
+my_table = str(sys.argv[1])
 my_hdfs = str(sys.argv[2])
 my_local = str(sys.argv[3])
 
 
-df = spark.sql('SELECT * FROM tweets_pack1')
+df = spark.sql('SELECT * FROM ' + my_table)
 
 print('---------------------------------------------------- ' + str(df.count()) + ' -----------------------------------------------------------------')
 
