@@ -124,7 +124,7 @@ if __name__ == "__main__":
 	# set up spark env
 	spark = (SparkSession
 	        .builder
-	        .appName('Data collection with hive')
+	        .appName('Data Analysis')
 	        .enableHiveSupport()
 			.getOrCreate())
 
