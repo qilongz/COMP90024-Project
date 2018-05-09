@@ -27,15 +27,15 @@ namespace GenerateStats
             //var be = LoadAlreadyLocationsCollated();
             //AnalyseLocations(be);
 
-          //  var be = LoadAlreadySentimentsCollated();
+            //  var be = LoadAlreadySentimentsCollated();
             // DumpGeoOnlySentiments(be);
-           // AnalyseSentiments(be);
+            // AnalyseSentiments(be);
 
             //  AnalyseGeoLocations();
 
-            //  AddRegions();
+            AddRegions();
 
-            AddRegionsToAreaSenti();
+           // AddRegionsToAreaSenti();
         }
 
 
@@ -522,15 +522,18 @@ namespace GenerateStats
                         .ToDictionary(d => d.Key,
                             d => d.ToLookup(i => i.LocalTime.ToString("HH"))
                                 .ToDictionary(t => t.Key,
-                                    t => new {Sum = 100*t.Sum(i => i.Compound),
+                                    t => new
+                                    {
+                                        Sum = 100 * t.Sum(i => i.Compound),
                                         Cnt = t.Count(),
-                                        ScaledAvg = 100*t.Average(i => i.Compound)})));
+                                        ScaledAvg = 100 * t.Average(i => i.Compound)
+                                    })));
 
             using (var ofs = new StreamWriter(@"..\..\sentimentFullFacet.csv"))
             {
                 ofs.WriteLine("Location,DayOfWeek,TimeOfDay,Count,Sum,Avg");
 
-                foreach (var kvp in fulFacet.OrderBy(x=>x.Key))
+                foreach (var kvp in fulFacet.OrderBy(x => x.Key))
                 foreach (var dvp in kvp.Value.OrderBy(x => x.Key))
                 foreach (var tvp in dvp.Value.OrderBy(x => x.Key))
                     ofs.WriteLine(
@@ -683,7 +686,8 @@ namespace GenerateStats
             }
 
             var filtered = jr.Records
-                .Where(x => requiredUsers.ContainsKey(x.UserId) && x.Location != requiredUsers[x.UserId]).ToList();
+                .Where(x => x.Compound < -0.05 || 0.05 < x.Compound)
+                .ToList();
 
 
             var cls = new Classify(filtered, sad); //{SingleThreaded = true};
@@ -692,21 +696,48 @@ namespace GenerateStats
             foreach (var sa in cfg)
             {
                 var clusteredBySa = cls.Scores
+                    .Where(x => requiredUsers.ContainsKey(x.Parameters.UserId) &&
+                                x.Parameters.Location != requiredUsers[x.Parameters.UserId])
                     .Where(x => x.Area.Regions.ContainsKey(sa))
                     .Select(x => new KeyValuePair<long, double>(x.Area.Regions[sa].Id, x.Parameters.Compound))
                     .ToLookup(x => x.Key);
 
                 using (var of = new StreamWriter($@"..\..\SentimentFilterWithRegion-{sa}.csv"))
                 {
-                    of.WriteLine("RegionId,Name,Observations,Sentiment");
+                    of.WriteLine("RegionId,Name,Observations,Sum,Sentiment");
 
                     // collate regional averages
                     foreach (var rec in clusteredBySa)
                     {
                         var count = rec.Count();
-                        var avg = rec.Average(x => x.Value) * 100 - 12.128;
+                        var sum = rec.Sum(x => x.Value) * 100;
+                        var avg = rec.Average(x => x.Value) * 100;
 
-                        of.WriteLine($"{rec.Key},\"{sad.SANames[sa][rec.Key]}\",{count},{avg:F4}");
+                        of.WriteLine($"{rec.Key},\"{sad.SANames[sa][rec.Key]}\",{count},{sum:F2},{avg:F2}");
+                    }
+                }
+            }
+
+
+            foreach (var sa in cfg)
+            {
+                var clusteredBySa = cls.Scores
+                    .Where(x => x.Area.Regions.ContainsKey(sa))
+                    .Select(x => new KeyValuePair<long, double>(x.Area.Regions[sa].Id, x.Parameters.Compound))
+                    .ToLookup(x => x.Key);
+
+                using (var of = new StreamWriter($@"..\..\SentimentWithRegion-{sa}.csv"))
+                {
+                    of.WriteLine("RegionId,Name,Observations,Sum,Sentiment");
+
+                    // collate regional averages
+                    foreach (var rec in clusteredBySa)
+                    {
+                        var count = rec.Count();
+                        var sum = rec.Sum(x => x.Value) * 100;
+                        var avg = rec.Average(x => x.Value) * 100;
+
+                        of.WriteLine($"{rec.Key},\"{sad.SANames[sa][rec.Key]}\",{count},{sum:F2},{avg:F2}");
                     }
                 }
             }
@@ -718,7 +749,7 @@ namespace GenerateStats
             Console.WriteLine($"Analysing AreaSenti \n");
 
             const string xmlTemplate = @"medians-{0}p02.xml";
-            var cfg = new[] { StatArea.SA4, StatArea.SA3, StatArea.SA2, StatArea.SA1 };
+            var cfg = new[] {StatArea.SA4, StatArea.SA3, StatArea.SA2, StatArea.SA1};
 
 
             // location feature sets
@@ -739,7 +770,7 @@ namespace GenerateStats
             var sad = new SADictionary(featureSets);
 
             var src = @"E:\uni\Cluster and Cloud Computing\extracted\newActivity";
-            var jr = new JsonRead<AreaSentiExtract>(new[] { src });
+            var jr = new JsonRead<AreaSentiExtract>(new[] {src});
             jr.DoLoad();
 
             var requiredUsers = new Dictionary<long, string>();
@@ -754,7 +785,20 @@ namespace GenerateStats
             }
 
             var filtered = jr.Records
-                .Where(x => requiredUsers.ContainsKey(x.User) ).ToList();
+                .Where(x => requiredUsers.ContainsKey(x.User)).ToList();
+
+            // extract unique locations
+
+            var locs = filtered
+                .GroupBy(x => new {Y = x.Yloc, X = x.Xloc})
+                .ToDictionary(x => x.Key, x => x.Count());
+
+            using (var ofs = new StreamWriter($@"..\..\recentLocations.csv"))
+            {
+                ofs.WriteLine("Yloc,Xloc,Count");
+                foreach (var kvp in locs.OrderByDescending(x => x.Value))
+                    ofs.WriteLine($"{kvp.Key.Y},{kvp.Key.X},{kvp.Value}");
+            }
 
 
             var cls = new ClassifyArea(filtered, sad); //{SingleThreaded = true};
@@ -769,22 +813,23 @@ namespace GenerateStats
 
                 using (var of = new StreamWriter($@"..\..\SentimentRecentWithRegion-{sa}.csv"))
                 {
-                    of.WriteLine("RegionId,Name,Count,SumSentiment,CountExc,SumNeutralExc");
+                    of.WriteLine("RegionId,Name,Count,SumSentiment,CountExc,SumNeutralExc,Sentiment");
 
                     // collate regional averages
                     foreach (var rec in clusteredBySa)
                     {
                         var count = rec.Count();
                         var sm = rec.Sum(x => x.Value) * 100;
+                        var avg = rec.Average(x => x.Value) * 100;
 
-                        var counte = rec.Count(x => x.Value < -0.5 || 0.5 < x.Value) ;
-                        var sme = rec.Where(x=>x.Value<-0.5||0.5<x.Value).Sum(x => x.Value) * 100;
+                        var counte = rec.Count(x => x.Value < -0.5 || 0.5 < x.Value);
+                        var sme = rec.Where(x => x.Value < -0.5 || 0.5 < x.Value).Sum(x => x.Value) * 100;
 
-                        of.WriteLine($"{rec.Key},\"{sad.SANames[sa][rec.Key]}\",{count},{sm:F2},{counte},{sme:F2}");
+                        of.WriteLine(
+                            $"{rec.Key},\"{sad.SANames[sa][rec.Key]}\",{count},{sm:F2},{counte},{sme:F2},{avg:F2}");
                     }
                 }
             }
         }
-    
-}
+    }
 }

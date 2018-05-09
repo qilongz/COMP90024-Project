@@ -1,0 +1,45 @@
+RegionId,Name,Count,SumSentiment,CountExc,SumNeutralExc,Sentiment
+123,"Sydney - Outer South West",9,278.47,3,206.46,30.94
+505,"Perth - North West",27,467.07,7,344.39,17.30
+601,"Hobart",48,893.56,14,571.55,18.62
+206,"Melbourne - Inner",889,13117.87,202,10177.03,14.76
+507,"Perth - South West",36,334.00,6,253.03,9.28
+801,"Australian Capital Territory",180,2066.56,21,1220.94,11.48
+117,"Sydney - City and Inner South",1036,19602.69,247,15081.65,18.92
+211,"Melbourne - Outer East",30,254.36,2,138.99,8.48
+122,"Sydney - Northern Beaches",114,2603.10,29,1852.96,22.83
+210,"Melbourne - North West",51,559.19,7,269.88,10.96
+401,"Adelaide - Central and Hills",223,4167.33,55,3482.78,18.69
+120,"Sydney - Inner West",96,1275.25,18,1073.67,13.28
+126,"Sydney - Ryde",33,53.87,3,59.64,1.63
+209,"Melbourne - North East",48,907.31,8,491.41,18.90
+212,"Melbourne - South East",51,727.20,7,465.13,14.26
+213,"Melbourne - West",41,813.25,14,679.54,19.84
+310,"Ipswich",8,74.30,0,0.00,9.29
+128,"Sydney - Sutherland",34,321.26,4,168.52,9.45
+118,"Sydney - Eastern Suburbs",244,3804.78,55,3119.04,15.59
+311,"Logan - Beaudesert",17,245.29,2,136.93,14.43
+314,"Moreton Bay - South",11,275.70,4,248.38,25.06
+119,"Sydney - Inner South West",31,543.97,7,487.20,17.55
+503,"Perth - Inner",203,4867.31,67,3722.88,23.98
+302,"Brisbane - North",56,997.37,14,675.89,17.81
+303,"Brisbane - South",27,347.52,5,300.93,12.87
+124,"Sydney - Outer West and Blue Mountains",16,189.05,2,9.46,11.82
+115,"Sydney - Baulkham Hills and Hawkesbury",11,209.99,5,209.69,19.09
+506,"Perth - South East",71,1143.12,13,901.99,16.10
+305,"Brisbane Inner City",300,5083.44,64,3538.50,16.94
+125,"Sydney - Parramatta",59,1312.62,13,881.09,22.25
+403,"Adelaide - South",23,498.40,7,498.40,21.67
+121,"Sydney - North Sydney and Hornsby",84,1099.29,16,728.69,13.09
+504,"Perth - North East",4,-103.79,0,0.00,-25.95
+402,"Adelaide - North",21,311.55,4,281.07,14.84
+208,"Melbourne - Inner South",77,1659.65,19,1350.33,21.55
+116,"Sydney - Blacktown",39,372.24,4,284.64,9.54
+404,"Adelaide - West",46,679.56,8,543.30,14.77
+214,"Mornington Peninsula",33,517.26,8,432.89,15.67
+304,"Brisbane - West",35,187.75,3,199.56,5.36
+127,"Sydney - South West",8,185.44,5,185.44,23.18
+301,"Brisbane - East",26,175.92,6,127.09,6.77
+207,"Melbourne - Inner East",33,696.14,8,523.13,21.10
+313,"Moreton Bay - North",5,95.69,1,97.58,19.14
+502,"Mandurah",2,0.00,0,0.00,0.00
