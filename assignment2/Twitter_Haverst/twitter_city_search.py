@@ -33,10 +33,6 @@ def get_parser():
 					"--data-dir",
 					dest="city",
 					help="Output/Data Directory")
-	parser.add_argument("-u",
-			"--data-user",
-			dest="users",
-			help="user-csv")
 	return parser
 
 

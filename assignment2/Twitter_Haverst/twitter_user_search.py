@@ -7,10 +7,19 @@ import time
 import hdfs
 from hdfs import InsecureClient
 import json
-import jsonpickle
 import itertools
+import argparse
 #Twitter API credentials
 
+def get_parser():
+	"""Get parser for command line arguments."""
+	parser = argparse.ArgumentParser(description="Twitter Searcher")
+	parser.add_argument("-f",
+						"--userfile",
+						dest="userCSV",
+						help="userCSV/Filter",
+						default='*.csv')
+	return parser
 
 def upload_hdfs(outfile):
 	# Upload temp file to hdfs
@@ -82,10 +91,13 @@ def get_all_tweets(users_list,machine):
 
 if __name__ == '__main__':
 	#pass in the username of the account you want to download
-
+	parser = get_parser()
+	args = parser.parse_args()
+	userFile = args.userCSV
 	outfile ="user_search.json" 
 	userID_list = []
-	with open('userHomeCity.csv') as f:
+	print (userFile)
+	with open(userFile) as f:
 		reader = csv.reader(f)
 		for row in reader:
 			if row:
