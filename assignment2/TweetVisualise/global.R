@@ -8,15 +8,15 @@ allLocations <- read_csv("data/location-all.csv")
 recentLocations <- read_csv("data/recentLocations.csv") %>% mutate(Size=6*log(Count))%>% mutate(Size=ifelse(Size<6,6,Size))
 
 
-sentiment4 <- read_csv("data/SentimentFilterWithRegion-SA4.csv", col_types="ccinn")%>% mutate(Sentiment=Sentiment-44.09)
-sentiment3 <- read_csv("data/SentimentFilterWithRegion-SA3.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-44.09)
-sentiment2 <- read_csv("data/SentimentFilterWithRegion-SA2.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-44.09)
-sentiment1 <- read_csv("data/SentimentFilterWithRegion-SA1.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-44.09)
+sentiment4 <- read_csv("data/SentimentFilterWithRegion-SA4.csv", col_types="ccinn")%>% mutate(Sentiment=Sentiment-39)
+sentiment3 <- read_csv("data/SentimentFilterWithRegion-SA3.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-39)
+sentiment2 <- read_csv("data/SentimentFilterWithRegion-SA2.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-39)
+sentiment1 <- read_csv("data/SentimentFilterWithRegion-SA1.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-39)
 
-recSent4 <- read_csv("data/SentimentRecentWithRegion-SA4.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-56)
-recSent3 <- read_csv("data/SentimentRecentWithRegion-SA3.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-56)
-recSent2 <- read_csv("data/SentimentRecentWithRegion-SA2.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-56)
-recSent1 <- read_csv("data/SentimentRecentWithRegion-SA1.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-56)
+recSent4 <- read_csv("data/SentimentRecentWithRegion-SA4.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-39)
+recSent3 <- read_csv("data/SentimentRecentWithRegion-SA3.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-39)
+recSent2 <- read_csv("data/SentimentRecentWithRegion-SA2.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-39)
+recSent1 <- read_csv("data/SentimentRecentWithRegion-SA1.csv", col_types="ccininn") %>% mutate(Sentiment=SumNeutralExc/CountExc-39)
 
 recSent4 <- left_join(recSent4, sentiment4, by=c("RegionId" = "RegionId")) %>%
   mutate(Relative=Sentiment.x - Sentiment.y) %>%
@@ -32,10 +32,10 @@ recSent1 <- left_join(recSent1, sentiment1, by=c("RegionId" = "RegionId")) %>%
   select(RegionId, Name=Name.x, Observations=Count, Sentiment=Sentiment.x, Relative)
 
 
-allSent4 <- read_csv("data/SentimentWithRegion-SA4.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-21.34)
-allSent3 <- read_csv("data/SentimentWithRegion-SA3.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-21.34)
-allSent2 <- read_csv("data/SentimentWithRegion-SA2.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-21.34)
-allSent1 <- read_csv("data/SentimentWithRegion-SA1.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-21.34)
+allSent4 <- read_csv("data/SentimentWithRegion-SA4.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-39)
+allSent3 <- read_csv("data/SentimentWithRegion-SA3.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-39)
+allSent2 <- read_csv("data/SentimentWithRegion-SA2.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-39)
+allSent1 <- read_csv("data/SentimentWithRegion-SA1.csv", col_types="ccinn") %>% mutate(Sentiment=Sentiment-39)
 
 # deduce the relative changes between all sentiments & the filtered activity sentiment
 
