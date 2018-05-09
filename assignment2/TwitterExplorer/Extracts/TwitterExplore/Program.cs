@@ -28,9 +28,7 @@ namespace TwitterExplore
         {
             var tgtLocs = new List<string>
             {
-                //  $@"E:\uni\Cluster and Cloud Computing\twitter-{filter}"
-                @"A:\twitter"
-               // @"A:\tmp"
+                  $@"E:\uni\Cluster and Cloud Computing\twitter-{filter}"
             };
 
             var jr = new JsonRead(tgtLocs, false, size);    // {SingleThreaded = true};

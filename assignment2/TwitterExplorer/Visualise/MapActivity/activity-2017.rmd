@@ -1,6 +1,6 @@
 ---
 title: "Exploration of Twitter Activity over Melbourne 2017"
-author: Anthony Kelly
+
 date: '`r format(Sys.Date(), "%d %B %Y")`'
 output: html_document
 ---

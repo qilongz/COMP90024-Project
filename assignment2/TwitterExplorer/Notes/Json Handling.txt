@@ -1,3 +1,0 @@
-
-
-  using http://json2csharp.com/  generate a set of classes representing the json structure

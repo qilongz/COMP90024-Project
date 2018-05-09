@@ -14,28 +14,52 @@ namespace GenerateStats
     {
         public static void Main(string[] args)
         {
-            // FilterGeoSentiments();
-
-            // CollateSentiments();
-
-            // Collate();
-
-            //var be = LoadAlreadyLocationsCollated();
-            //DumpGeoOnlyLocations(be);
+            if (!(args.Length == 1 && int.TryParse(args[0], out var action)))
+            {
+                Console.WriteLine($"Usage: {AppDomain.CurrentDomain.FriendlyName} [1,2,3,...]");
+                return;
+            }
 
 
-            //var be = LoadAlreadyLocationsCollated();
-            //AnalyseLocations(be);
 
-            //  var be = LoadAlreadySentimentsCollated();
-            // DumpGeoOnlySentiments(be);
-            // AnalyseSentiments(be);
+            switch (action)
+            {
+                case 1:
+                    FilterGeoSentiments();
+                    break;
 
-            //  AnalyseGeoLocations();
+                case 2:
+                    CollateSentiments();
+                    break;
 
-            AddRegions();
+                case 3:
+                    DumpGeoOnlyLocations(LoadAlreadyLocationsCollated());
+                    break;
 
-           // AddRegionsToAreaSenti();
+                case 4:
+                    AnalyseLocations(LoadAlreadyLocationsCollated());
+                    break;
+
+                case 5:
+                    DumpGeoOnlySentiments(LoadAlreadySentimentsCollated());
+                    break;
+
+                case 6:
+                    AnalyseSentiments(LoadAlreadySentimentsCollated());
+                    break;
+
+                case 7:
+                    AnalyseGeoLocations();
+                    break;
+
+                case 8:
+                    AddRegions();
+                    break;
+
+                case 9:
+                    AddRegionsToAreaSenti();
+                    break;
+            }
         }
 
 

@@ -3,44 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{3CCBD051-F73E-4EEE-9D01-60AF1370186F}"
-	ProjectSection(SolutionItems) = preProject
-		Samples\Cricket.json = Samples\Cricket.json
-		Samples\geo1.json = Samples\geo1.json
-		Samples\geo2.json = Samples\geo2.json
-		oneEye.json = oneEye.json
-		Samples\problem.json = Samples\problem.json
-		Rhodda.json = Rhodda.json
-		Samples\single.json = Samples\single.json
-		Samples\twitter-tiny.json = Samples\twitter-tiny.json
-		Samples\uni-twitter-small-formatted.json = Samples\uni-twitter-small-formatted.json
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterUtil", "TwitterUtil\TwitterUtil.csproj", "{E5155188-5276-44E9-B591-4A4EDF6B861A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{5424F702-A746-413E-8A97-B7AA9B0AD882}"
-	ProjectSection(SolutionItems) = preProject
-		Notes\aurin data.txt = Notes\aurin data.txt
-		Notes\curl notes.txt = Notes\curl notes.txt
-		Notes\Json Handling.txt = Notes\Json Handling.txt
-		Notes\more curl.txt = Notes\more curl.txt
-		..\nectar notes.txt = ..\nectar notes.txt
-		streamSample.json = streamSample.json
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{581353E4-E215-4AE9-8B8B-D2E3D2708C8D}"
-	ProjectSection(SolutionItems) = preProject
-		Data\hospital.json = Data\hospital.json
-		Data\hospitalAttributes.xml = Data\hospitalAttributes.xml
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SentimentAnalysis", "SentimentAnalysis", "{D7F562FB-0CC1-46E1-9994-4A4764E2396E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extracts", "Extracts", "{66BA9A41-D259-4276-8627-20E1CDF0012E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analysis", "Analysis", "{EB4FA0C1-5482-4790-B542-A838ADD998C7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtractAllForNominatedUsers", "Extracts\ExtractAll\ExtractAllForNominatedUsers.csproj", "{92EA86D8-8A0D-47BF-90C2-09D7871C90ED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilteredExtract", "Extracts\FilteredExtract\FilteredExtract.csproj", "{1010F50B-AD86-4B2C-BCC4-98E6C70341C2}"
 EndProject
@@ -83,6 +52,8 @@ Project("{DA7A21FA-8162-4350-AD77-A8D1B671F3ED}") = "Activity", "Visualise\Activ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SentimentScorer", "Analysis\SentimentScorer\SentimentScorer.csproj", "{080778B2-963A-4D69-98D3-93FC56DE9B5B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtractAllForNominatedUsers", "Extracts\ExtractAllForNominatedUsers\ExtractAllForNominatedUsers.csproj", "{51F304AE-59F9-43CA-B31F-532E0FB6DE2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,10 +64,6 @@ Global
 		{E5155188-5276-44E9-B591-4A4EDF6B861A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5155188-5276-44E9-B591-4A4EDF6B861A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5155188-5276-44E9-B591-4A4EDF6B861A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92EA86D8-8A0D-47BF-90C2-09D7871C90ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92EA86D8-8A0D-47BF-90C2-09D7871C90ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92EA86D8-8A0D-47BF-90C2-09D7871C90ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92EA86D8-8A0D-47BF-90C2-09D7871C90ED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1010F50B-AD86-4B2C-BCC4-98E6C70341C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1010F50B-AD86-4B2C-BCC4-98E6C70341C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1010F50B-AD86-4B2C-BCC4-98E6C70341C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -161,13 +128,16 @@ Global
 		{080778B2-963A-4D69-98D3-93FC56DE9B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{080778B2-963A-4D69-98D3-93FC56DE9B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{080778B2-963A-4D69-98D3-93FC56DE9B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51F304AE-59F9-43CA-B31F-532E0FB6DE2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51F304AE-59F9-43CA-B31F-532E0FB6DE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51F304AE-59F9-43CA-B31F-532E0FB6DE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51F304AE-59F9-43CA-B31F-532E0FB6DE2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D7F562FB-0CC1-46E1-9994-4A4764E2396E} = {EB4FA0C1-5482-4790-B542-A838ADD998C7}
-		{92EA86D8-8A0D-47BF-90C2-09D7871C90ED} = {66BA9A41-D259-4276-8627-20E1CDF0012E}
 		{1010F50B-AD86-4B2C-BCC4-98E6C70341C2} = {66BA9A41-D259-4276-8627-20E1CDF0012E}
 		{4E954B27-E646-49AF-B71B-5E36A53F932F} = {66BA9A41-D259-4276-8627-20E1CDF0012E}
 		{DE111C67-07FF-4205-9999-2E4AAAFE6297} = {66BA9A41-D259-4276-8627-20E1CDF0012E}
@@ -184,6 +154,7 @@ Global
 		{114EA264-5F65-4756-99D7-8C5E5928B9F1} = {EB4FA0C1-5482-4790-B542-A838ADD998C7}
 		{4CC3473C-8D23-4DA0-BB78-0CD931F7B488} = {09459DE3-D57A-419D-ACA6-B4D3D6C24158}
 		{080778B2-963A-4D69-98D3-93FC56DE9B5B} = {D7F562FB-0CC1-46E1-9994-4A4764E2396E}
+		{51F304AE-59F9-43CA-B31F-532E0FB6DE2F} = {66BA9A41-D259-4276-8627-20E1CDF0012E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {70F865BA-260D-48C6-B58B-6E520FDD457E}

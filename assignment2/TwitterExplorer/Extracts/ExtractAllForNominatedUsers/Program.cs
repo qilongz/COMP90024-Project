@@ -14,7 +14,7 @@ namespace ExtractAllForNominatedUsers
             Console.WriteLine($"Start {DateTime.Now}");
 
             var geoPosts = new JsonRead<TagPosterDetails>(
-                @"E:\uni\Cluster and Cloud Computing\assign2\TwitterExplore\TwitterExplore\bin\twitter-extract-all.json");
+              new[]{  @"E:\uni\Cluster and Cloud Computing\assign2\TwitterExplore\TwitterExplore\bin\"});
             geoPosts.DoLoad();
 
             // extract unique userIds

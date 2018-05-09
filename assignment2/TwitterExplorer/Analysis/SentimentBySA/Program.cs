@@ -59,7 +59,7 @@ namespace SentimentBySA
             var filtered = geoPosts.Records.Where(x => requiredUsers.ContainsKey(x.UserIdStr)).ToList();
 
 
-            var cls = new Classify(filtered, sad); // {SingleThreaded = true};
+            var cls = new Classify(filtered, sad);  // {SingleThreaded = true};
             cls.DoClassification();
 
 
