@@ -8,11 +8,11 @@ The major task of this project can be divided into 5 components, for each the co
 [System deployment with Boto and Ansible](assignment2/Deployment/README.md)
 
 ### Twitter Harvest   
-Twitter data harvest from Twitter API
+Twitter data harvest from Twitter API 9[ The Usage Guide](assignment2/Twitter_Haverst/README.md)
 
 
 ### Spark   
-Data preprocessing and analysis with MapReduce
+Data preprocessing and analysis with MapReduce[ The Usage Guide](assignment2/Spark/README.md)
 
 
 ### Twitter Explorer  
@@ -20,4 +20,4 @@ Deep analysis on elementary results
 
    
 ### Twitter Visualise  
-Data visualisation with R 
+Data visualisation with R [ The Usage Guide](assignment2/TweetVisualise/README.md)
