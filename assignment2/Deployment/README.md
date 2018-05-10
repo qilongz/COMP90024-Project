@@ -11,6 +11,8 @@ Other boto scripts are management_node_deploy.py, which creates only the managem
 #### Server Configuration
 Server confisuration is done with Ansible Playbook using ansible/playbook.yml. There are three roles set up for this purpose: common, management and worker_node. Management server would have all three roles, and data nodes would have common and worker_node roles. Usage: ansible-playbook playbook.yml
 
+The servers communicate to each other via fully qualified domain names, hence the host files on each server have been changed to map server names to IP addresses. The above boto script creates a hosts file of all the servers created, and we can move that file into the ansible/inventory/files folder for it to be distributed to the servers to be configured.
+
 #### Hadoop deployment
 Hadoop configuration is done with Ambari blueprint. The ansible/inventory/files/blueprint.json currently describes 5 groups of servers each with a component list of Hadoop packages to be installed. The video demo uses a simplified blueprint with two groups of servers. The blueprint is then submitted to Ambari web API using curl command.
 
