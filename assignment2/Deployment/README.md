@@ -18,5 +18,5 @@ Then ansible/inventory/files/cluster.json blueprint is submitted to Ambari to ma
 
 The above operations are executed by Ansible using curl to submit the cluster deployment blueprints. Usage: ansible-playbook hadoop.yml
 
-### Backup
+#### Backup
 Backup is done using image and volumn backup in Nectar. We have a python boto script: Deployment/create_snapshot.py.
